@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 const Arrow = () => (
@@ -128,6 +129,13 @@ export default function Home() {
         </a>
       </header>
 
+      <nav className="mobile-nav" aria-label="Mobile navigation">
+        <a href="#top">Home</a>
+        <a href="#stories">Saints</a>
+        <a href="#journey">Journey</a>
+        <a href="#about">The Book</a>
+      </nav>
+
       <section className="hero" id="top">
         <div className="map-lines" aria-hidden="true">
           <span className="map-lines__route route-one" />
@@ -171,9 +179,12 @@ export default function Home() {
 
         <div className="hero__visual">
           <div className="hero__image-frame">
-            <img
+            <Image
               src="/images/mar-narsai-hero.webp"
               alt="Manuscript-inspired illustration of Mar Narsai holding a book"
+              fill
+              priority
+              sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 44vw, 590px"
             />
             <span className="image-index">POTF · 001</span>
           </div>
@@ -191,7 +202,7 @@ export default function Home() {
 
       <section className="pathways" aria-label="Ways to explore">
         <a href="#stories" className="pathway">
-          <span className="pathway__number">01</span>
+          <span className="pathway__number" aria-hidden="true">✦</span>
           <span>
             <strong>Martyrs</strong>
             <small>Witness under trial</small>
@@ -199,7 +210,7 @@ export default function Home() {
           <Arrow />
         </a>
         <a href="#stories" className="pathway">
-          <span className="pathway__number">02</span>
+          <span className="pathway__number" aria-hidden="true">✦</span>
           <span>
             <strong>Teachers</strong>
             <small>Wisdom across centuries</small>
@@ -207,7 +218,7 @@ export default function Home() {
           <Arrow />
         </a>
         <a href="#stories" className="pathway">
-          <span className="pathway__number">03</span>
+          <span className="pathway__number" aria-hidden="true">✦</span>
           <span>
             <strong>Missionaries</strong>
             <small>The faith moving east</small>
@@ -247,7 +258,12 @@ export default function Home() {
             <article className={`saint-card tone-${saint.tone}`} key={saint.name}>
               {saint.image ? (
                 <div className="saint-card__image">
-                  <img src={saint.image} alt="" />
+                  <Image
+                    src={saint.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 46vw, 430px"
+                  />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
               ) : (
@@ -274,9 +290,7 @@ export default function Home() {
                 <p className="saint-card__summary">{saint.summary}</p>
                 <div className="saint-card__footer">
                   <span>{saint.place}</span>
-                  <span className="saint-card__arrow" aria-hidden="true">
-                    ↗
-                  </span>
+                  <span>{saint.category}</span>
                 </div>
               </div>
             </article>
@@ -360,6 +374,12 @@ export default function Home() {
             the Church of the East as one enters a garden—slowly, attentively,
             and ready to be changed by every life encountered.
           </p>
+          <p className="book-copy__note">
+            This is an independent educational project, not an official
+            publication of a Church jurisdiction. Historical summaries should
+            be reviewed by a qualified Church or Syriac-studies authority as
+            the archive grows.
+          </p>
           <div className="source-links">
             <a
               href="https://gedsh.bethmardutho.org/Paradise-of-the-Fathers-Book-of"
@@ -412,7 +432,9 @@ export default function Home() {
           <a href="#journey">Journey</a>
           <a href="#about">The Book</a>
         </div>
-        <span className="footer-note">Made for remembrance · 2026</span>
+        <span className="footer-note">
+          An independent educational archive · Made for remembrance · 2026
+        </span>
       </footer>
     </main>
   );
