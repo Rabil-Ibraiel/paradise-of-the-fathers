@@ -95,6 +95,9 @@ const saints: Saint[] = [
 ];
 
 const filters = ["All", "Missionaries", "Teachers", "Monastics", "Martyrs"] as const;
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+const assetPath = (path: string) => `${basePath}${path}`;
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("All");
@@ -180,7 +183,7 @@ export default function Home() {
         <div className="hero__visual">
           <div className="hero__image-frame">
             <Image
-              src="/images/mar-narsai-hero.webp"
+              src={assetPath("/images/mar-narsai-hero.webp")}
               alt="Manuscript-inspired illustration of Mar Narsai holding a book"
               fill
               priority
@@ -259,7 +262,7 @@ export default function Home() {
               {saint.image ? (
                 <div className="saint-card__image">
                   <Image
-                    src={saint.image}
+                    src={assetPath(saint.image)}
                     alt=""
                     fill
                     sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 46vw, 430px"

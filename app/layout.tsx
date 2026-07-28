@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://aceya-saints.rabilibraiel.chatgpt.site";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -13,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aceya-saints.rabilibraiel.chatgpt.site"),
+  metadataBase: new URL(siteUrl),
   title: "The Paradise of the Fathers",
   description:
     "An independent educational archive exploring the saints, martyrs, teachers, and missionaries of the Church of the East.",
@@ -25,7 +30,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og.png",
+        url: `${basePath}/og.png`,
         width: 1747,
         height: 909,
         alt: "The Paradise of the Fathers — Lives that carried the light eastward",
@@ -37,11 +42,11 @@ export const metadata: Metadata = {
     title: "The Paradise of the Fathers",
     description:
       "Lives that carried the light eastward: an educational archive of the Church of the East.",
-    images: ["/og.png"],
+    images: [`${basePath}/og.png`],
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: `${basePath}/favicon.svg`,
+    shortcut: `${basePath}/favicon.svg`,
   },
 };
 
