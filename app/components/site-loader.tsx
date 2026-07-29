@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from "react";
 
-const OPENING_DURATION_MS = 1700;
+const OPENING_DURATION_MS = 1350;
+const sessionKey = "paradise-opening-seen";
 
 export function SiteLoader() {
   const [isOpening, setIsOpening] = useState(true);
 
   useEffect(() => {
+    const hasOpened = window.sessionStorage.getItem(sessionKey) === "yes";
+    if (!hasOpened) window.sessionStorage.setItem(sessionKey, "yes");
     const timer = window.setTimeout(
       () => setIsOpening(false),
-      OPENING_DURATION_MS,
+      hasOpened ? 0 : OPENING_DURATION_MS,
     );
 
     return () => window.clearTimeout(timer);

@@ -16,6 +16,13 @@ const nextConfig: NextConfig = {
         trailingSlash: true,
         images: {
           unoptimized: true,
+          remotePatterns: [
+            {
+              protocol: "https",
+              hostname: "archive.org",
+              pathname: "/services/img/**",
+            },
+          ],
         },
       }
     : {}),

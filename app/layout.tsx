@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import { NavigationProgress } from "./components/navigation-progress";
 import { SiteLoader } from "./components/site-loader";
 import "./globals.css";
 
@@ -68,6 +69,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${assyriaAlqosh.variable} antialiased`}
       >
+        <NavigationProgress />
         <SiteLoader />
         {children}
       </body>

@@ -38,9 +38,15 @@ instead of generic resource cards. External scholarly gateways are visibly
 named at the point of action so readers always know when they are leaving the
 archive.
 
+Large collections begin with a human category map, then reveal searchable
+records in measured groups. Book covers function as documentary objects beside
+editorial descriptions; manuscript images appear only when a holding repository
+explicitly permits their reuse.
+
 ## Motion
 
 The opening manuscript loader appears only once per application session.
 Route changes use a short fade with a very small directional movement; the
-persistent header does not animate. Shared saint imagery may morph into the
-profile, and all motion collapses under reduced-motion preferences.
+persistent header does not animate. A three-pixel progress thread shows route
+loading without blocking interaction. All motion collapses under reduced-motion
+preferences.
