@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
+import { PageTransition } from "../../components/page-transition";
 import { findSaint, saints } from "../../data/saints";
 
 export const dynamicParams = false;
@@ -83,19 +84,7 @@ export default async function SaintProfile({
     .slice(0, 2);
 
   return (
-    <ViewTransition
-      key={slug}
-      enter={{
-        "nav-back": "page-enter-back",
-        "nav-forward": "page-enter-forward",
-        default: "none",
-      }}
-      exit={{
-        "nav-back": "page-exit-back",
-        "nav-forward": "page-exit-forward",
-        default: "none",
-      }}
-    >
+    <PageTransition name="saint-profile-page" transitionKey={slug}>
     <main className={`profile-page tone-${saint.tone}`}>
       <a className="skip-link" href="#profile-content">
         Skip to profile
@@ -185,7 +174,7 @@ export default async function SaintProfile({
 
           <ViewTransition
             name={`saint-${saint.slug}-portrait`}
-            share="saint-portrait"
+            share="morph"
             default="none"
           >
           <div className="profile-portrait">
@@ -331,6 +320,6 @@ export default async function SaintProfile({
         </Link>
       </footer>
     </main>
-    </ViewTransition>
+    </PageTransition>
   );
 }
