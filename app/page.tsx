@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, ViewTransition } from "react";
+import { PageTransition } from "./components/page-transition";
 import { saints } from "./data/saints";
 
 const Arrow = () => (
@@ -32,18 +33,7 @@ export default function Home() {
       : saints.filter((saint) => saint.category === activeFilter);
 
   return (
-    <ViewTransition
-      enter={{
-        "nav-back": "page-enter-back",
-        "nav-forward": "page-enter-forward",
-        default: "none",
-      }}
-      exit={{
-        "nav-back": "page-exit-back",
-        "nav-forward": "page-exit-forward",
-        default: "none",
-      }}
-    >
+    <PageTransition name="archive-page">
     <main>
       <header className="site-header persistent-header">
         <a className="brand" href="#top" aria-label="The Paradise of the Fathers, home">
@@ -206,7 +196,7 @@ export default function Home() {
                 {saint.image ? (
                   <ViewTransition
                     name={`saint-${saint.slug}-portrait`}
-                    share="saint-portrait"
+                    share="morph"
                     default="none"
                   >
                   <div className="saint-card__image">
@@ -222,7 +212,7 @@ export default function Home() {
                 ) : (
                   <ViewTransition
                     name={`saint-${saint.slug}-portrait`}
-                    share="saint-portrait"
+                    share="morph"
                     default="none"
                   >
                   <div className="saint-card__field" aria-hidden="true">
@@ -397,6 +387,6 @@ export default function Home() {
         </span>
       </footer>
     </main>
-    </ViewTransition>
+    </PageTransition>
   );
 }

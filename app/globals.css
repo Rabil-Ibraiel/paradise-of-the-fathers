@@ -11,9 +11,10 @@
   --terracotta: #b85e42;
   --gold: #b08a43;
   --line: rgba(37, 31, 26, 0.19);
-  --motion-swift: 260ms;
-  --motion-page: 440ms;
   --motion-ceremonial: 1700ms;
+  --duration-exit: 140ms;
+  --duration-enter: 220ms;
+  --duration-move: 420ms;
   --ease-page: cubic-bezier(0.22, 1, 0.36, 1);
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --font-body: var(--font-geist-sans), "Segoe UI", Arial, sans-serif;
@@ -222,35 +223,49 @@ svg {
 }
 
 ::view-transition-group(persistent-nav) {
-  z-index: 20;
-  animation-duration: var(--motion-page);
-  animation-timing-function: var(--ease-page);
+  z-index: 100;
+  animation: none;
 }
 
-::view-transition-old(.page-exit-forward) {
-  animation: page-exit-forward var(--motion-page) var(--ease-page) both;
+::view-transition-old(.nav-forward) {
+  --slide-offset: -42px;
+  animation:
+    var(--duration-exit) ease-in both fade reverse,
+    var(--duration-move) ease-in-out both slide reverse;
 }
 
-::view-transition-new(.page-enter-forward) {
-  animation: page-enter-forward var(--motion-page) var(--ease-page) both;
+::view-transition-new(.nav-forward) {
+  --slide-offset: 42px;
+  animation:
+    var(--duration-enter) ease-out var(--duration-exit) both fade,
+    var(--duration-move) ease-in-out both slide;
 }
 
-::view-transition-old(.page-exit-back) {
-  animation: page-exit-back var(--motion-page) var(--ease-page) both;
+::view-transition-old(.nav-back) {
+  --slide-offset: 42px;
+  animation:
+    var(--duration-exit) ease-in both fade reverse,
+    var(--duration-move) ease-in-out both slide reverse;
 }
 
-::view-transition-new(.page-enter-back) {
-  animation: page-enter-back var(--motion-page) var(--ease-page) both;
+::view-transition-new(.nav-back) {
+  --slide-offset: -42px;
+  animation:
+    var(--duration-enter) ease-out var(--duration-exit) both fade,
+    var(--duration-move) ease-in-out both slide;
 }
 
-::view-transition-group(.saint-portrait) {
+::view-transition-group(.morph) {
   z-index: 12;
-  animation-duration: 520ms;
-  animation-timing-function: var(--ease-page);
+  animation-duration: var(--duration-move);
 }
 
-::view-transition-old(.saint-portrait),
-::view-transition-new(.saint-portrait) {
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+
+::view-transition-old(.morph),
+::view-transition-new(.morph) {
   height: 100%;
   object-fit: cover;
   mix-blend-mode: normal;
@@ -2081,51 +2096,31 @@ footer > p {
   }
 }
 
-@keyframes page-enter-forward {
+@keyframes fade {
   from {
+    filter: blur(3px);
     opacity: 0;
-    transform: translateX(32px);
   }
 
   to {
+    filter: blur(0);
     opacity: 1;
-    transform: translateX(0);
   }
 }
 
-@keyframes page-exit-forward {
+@keyframes slide {
   from {
-    opacity: 1;
-    transform: translateX(0);
+    translate: var(--slide-offset);
   }
 
   to {
-    opacity: 0;
-    transform: translateX(-20px);
+    translate: 0;
   }
 }
 
-@keyframes page-enter-back {
-  from {
-    opacity: 0;
-    transform: translateX(-32px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes page-exit-back {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  to {
-    opacity: 0;
-    transform: translateX(20px);
+@keyframes via-blur {
+  30% {
+    filter: blur(3px);
   }
 }
 
