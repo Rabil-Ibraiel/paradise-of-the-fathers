@@ -86,25 +86,32 @@ const arabicText: Record<string, string> = {
   "Five small words for entering the page.": "خمس كلمات صغيرة للدخول إلى الصفحة.",
   "Terminology source: Syri.ac": "مصدر المصطلحات: Syri.ac",
   "Back to manuscript search": "العودة إلى بحث المخطوطات",
+  "Skip to manuscript details": "انتقل إلى تفاصيل المخطوطة",
   "Held by": "محفوظة لدى",
   "Open the permanent HMML record": "فتح سجل HMML الدائم",
-  "Reading access": "الوصول للقراءة",
-  "Consult the permanent HMML record for current access, catalogue updates, and repository services.":
-    "راجع سجل HMML الدائم للاطلاع على الوصول الحالي وتحديثات الفهرس وخدمات المكتبة.",
   "The manuscript at a glance": "لمحة عن المخطوطة",
   Date: "التاريخ",
+  "HMML project": "مشروع HMML",
+  Object: "المادة",
   Repository: "المكتبة",
   "Holding institution": "جهة الحفظ",
   Place: "المكان",
   Collection: "المجموعة",
   "Project number": "رقم المشروع",
   "Object type": "نوع المادة",
+  Status: "الحالة",
+  "Digital surrogate": "النسخة الرقمية",
   Support: "المادة",
   Medium: "الوسيط",
   Foliation: "الترقيم الورقي",
   Dimensions: "الأبعاد",
   Features: "الخصائص",
   Description: "الوصف",
+  "Catalogue summary": "ملخص الفهرس",
+  "Object description": "وصف المخطوطة",
+  "The book as catalogued.": "الكتاب كما ورد في الفهرس.",
+  "Physical description": "الوصف المادي",
+  "Material, extent, and form.": "المادة والحجم والشكل.",
   Condition: "الحالة",
   Collation: "الملازم",
   Binding: "التجليد",
@@ -112,6 +119,17 @@ const arabicText: Record<string, string> = {
   Bibliography: "المراجع",
   Colophon: "الخاتمة",
   Reproduction: "الاستنساخ",
+  Genres: "الأنواع",
+  Manuscript: "مخطوطة",
+  "Writing system": "نظام الكتابة",
+  Script: "الخط",
+  Layout: "تنسيق الصفحة",
+  "Texts in this part": "نصوص هذا الجزء",
+  "Metadata care": "العناية بالبيانات الوصفية",
+  "Dataset updated": "تحديث مجموعة البيانات",
+  "Permanent record": "السجل الدائم",
+  "HMML schema": "بنية HMML",
+  "Manuscript metadata sources": "مصادر بيانات المخطوطة",
   Contents: "المحتويات",
   "Uniform title": "العنوان الموحّد",
   "Alternate titles": "عناوين بديلة",
@@ -121,6 +139,7 @@ const arabicText: Record<string, string> = {
   Incipit: "الاستهلال",
   Explicit: "الخاتمة النصية",
   "Cataloguer’s notes": "ملاحظات المفهرس",
+  "Catalogued contents": "المحتويات المفهرسة",
   "Record unavailable.": "السجل غير متاح.",
   "Return to manuscript search": "العودة إلى بحث المخطوطات",
   "Opening the catalogue leaf.": "جارٍ فتح صفحة الفهرس.",
@@ -227,6 +246,18 @@ const arabicText: Record<string, string> = {
   Martyrs: "الشهداء",
   Bishops: "الأساقفة",
   "Read profile ↗": "اقرأ السيرة ↖",
+  "Remembered in": "يُذكر في",
+  Vocation: "الدعوة",
+  Period: "الحقبة",
+  "Life & memory": "السيرة والذاكرة",
+  "The life remembered.": "السيرة كما حفظتها الذاكرة.",
+  "For reflection": "للتأمل",
+  "Threads in this life": "خيوط في هذه السيرة",
+  "A fuller life": "سيرة أوسع",
+  "The person, the memory, the legacy.":
+    "الشخص والذاكرة والإرث.",
+  "Study further": "للمزيد من الدراسة",
+  "Sources & further reading.": "المصادر وقراءات إضافية.",
   "Saints.": "القديسون.",
   "All saints": "جميع القديسين",
   "Read the life": "اقرأ السيرة",
@@ -257,6 +288,9 @@ const arabicText: Record<string, string> = {
   "Read at Internet Archive": "اقرأ في أرشيف الإنترنت",
   "Digitized-book covers are displayed from Internet Archive. Bibliographic pathways are checked against Syri.ac and Syriaca.org.":
     "تُعرض أغلفة الكتب الرقمية من أرشيف الإنترنت، وتُراجع المسارات الببليوغرافية بالاستناد إلى Syri.ac وSyriaca.org.",
+  "DOCUMENTED DEVOTIONAL IMAGE · CC0": "صورة تعبدية موثقة · CC0",
+  "A NEW ILLUSTRATED ARCHIVE · I": "أرشيف مصوّر جديد · ١",
+  "Opening The Paradise of the Fathers": "جارٍ فتح فردوس الآباء",
   "View the book": "عرض الكتاب",
   "Read online": "اقرأ على الإنترنت",
   "Discover the collection": "اكتشف المجموعة",
@@ -285,11 +319,15 @@ function translateValue(value: string) {
     const records = clean.match(/^([\d,]+) records?$/);
     const next = clean.match(/^Show the next ([\d,]+)$/);
     const position = clean.match(/^([\d,]+) of ([\d,]+)$/);
+    const part = clean.match(/^Part ([\d,]+)$/);
+    const items = clean.match(/^([\d,]+) items?$/);
 
     if (witnesses) translated = `${witnesses[1]} شاهدًا سريانيًا.`;
     if (records) translated = `${records[1]} سجل`;
     if (next) translated = `عرض ${next[1]} سجلًا آخر`;
     if (position) translated = `${position[1]} من ${position[2]}`;
+    if (part) translated = `الجزء ${part[1]}`;
+    if (items) translated = `${items[1]} مادة`;
   }
 
   return translated ? `${leading}${translated}${trailing}` : value;
