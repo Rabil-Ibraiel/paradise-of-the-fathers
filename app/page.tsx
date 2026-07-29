@@ -50,7 +50,6 @@ export default function Home() {
               <Link
                 className="button button--primary"
                 href="/saints"
-                transitionTypes={["nav-forward"]}
               >
                 Explore their lives
                 <Arrow />
@@ -58,7 +57,6 @@ export default function Home() {
               <Link
                 className="text-link"
                 href="/paradise-of-the-fathers"
-                transitionTypes={["nav-forward"]}
               >
                 Why “Paradise”?
               </Link>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ViewTransition } from "react";
 import { PageTransition } from "../../components/page-transition";
 import {
   Arrow,
@@ -79,7 +78,6 @@ export default async function SaintProfile({
             <Link
               className="profile-back-link"
               href="/saints"
-              transitionTypes={["nav-back"]}
             >
               <Arrow direction="left" />
               Back to the archive
@@ -110,11 +108,6 @@ export default async function SaintProfile({
             </dl>
           </div>
 
-          <ViewTransition
-            name={`saint-${saint.slug}-portrait`}
-            share="morph"
-            default="none"
-          >
           <div className="profile-portrait">
             {saint.image ? (
               <Image
@@ -154,7 +147,6 @@ export default async function SaintProfile({
               </span>
             )}
           </div>
-          </ViewTransition>
         </header>
 
         <div className="profile-reading">
@@ -228,7 +220,6 @@ export default async function SaintProfile({
           <Link
             href={`/saints/${previousSaint.slug}`}
             prefetch
-            transitionTypes={["nav-back"]}
           >
             <span>
               <Arrow direction="left" />
@@ -239,7 +230,6 @@ export default async function SaintProfile({
           <Link
             href={`/saints/${nextSaint.slug}`}
             prefetch
-            transitionTypes={["nav-forward"]}
           >
             <span>
               Next life

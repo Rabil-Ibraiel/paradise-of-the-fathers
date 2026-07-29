@@ -1,11 +1,3 @@
-import { ViewTransition } from "react";
-
-const directionalTransition = {
-  "nav-back": "nav-back",
-  "nav-forward": "nav-forward",
-  default: "none",
-} as const;
-
 export function PageTransition({
   children,
   name,
@@ -16,15 +8,12 @@ export function PageTransition({
   transitionKey?: string;
 }) {
   return (
-    <ViewTransition
+    <div
+      className="page-transition-shell"
+      data-page-transition={name}
       key={transitionKey}
-      name={name}
-      enter={directionalTransition}
-      exit={directionalTransition}
-      share={directionalTransition}
-      default="none"
     >
       {children}
-    </ViewTransition>
+    </div>
   );
 }
