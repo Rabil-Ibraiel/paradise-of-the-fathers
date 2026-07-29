@@ -56,7 +56,11 @@ The repository contains a six-saint archive, a CC0 devotional icon of Saints
 Addai and Mari, and a public-domain medieval icon of Isaac the Syrian. Image
 provenance is recorded in `public/images/ATTRIBUTIONS.md`. Scholarly records from
 Syriaca.org, the Gorgias Encyclopedic Dictionary of the Syriac Heritage, and
-holding-library catalogues provide starting references.
+holding-library catalogues provide starting references. Syri.ac, hosted by the
+University of Oklahoma, provides an annotated gateway to open-access editions,
+bibliography, manuscript catalogues, and digitised Syriac witnesses. The site
+links into those records and writes its own concise descriptions rather than
+reproducing the Syri.ac database.
 
 ## Product Principles
 
