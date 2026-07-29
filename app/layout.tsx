@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 const assyriaAlqosh = localFont({
-  src: "./fonts/ASSYRIA_ALQOSH.TTF",
+  src: "./fonts/assyria-alqosh.ttf",
   variable: "--font-syriac",
   display: "swap",
 });
