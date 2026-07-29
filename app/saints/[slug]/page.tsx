@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageTransition } from "../../components/page-transition";
 import {
@@ -14,6 +13,7 @@ export const dynamicParams = false;
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetPath = (path: string) => `${basePath}${path}`;
+const pagePath = (path: string) => `${basePath}${path}/`;
 
 export function generateStaticParams() {
   return saints.map((saint) => ({ slug: saint.slug }));
@@ -75,13 +75,13 @@ export default async function SaintProfile({
       <article id="profile-content">
         <header className="profile-hero">
           <div className="profile-hero__copy">
-            <Link
+            <a
               className="profile-back-link"
-              href="/saints"
+              href={pagePath("/saints")}
             >
               <Arrow direction="left" />
               Back to the archive
-            </Link>
+            </a>
             <p className="profile-kicker">
               {saint.category} <span aria-hidden="true">·</span> {saint.era}
             </p>
@@ -217,26 +217,24 @@ export default async function SaintProfile({
         </section>
 
         <nav className="profile-pagination" aria-label="Browse saint profiles">
-          <Link
-            href={`/saints/${previousSaint.slug}`}
-            prefetch
+          <a
+            href={pagePath(`/saints/${previousSaint.slug}`)}
           >
             <span>
               <Arrow direction="left" />
               Previous life
             </span>
             <strong>{previousSaint.name}</strong>
-          </Link>
-          <Link
-            href={`/saints/${nextSaint.slug}`}
-            prefetch
+          </a>
+          <a
+            href={pagePath(`/saints/${nextSaint.slug}`)}
           >
             <span>
               Next life
               <Arrow />
             </span>
             <strong>{nextSaint.name}</strong>
-          </Link>
+          </a>
         </nav>
       </article>
 
