@@ -5,9 +5,6 @@ const repositoryName = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
 const basePath = isGitHubPages && repositoryName ? `/${repositoryName}` : "";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    viewTransition: true,
-  },
   ...(isGitHubPages
     ? {
         output: "export",

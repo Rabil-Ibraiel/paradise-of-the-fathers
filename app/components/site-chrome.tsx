@@ -61,7 +61,6 @@ function Navigation({
           href={item.href}
           key={item.href}
           aria-current={active === item.section ? "page" : undefined}
-          transitionTypes={["nav-forward"]}
         >
           {item.label}
         </Link>
@@ -78,7 +77,6 @@ export function SiteHeader({ active = "home" }: { active?: SiteSection }) {
           className="brand"
           href="/"
           aria-label="The Paradise of the Fathers, home"
-          transitionTypes={["nav-back"]}
         >
           <CrossMark />
           <span className="brand__text">
@@ -98,7 +96,6 @@ export function SiteHeader({ active = "home" }: { active?: SiteSection }) {
         <Link
           className="header-link"
           href="/saints"
-          transitionTypes={["nav-forward"]}
         >
           Begin with a saint
           <Arrow />
@@ -120,7 +117,6 @@ export function SiteFooter() {
       <Link
         className="brand brand--footer"
         href="/"
-        transitionTypes={["nav-back"]}
       >
         <CrossMark />
         <span className="brand__text">
