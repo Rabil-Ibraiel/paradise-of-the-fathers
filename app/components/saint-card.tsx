@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Saint } from "../data/saints";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetPath = (path: string) => `${basePath}${path}`;
+const saintPath = (slug: string) => `${basePath}/saints/${slug}/`;
 
 export function SaintCard({
   saint,
@@ -20,11 +20,10 @@ export function SaintCard({
     .slice(0, 2);
 
   return (
-    <Link
+    <a
       className="saint-card-link"
-      href={`/saints/${saint.slug}`}
+      href={saintPath(saint.slug)}
       aria-label={`Read the profile of ${saint.name}`}
-      prefetch
     >
       <article className={`saint-card tone-${saint.tone}`}>
         {saint.image ? (
@@ -62,6 +61,6 @@ export function SaintCard({
           </div>
         </div>
       </article>
-    </Link>
+    </a>
   );
 }

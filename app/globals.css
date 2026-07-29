@@ -3743,22 +3743,20 @@ footer > p {
   gap: 0;
   min-height: 48px;
   margin: 0 clamp(18px, 3vw, 54px);
-  border: 1px solid rgba(33, 75, 58, 0.2);
 }
 
 .primary-nav a {
   height: auto;
   min-height: 46px;
-  padding: 0 clamp(15px, 1.5vw, 25px);
-  border-right: 1px solid rgba(33, 75, 58, 0.15);
+  padding: 0 clamp(24px, 2.5vw, 42px);
   color: rgba(37, 31, 26, 0.7);
   transition:
     color 180ms ease,
     background 180ms ease;
 }
 
-.primary-nav a:last-child {
-  border-right: 0;
+.primary-nav a + a {
+  border-left: 1px solid rgba(33, 75, 58, 0.15);
 }
 
 .primary-nav a::after {
@@ -4344,15 +4342,14 @@ a.profile-portrait__caption:focus-visible {
   }
 
   .mobile-nav a {
-    padding: 13px 17px;
-    border-right: 1px solid rgba(33, 75, 58, 0.14);
+    padding: 13px 20px;
     border-radius: 0;
     transition:
       color 180ms ease,
       background 180ms ease;
   }
 
-  .mobile-nav a:first-child {
+  .mobile-nav a + a {
     border-left: 1px solid rgba(33, 75, 58, 0.14);
   }
 
