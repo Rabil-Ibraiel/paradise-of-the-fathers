@@ -1,6 +1,12 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import {
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Arrow } from "./site-chrome";
 
 type ManuscriptRecord = {
@@ -41,6 +47,33 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const initialVisibleCount = 24;
 const pageSize = 24;
 
+type SortOrder = "catalogue" | "oldest" | "newest" | "title" | "repository";
+
+type MenuOption = {
+  value: string;
+  label: string;
+  note?: string;
+};
+
+const sortOptions: MenuOption[] = [
+  { value: "catalogue", label: "Catalogue order" },
+  { value: "oldest", label: "Oldest first" },
+  { value: "newest", label: "Newest first" },
+  { value: "title", label: "Title A–Z" },
+  { value: "repository", label: "Repository A–Z" },
+];
+
+const categoryCoverNames: Record<string, string> = {
+  "Liturgy & Prayer": "liturgy",
+  Scripture: "scripture",
+  "Saints & Martyrs": "saints",
+  "Homilies & Poetry": "homilies",
+  "Theology & Spirituality": "theology",
+  "History & Canon Law": "history",
+  "Language & Learning": "learning",
+  "Other Collections": "other",
+};
+
 function normalize(value: string) {
   return value.trim().toLocaleLowerCase();
 }
@@ -61,12 +94,88 @@ function recordText(record: ManuscriptRecord) {
   );
 }
 
+function dateValue(record: ManuscriptRecord) {
+  return record.date.start ?? record.date.end ?? null;
+}
+
+function recordTitle(record: ManuscriptRecord) {
+  return record.titles[0] || record.shelfmark;
+}
+
+function CatalogMenu({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: MenuOption[];
+  onChange: (value: string) => void;
+}) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const selected = options.find((option) => option.value === value) ?? options[0];
+
+  useEffect(() => {
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      if (!detailsRef.current?.contains(event.target as Node)) {
+        detailsRef.current?.removeAttribute("open");
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && detailsRef.current?.open) {
+        detailsRef.current.removeAttribute("open");
+        detailsRef.current.querySelector("summary")?.focus();
+      }
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePress);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePress);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
+
+  return (
+    <details className="catalog-menu" ref={detailsRef}>
+      <summary>
+        <span>
+          <small>{label}</small>
+          <strong>{selected.label}</strong>
+        </span>
+        <svg aria-hidden="true" viewBox="0 0 16 16">
+          <path d="m3 6 5 5 5-5" fill="none" stroke="currentColor" />
+        </svg>
+      </summary>
+      <div className="catalog-menu__options" role="listbox" aria-label={label}>
+        {options.map((option) => (
+          <button
+            type="button"
+            role="option"
+            aria-selected={option.value === value}
+            key={option.value}
+            onClick={() => {
+              onChange(option.value);
+              detailsRef.current?.removeAttribute("open");
+            }}
+          >
+            <span>{option.label}</span>
+            {option.note ? <small>{option.note}</small> : null}
+          </button>
+        ))}
+      </div>
+    </details>
+  );
+}
+
 export function ManuscriptCatalog() {
   const [catalog, setCatalog] = useState<CatalogPayload | null>(null);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [country, setCountry] = useState("All");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("catalogue");
   const [visibleCount, setVisibleCount] = useState(initialVisibleCount);
   const deferredQuery = useDeferredValue(query);
 
@@ -115,12 +224,31 @@ export function ManuscriptCatalog() {
     if (!catalog) return [];
 
     const search = normalize(deferredQuery);
-    return catalog.records.filter((record) => {
+    const matches = catalog.records.filter((record) => {
       if (category !== "All" && record.category !== category) return false;
       if (country !== "All" && record.country !== country) return false;
       return search.length === 0 || recordText(record).includes(search);
     });
-  }, [catalog, category, country, deferredQuery]);
+
+    if (sortOrder === "catalogue") return matches;
+
+    return [...matches].sort((left, right) => {
+      if (sortOrder === "title") {
+        return recordTitle(left).localeCompare(recordTitle(right));
+      }
+      if (sortOrder === "repository") {
+        return left.repository.localeCompare(right.repository);
+      }
+
+      const leftDate = dateValue(left);
+      const rightDate = dateValue(right);
+      if (leftDate === null) return 1;
+      if (rightDate === null) return -1;
+      return sortOrder === "oldest"
+        ? leftDate - rightDate
+        : rightDate - leftDate;
+    });
+  }, [catalog, category, country, deferredQuery, sortOrder]);
 
   if (error) {
     return (
@@ -200,23 +328,31 @@ export function ManuscriptCatalog() {
             placeholder="Try Narsai, Gospel, Alqosh, or a shelfmark"
           />
         </label>
-        <label>
-          <span>Holding country</span>
-          <select
-            value={country}
-            onChange={(event) => {
-              setCountry(event.target.value);
-              setVisibleCount(initialVisibleCount);
-            }}
-          >
-            <option value="All">All countries</option>
-            {countries.map(([name, count]) => (
-              <option value={name} key={name}>
-                {name} · {count.toLocaleString("en-US")}
-              </option>
-            ))}
-          </select>
-        </label>
+        <CatalogMenu
+          label="Holding country"
+          value={country}
+          options={[
+            { value: "All", label: "All countries" },
+            ...countries.map(([name, count]) => ({
+              value: name,
+              label: name,
+              note: count.toLocaleString("en-US"),
+            })),
+          ]}
+          onChange={(value) => {
+            setCountry(value);
+            setVisibleCount(initialVisibleCount);
+          }}
+        />
+        <CatalogMenu
+          label="Sort by"
+          value={sortOrder}
+          options={sortOptions}
+          onChange={(value) => {
+            setSortOrder(value as SortOrder);
+            setVisibleCount(initialVisibleCount);
+          }}
+        />
         <p aria-live="polite">
           <strong>{filteredRecords.length.toLocaleString("en-US")}</strong>
           {filteredRecords.length === 1 ? " record" : " records"}
@@ -227,48 +363,52 @@ export function ManuscriptCatalog() {
         <ol className="catalog-results">
           {visibleRecords.map((record) => (
             <li key={record.id}>
-              <article className="catalog-result">
-                <div className="catalog-result__date">
-                  <strong>{record.date.label}</strong>
-                  <span>{record.category}</span>
+              <a
+                className="catalog-result"
+                href={`${basePath}/manuscripts/details/?id=${record.id}`}
+                aria-label={`View the manuscript: ${recordTitle(record)}`}
+              >
+                <div
+                  className={`catalog-cover catalog-cover--${
+                    categoryCoverNames[record.category] ?? "other"
+                  }`}
+                >
+                  <span className="catalog-cover__category">
+                    {record.category}
+                  </span>
+                  <strong data-no-translate>{recordTitle(record)}</strong>
+                  <div className="catalog-cover__facts">
+                    <span>{record.date.label}</span>
+                    <span data-no-translate>
+                      {record.authors[0] || record.shelfmark}
+                    </span>
+                  </div>
                 </div>
                 <div className="catalog-result__identity">
-                  <small>
+                  <small data-no-translate>
                     {record.repository}
                     {record.city ? ` · ${record.city}` : ""}
                     {record.country ? ` · ${record.country}` : ""}
                   </small>
-                  <h3>{record.titles[0] || record.shelfmark}</h3>
-                  {record.titles[0] ? <p>{record.shelfmark}</p> : null}
+                  <h3 data-no-translate>{recordTitle(record)}</h3>
+                  {record.titles[0] ? (
+                    <p data-no-translate>{record.shelfmark}</p>
+                  ) : null}
                   <ul aria-label="Record details">
                     {record.genres.slice(0, 2).map((genre) => (
-                      <li key={genre}>{genre}</li>
+                      <li key={genre} data-no-translate>{genre}</li>
                     ))}
                     {record.supports.slice(0, 1).map((support) => (
-                      <li key={support}>{support}</li>
+                      <li key={support} data-no-translate>{support}</li>
                     ))}
                     <li>{record.access}</li>
                   </ul>
                 </div>
-                <div className="catalog-result__actions">
-                  <a
-                    className="catalog-result__action catalog-result__action--primary"
-                    href={`${basePath}/manuscripts/details/?id=${record.id}`}
-                  >
-                    View full details
-                    <Arrow />
-                  </a>
-                  <a
-                    className="catalog-result__action"
-                    href={record.purl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    HMML record
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-              </article>
+                <span className="catalog-result__action">
+                  View the manuscript
+                  <Arrow />
+                </span>
+              </a>
             </li>
           ))}
         </ol>
@@ -281,6 +421,7 @@ export function ManuscriptCatalog() {
               setQuery("");
               setCategory("All");
               setCountry("All");
+              setSortOrder("catalogue");
             }}
           >
             Clear the search
@@ -308,7 +449,6 @@ export function ManuscriptCatalog() {
         <p>
           Metadata: HMML Reading Room weekly dataset, updated{" "}
           <time dateTime={catalog.generatedAt}>{catalog.generatedAt}</time>.
-          Manuscript images remain governed by each holding repository.
         </p>
         <div>
           <a href={catalog.sourceUrl} target="_blank" rel="noreferrer">

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { NavigationProgress } from "./components/navigation-progress";
 import { SiteLoader } from "./components/site-loader";
+import { LanguageController } from "./components/language-controller";
 import "./globals.css";
 
 const siteUrl =
@@ -65,10 +66,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var l=localStorage.getItem('paradise-language')==='ar'?'ar':'en';document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';document.documentElement.dataset.language=l}catch(e){}",
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${assyriaAlqosh.variable} antialiased`}
       >
+        <LanguageController />
         <NavigationProgress />
         <SiteLoader />
         {children}

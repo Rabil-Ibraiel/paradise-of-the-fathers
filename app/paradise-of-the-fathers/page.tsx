@@ -95,7 +95,7 @@ export default function ParadisePage() {
           </div>
         </section>
 
-        <section className="closing-section">
+        <section className="closing-section closing-section--paradise">
           <span className="closing-section__star">✦</span>
           <p>Enter the new collection</p>
           <h2>Begin with one remembered life.</h2>
