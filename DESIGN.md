@@ -33,6 +33,11 @@ Pages use wide margins, long vertical breaths, hairline separators, and
 editorial rows. The homepage is a selection rather than the whole archive.
 Dedicated collection pages hold complete content.
 
+Research layers use open editorial rows, ruled indexes, and glossary tables
+instead of generic resource cards. External scholarly gateways are visibly
+named at the point of action so readers always know when they are leaving the
+archive.
+
 ## Motion
 
 The opening manuscript loader appears only once per application session.

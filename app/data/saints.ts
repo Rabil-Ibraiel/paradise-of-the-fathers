@@ -66,7 +66,7 @@ export const saints: Saint[] = [
     historicalContext: [
       {
         text: "The Teaching of Addai, preserved in Syriac, presents Addai as the apostolic envoy who came to Edessa and preached in the court of King Abgar. The narrative became one of the foundational stories through which Syriac Christians remembered the Christian beginnings of their city.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 2],
       },
       {
         text: "The surviving form of the Teaching belongs to Late Antiquity rather than to the first century itself. Historians therefore read the account as sacred memory and as evidence for how later Edessene Christians understood their origins, not as a contemporary record of every event it describes.",
@@ -88,6 +88,11 @@ export const saints: Saint[] = [
         label: "Abgarids of Edessa",
         publisher: "Gorgias Encyclopedic Dictionary of the Syriac Heritage",
         url: "https://dev.gedsh.bethmardutho.org/entry/Abgarids-of-Edessa.html",
+      },
+      {
+        label: "Manuscript witnesses to the Doctrine of Addai",
+        publisher: "Syri.ac · University of Oklahoma",
+        url: "https://syri.ac/authors-jacob-sarug/doctrine-addai",
       },
     ],
   },
@@ -125,7 +130,7 @@ export const saints: Saint[] = [
       },
       {
         text: "Mari’s continuing importance is especially visible in worship. Together with Addai, he gives his name to one of the most ancient Eucharistic prayers still in use in the East Syriac tradition.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 1],
       },
     ],
     themes: ["Mission", "Continuity", "The Gospel moving east"],
@@ -134,6 +139,11 @@ export const saints: Saint[] = [
         label: "Mari — ܡܐܪܝ",
         publisher: "Syriaca.org",
         url: "https://syriaca.org/person/1358",
+      },
+      {
+        label: "Manuscripts of the Anaphora of Addai and Mari",
+        publisher: "Syri.ac · University of Oklahoma",
+        url: "https://syri.ac/anaphoras/anaphora-addai-and-mari",
       },
     ],
   },
@@ -155,15 +165,15 @@ export const saints: Saint[] = [
     historicalContext: [
       {
         text: "Narsai was a poet and teacher of biblical interpretation at the School of Edessa and later at the School of Nisibis. He became one of the major literary and theological voices associated with the formation of the Church of the East.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 2],
       },
       {
         text: "He is especially known for memre, extended verse homilies composed for teaching and proclamation. These works treat biblical, liturgical, and theological subjects through the disciplined patterns of Syriac poetry.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 2],
       },
       {
         text: "The schools of Edessa and Nisibis were not modern universities, but communities in which Scripture, interpretation, language, and ecclesial formation belonged together. Narsai’s legacy is inseparable from that culture of shared study.",
-        sourceIndexes: [0, 1],
+        sourceIndexes: [0, 1, 2],
       },
     ],
     themes: ["Sacred learning", "Poetry", "Scripture"],
@@ -177,6 +187,11 @@ export const saints: Saint[] = [
         label: "School of Nisibis",
         publisher: "Syriaca.org",
         url: "https://syriaca.org/place/476",
+      },
+      {
+        label: "Narsai’s homilies, manuscripts, and editions",
+        publisher: "Syri.ac · University of Oklahoma",
+        url: "https://www.syri.ac/narsai",
       },
     ],
   },
@@ -198,7 +213,7 @@ export const saints: Saint[] = [
     historicalContext: [
       {
         text: "Babai the Great was a theologian and monastic author who lived from about 551 to 628. He is closely associated with the monastic life of Mount Izla and with a period of significant institutional and theological pressure for the Church of the East.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 1],
       },
       {
         text: "His writings helped articulate the Church’s Christological vocabulary and defended its teaching in a contested environment. His work is important not only for doctrine but also for understanding how theology, ecclesial leadership, and monastic reform interacted in the late Sasanian world.",
@@ -206,7 +221,7 @@ export const saints: Saint[] = [
       },
       {
         text: "Babai’s title, “the Great,” reflects the breadth of his later reception. He is remembered as a teacher whose intellectual clarity served a community seeking stability and faithful expression.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 1],
       },
     ],
     themes: ["Discernment", "Monastic discipline", "Theological clarity"],
@@ -215,6 +230,11 @@ export const saints: Saint[] = [
         label: "Babai the Great — ܒܒܝ ܪܒܐ",
         publisher: "Syriaca.org",
         url: "https://syriaca.org/person/359",
+      },
+      {
+        label: "Ishoʿdnah’s notices on Mar Babai",
+        publisher: "Syri.ac · University of Oklahoma",
+        url: "https://syri.ac/ishodnah",
       },
     ],
   },
@@ -247,11 +267,11 @@ export const saints: Saint[] = [
       },
       {
         text: "His ascetical writings were composed in Syriac and circulated far beyond the Church of the East through ancient translations. That wide reception made him one of the most influential Syriac spiritual writers in global Christianity.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 1],
       },
       {
         text: "Isaac’s works are not a systematic biography. The details of his life remain limited, while the spiritual teaching preserved under his name is extensive. A responsible profile therefore gives greater confidence to his literary legacy than to later attempts to fill every gap in his story.",
-        sourceIndexes: [0],
+        sourceIndexes: [0, 1],
       },
     ],
     themes: ["Mercy", "Stillness", "Prayer of the heart"],
@@ -260,6 +280,11 @@ export const saints: Saint[] = [
         label: "Isaac of Nineveh — ܐܝܣܚܩ ܕܢܝܢܘܐ",
         publisher: "Syriaca.org",
         url: "https://syriaca.org/person/550",
+      },
+      {
+        label: "Isaac of Nineveh: texts, translations, and studies",
+        publisher: "Syri.ac · University of Oklahoma",
+        url: "https://syri.ac/brock/isaac",
       },
     ],
   },
