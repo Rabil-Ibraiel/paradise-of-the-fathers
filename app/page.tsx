@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, ViewTransition } from "react";
 import { saints } from "./data/saints";
 
 const Arrow = () => (
@@ -32,8 +32,20 @@ export default function Home() {
       : saints.filter((saint) => saint.category === activeFilter);
 
   return (
+    <ViewTransition
+      enter={{
+        "nav-back": "page-enter-back",
+        "nav-forward": "page-enter-forward",
+        default: "none",
+      }}
+      exit={{
+        "nav-back": "page-exit-back",
+        "nav-forward": "page-exit-forward",
+        default: "none",
+      }}
+    >
     <main>
-      <header className="site-header">
+      <header className="site-header persistent-header">
         <a className="brand" href="#top" aria-label="The Paradise of the Fathers, home">
           <CrossMark />
           <span className="brand__text">
@@ -188,9 +200,15 @@ export default function Home() {
               href={`/saints/${saint.slug}`}
               key={saint.name}
               aria-label={`Read the profile of ${saint.name}`}
+              transitionTypes={["nav-forward"]}
             >
               <article className={`saint-card tone-${saint.tone}`}>
                 {saint.image ? (
+                  <ViewTransition
+                    name={`saint-${saint.slug}-portrait`}
+                    share="saint-portrait"
+                    default="none"
+                  >
                   <div className="saint-card__image">
                     <Image
                       src={assetPath(saint.image)}
@@ -200,7 +218,13 @@ export default function Home() {
                     />
                     <span>{String(index + 1).padStart(2, "0")}</span>
                   </div>
+                  </ViewTransition>
                 ) : (
+                  <ViewTransition
+                    name={`saint-${saint.slug}-portrait`}
+                    share="saint-portrait"
+                    default="none"
+                  >
                   <div className="saint-card__field" aria-hidden="true">
                     <span className="saint-card__monogram">
                       {saint.name
@@ -213,6 +237,7 @@ export default function Home() {
                     <span className="saint-card__star">✦</span>
                     <span className="saint-card__orbit" />
                   </div>
+                  </ViewTransition>
                 )}
                 <div className="saint-card__body">
                   <div className="saint-card__meta">
@@ -372,5 +397,6 @@ export default function Home() {
         </span>
       </footer>
     </main>
+    </ViewTransition>
   );
 }
