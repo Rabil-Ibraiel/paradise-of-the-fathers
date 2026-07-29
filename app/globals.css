@@ -4601,7 +4601,7 @@ a.profile-portrait__caption:focus-visible {
 
 .manuscript-record__hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.52fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(390px, 0.58fr);
   gap: clamp(70px, 10vw, 170px);
   align-items: end;
   min-height: 620px;
