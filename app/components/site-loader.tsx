@@ -46,7 +46,7 @@ export function SiteLoader() {
         destination.origin === window.location.origin &&
         destination.pathname !== window.location.pathname
       ) {
-        setNavigationFrom(pathname);
+        queueMicrotask(() => setNavigationFrom(pathname));
       }
     };
 
