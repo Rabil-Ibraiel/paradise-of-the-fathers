@@ -1,393 +1,237 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState, ViewTransition } from "react";
 import { PageTransition } from "./components/page-transition";
+import { SaintCard } from "./components/saint-card";
+import { Arrow, CrossMark, SiteFooter, SiteHeader } from "./components/site-chrome";
 import { saints } from "./data/saints";
 
-const Arrow = () => (
-  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-    <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.6" />
-  </svg>
-);
-
-const CrossMark = () => (
-  <span className="cross-mark" aria-hidden="true">
-    <span className="cross-mark__ring" />
-    <span className="cross-mark__stem" />
-    <span className="cross-mark__arms" />
-  </span>
-);
-
-const filters = ["All", "Missionaries", "Teachers", "Monastics", "Martyrs"] as const;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 const assetPath = (path: string) => `${basePath}${path}`;
 
 export default function Home() {
-  const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("All");
-  const visibleSaints =
-    activeFilter === "All"
-      ? saints
-      : saints.filter((saint) => saint.category === activeFilter);
+  const featuredSaints = [
+    saints.find((saint) => saint.slug === "mar-addai"),
+    saints.find((saint) => saint.slug === "mar-narsai"),
+    saints.find((saint) => saint.slug === "mar-isaac-of-nineveh"),
+  ].filter((saint): saint is (typeof saints)[number] => Boolean(saint));
 
   return (
-    <PageTransition name="archive-page">
-    <main>
-      <header className="site-header persistent-header">
-        <a className="brand" href="#top" aria-label="The Paradise of the Fathers, home">
-          <CrossMark />
-          <span className="brand__text">
-            <span className="brand__name">The Paradise of the Fathers</span>
-            <span className="brand__syriac" lang="syr" dir="rtl">
-              ܦܪܕܝܣܐ ܕܐܒܗ̈ܬܐ
-            </span>
-          </span>
+    <PageTransition name="home-page">
+      <main>
+        <a className="skip-link" href="#main-content">
+          Skip to content
         </a>
+        <SiteHeader active="home" />
 
-        <nav className="primary-nav" aria-label="Primary navigation">
-          <a className="is-active" href="#top">Home</a>
-          <a href="#stories">Saints</a>
-          <a href="#journey">Journey</a>
-          <a href="#about">The Book</a>
-        </nav>
-
-        <a className="header-link" href="#stories">
-          Browse the archive
-          <Arrow />
-        </a>
-      </header>
-
-      <nav className="mobile-nav" aria-label="Mobile navigation">
-        <a href="#top">Home</a>
-        <a href="#stories">Saints</a>
-        <a href="#journey">Journey</a>
-        <a href="#about">The Book</a>
-      </nav>
-
-      <section className="hero" id="top">
-        <div className="map-lines" aria-hidden="true">
-          <span className="map-lines__route route-one" />
-          <span className="map-lines__route route-two" />
-          <span className="map-lines__dot dot-one" />
-          <span className="map-lines__dot dot-two" />
-          <span className="map-lines__dot dot-three" />
-        </div>
-
-        <div className="hero__copy">
-          <p className="eyebrow">
-            <span>Lives of the Church of the East</span>
-          </p>
-          <h1>
-            Lives that carried
-            <br />
-            the light <em>eastward.</em>
-          </h1>
-          <p className="hero__intro">
-            Discover the saints, martyrs, teachers, and missionaries whose
-            faith crossed deserts, kingdoms, languages, and generations.
-          </p>
-          <div className="hero__actions">
-            <a className="button button--primary" href="#stories">
-              Explore their lives
-              <Arrow />
-            </a>
-            <a className="text-link" href="#about">
-              Why “Paradise”?
-            </a>
+        <section className="hero" id="main-content">
+          <div className="map-lines" aria-hidden="true">
+            <span className="map-lines__route route-one" />
+            <span className="map-lines__route route-two" />
+            <span className="map-lines__dot dot-one" />
+            <span className="map-lines__dot dot-two" />
+            <span className="map-lines__dot dot-three" />
           </div>
-          <div className="hero__note">
-            <span className="hero__note-line" />
-            <p>
-              A living archive of holiness,
-              <br />
-              memory, and the Syriac Christian East.
+
+          <div className="hero__copy">
+            <p className="eyebrow">
+              <span>A new illustrated archive</span>
             </p>
+            <h1>
+              Lives that carried
+              <br />
+              the light <em>eastward.</em>
+            </h1>
+            <p className="hero__intro">
+              Meet the principal saints, teachers, martyrs, and missionaries
+              of the Church of the East through concise, carefully sourced
+              lives.
+            </p>
+            <div className="hero__actions">
+              <Link
+                className="button button--primary"
+                href="/saints"
+                transitionTypes={["nav-forward"]}
+              >
+                Explore their lives
+                <Arrow />
+              </Link>
+              <Link
+                className="text-link"
+                href="/paradise-of-the-fathers"
+                transitionTypes={["nav-forward"]}
+              >
+                Why “Paradise”?
+              </Link>
+            </div>
+            <div className="hero__note">
+              <span className="hero__note-line" />
+              <p>
+                An old and beloved name,
+                <br />
+                carried into a new work of remembrance.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="hero__visual">
-          <div className="hero__image-frame">
-            <Image
-              src={assetPath("/images/mar-narsai-hero.webp")}
-              alt="Manuscript-inspired illustration of Mar Narsai holding a book"
-              fill
-              priority
-              sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 44vw, 590px"
-            />
-            <span className="image-index">POTF · 001</span>
+          <div className="hero__visual">
+            <div className="hero__image-frame hero__image-frame--historical">
+              <Image
+                src={assetPath("/images/addai-mari-icon.jpg")}
+                alt="Devotional icon of Saints Addai and Mari beneath Christ"
+                fill
+                priority
+                sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 44vw, 590px"
+              />
+              <span className="image-index">DOCUMENTED DEVOTIONAL IMAGE · CC0</span>
+            </div>
+            <div className="featured-card">
+              <span className="featured-card__ornament">✦</span>
+              <span className="featured-card__rule" />
+              <span>
+                <small>Apostles of the East</small>
+                <strong>Mar Addai &amp; Mar Mari</strong>
+                <span>Mission · Memory · Liturgy</span>
+              </span>
+            </div>
           </div>
-          <div className="featured-card">
-            <span className="featured-card__ornament">✦</span>
-            <span className="featured-card__rule" />
+        </section>
+
+        <section className="pathways" aria-label="Explore the collection">
+          <Link href="/saints" className="pathway">
+            <span className="pathway__number" aria-hidden="true">01</span>
             <span>
-              <small>Featured father</small>
-              <strong>Mar Narsai</strong>
-              <span>Poet · Teacher · Theologian</span>
+              <strong>Saints</strong>
+              <small>Lives, places, and sources</small>
             </span>
-          </div>
-        </div>
-      </section>
-
-      <section className="pathways" aria-label="Ways to explore">
-        <a href="#stories" className="pathway">
-          <span className="pathway__number" aria-hidden="true">✦</span>
-          <span>
-            <strong>Martyrs</strong>
-            <small>Witness under trial</small>
-          </span>
-          <Arrow />
-        </a>
-        <a href="#stories" className="pathway">
-          <span className="pathway__number" aria-hidden="true">✦</span>
-          <span>
-            <strong>Teachers</strong>
-            <small>Wisdom across centuries</small>
-          </span>
-          <Arrow />
-        </a>
-        <a href="#stories" className="pathway">
-          <span className="pathway__number" aria-hidden="true">✦</span>
-          <span>
-            <strong>Missionaries</strong>
-            <small>The faith moving east</small>
-          </span>
-          <Arrow />
-        </a>
-      </section>
-
-      <section className="archive-section" id="stories">
-        <div className="section-heading">
-          <p className="eyebrow">Enter the archive</p>
-          <div className="section-heading__row">
-            <h2>A constellation of lives.</h2>
-            <p>
-              Not distant figures under glass, but people who prayed, taught,
-              traveled, suffered, and gave the Church a living memory.
-            </p>
-          </div>
-        </div>
-
-        <div className="filters" aria-label="Filter saints by vocation">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              className={activeFilter === filter ? "is-active" : ""}
-              type="button"
-              aria-pressed={activeFilter === filter}
-              onClick={() => setActiveFilter(filter)}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-
-        <div className="saint-grid" aria-live="polite">
-          {visibleSaints.map((saint, index) => (
-            <Link
-              className="saint-card-link"
-              href={`/saints/${saint.slug}`}
-              key={saint.name}
-              aria-label={`Read the profile of ${saint.name}`}
-              prefetch
-              transitionTypes={["nav-forward"]}
-            >
-              <article className={`saint-card tone-${saint.tone}`}>
-                {saint.image ? (
-                  <ViewTransition
-                    name={`saint-${saint.slug}-portrait`}
-                    share="morph"
-                    default="none"
-                  >
-                  <div className="saint-card__image">
-                    <Image
-                      src={assetPath(saint.image)}
-                      alt=""
-                      fill
-                      sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 46vw, 430px"
-                    />
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                  </div>
-                  </ViewTransition>
-                ) : (
-                  <ViewTransition
-                    name={`saint-${saint.slug}-portrait`}
-                    share="morph"
-                    default="none"
-                  >
-                  <div className="saint-card__field" aria-hidden="true">
-                    <span className="saint-card__monogram">
-                      {saint.name
-                        .replace("Mar ", "")
-                        .split(" ")
-                        .map((part) => part[0])
-                        .join("")
-                        .slice(0, 2)}
-                    </span>
-                    <span className="saint-card__star">✦</span>
-                    <span className="saint-card__orbit" />
-                  </div>
-                  </ViewTransition>
-                )}
-                <div className="saint-card__body">
-                  <div className="saint-card__meta">
-                    <span>{saint.category}</span>
-                    <span>{saint.era}</span>
-                  </div>
-                  <h3>{saint.name}</h3>
-                  <p className="saint-card__title">{saint.title}</p>
-                  <p className="saint-card__summary">{saint.summary}</p>
-                  <div className="saint-card__footer">
-                    <span>{saint.place}</span>
-                    <span>Read profile ↗</span>
-                  </div>
-                </div>
-              </article>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="journey-section" id="journey">
-        <div className="journey-intro">
-          <p className="eyebrow">A faith on the move</p>
-          <h2>
-            From a room in Edessa
-            <br />
-            to the roads of the East.
-          </h2>
-          <p>
-            These lives belong to places. Follow the schools, cities, and
-            monasteries that formed a tradition stretching far beyond its
-            birthplace.
-          </p>
-        </div>
-
-        <div className="journey-map">
-          <div className="journey-map__route" aria-hidden="true" />
-          <article className="journey-stop stop-1">
-            <span>01</span>
-            <small>Edessa</small>
-            <strong>Apostolic memory</strong>
-          </article>
-          <article className="journey-stop stop-2">
-            <span>02</span>
-            <small>Seleucia-Ctesiphon</small>
-            <strong>A Church takes root</strong>
-          </article>
-          <article className="journey-stop stop-3">
-            <span>03</span>
-            <small>Nisibis</small>
-            <strong>A school of teachers</strong>
-          </article>
-          <article className="journey-stop stop-4">
-            <span>04</span>
-            <small>Nineveh · Beth Abhe</small>
-            <strong>The monastic heart</strong>
-          </article>
-          <div className="journey-map__east">
-            <span>and farther east</span>
             <Arrow />
-          </div>
-        </div>
-      </section>
+          </Link>
+          <Link href="/manuscripts" className="pathway">
+            <span className="pathway__number" aria-hidden="true">02</span>
+            <span>
+              <strong>Manuscripts</strong>
+              <small>Witnesses written by hand</small>
+            </span>
+            <Arrow />
+          </Link>
+          <Link href="/books" className="pathway">
+            <span className="pathway__number" aria-hidden="true">03</span>
+            <span>
+              <strong>Books</strong>
+              <small>Texts behind the archive</small>
+            </span>
+            <Arrow />
+          </Link>
+        </section>
 
-      <section className="book-section" id="about">
-        <div className="book-object" aria-hidden="true">
-          <div className="book-object__cover">
-            <span className="book-object__syriac" lang="syr" dir="rtl">
-              ܦܪܕܝܣܐ
+        <section className="archive-section featured-section">
+          <div className="section-heading">
+            <p className="eyebrow">Featured lives</p>
+            <div className="section-heading__row">
+              <h2>A constellation of lives.</h2>
+              <p>
+                Begin with three voices: an apostolic missionary, a poet of
+                sacred learning, and a master of mercy and stillness.
+              </p>
+            </div>
+          </div>
+          <div className="saint-grid saint-grid--featured">
+            {featuredSaints.map((saint) => (
+              <SaintCard
+                saint={saint}
+                index={saints.indexOf(saint)}
+                key={saint.slug}
+              />
+            ))}
+          </div>
+          <div className="section-action">
+            <Link className="text-link" href="/saints">
+              View all saint profiles <Arrow />
+            </Link>
+          </div>
+        </section>
+
+        <section className="home-feature-band">
+          <div className="home-feature-band__intro">
+            <p className="eyebrow">Featured manuscripts</p>
+            <h2>Faith preserved in ink, parchment, and memory.</h2>
+            <p>
+              Three catalogued witnesses introduce the East Syriac scribal
+              world without pretending that every manuscript is available
+              online.
+            </p>
+            <Link href="/manuscripts" className="text-link">
+              Enter the manuscript room <Arrow />
+            </Link>
+          </div>
+          <div className="home-records">
+            <article>
+              <span>1203</span>
+              <h3>Church of the East Psalter</h3>
+              <p>Eastern Syriac vocalization and line illustrations.</p>
+              <small>British Library · Add MS 7154</small>
+            </article>
+            <article>
+              <span>1499</span>
+              <h3>Gospel Lectionary</h3>
+              <p>Geometric illumination within an East Syriac book.</p>
+              <small>British Library · Add MS 7174</small>
+            </article>
+          </div>
+        </section>
+
+        <section className="book-section book-section--home">
+          <div className="book-object" aria-hidden="true">
+            <div className="book-object__cover">
+              <span className="book-object__syriac" lang="syr" dir="rtl">
+                ܦܪܕܝܣܐ
+                <br />
+                ܕܐܒܗ̈ܬܐ
+              </span>
+              <CrossMark />
+              <span className="book-object__edition">A NEW ILLUSTRATED ARCHIVE · I</span>
+            </div>
+            <div className="book-object__pages" />
+          </div>
+          <div className="book-copy">
+            <p className="eyebrow">The name behind the project</p>
+            <h2>
+              An old name.
               <br />
-              ܕܐܒܗ̈ܬܐ
-            </span>
-            <CrossMark />
-            <span className="book-object__edition">A LIVING ARCHIVE · I</span>
+              A new collection.
+            </h2>
+            <p className="book-copy__lead">
+              <em>The Paradise of the Fathers</em> is the familiar English
+              name of a classic Syriac collection. This website is a new,
+              independent illustrated series about saints of the Church of the
+              East.
+            </p>
+            <p>
+              It respectfully borrows the name; it does not claim to be a new
+              edition or translation of the ancient book.
+            </p>
+            <Link className="button button--primary" href="/paradise-of-the-fathers">
+              Read the full story
+              <Arrow />
+            </Link>
           </div>
-          <div className="book-object__pages" />
-        </div>
+        </section>
 
-        <div className="book-copy">
-          <p className="eyebrow">The name behind the archive</p>
-          <h2>
-            Not an address.
-            <br />
-            A garden of memory.
-          </h2>
-          <p className="book-copy__lead">
-            <em>The Paradise of the Fathers</em> is the established English
-            title of <span lang="syr" dir="rtl">ܦܪܕܝܣܐ ܕܐܒܗ̈ܬܐ</span>, a
-            classic Syriac collection of the lives and wisdom of the early
-            monastic fathers.
+        <section className="closing-section">
+          <span className="closing-section__star">✦</span>
+          <p>One life at a time</p>
+          <h2>The past becomes a mirror.</h2>
+          <p className="closing-section__copy">
+            Begin with a single saint. Stay long enough to notice what their
+            life asks of yours.
           </p>
-          <p>
-            We borrow its name with care. This archive gathers the saints of
-            the Church of the East as one enters a garden—slowly, attentively,
-            and ready to be changed by every life encountered.
-          </p>
-          <p className="book-copy__note">
-            This is an independent educational project, not an official
-            publication of a Church jurisdiction. Historical summaries should
-            be reviewed by a qualified Church or Syriac-studies authority as
-            the archive grows.
-          </p>
-          <div className="source-links">
-            <a
-              href="https://gedsh.bethmardutho.org/Paradise-of-the-Fathers-Book-of"
-              target="_blank"
-              rel="noreferrer"
-            >
-              About the Syriac book <span>↗</span>
-            </a>
-            <a
-              href="https://syriaca.org/work/403"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Syriaca.org record <span>↗</span>
-            </a>
-          </div>
-        </div>
-      </section>
+          <Link className="button button--light" href="/saints">
+            Choose a life
+            <Arrow />
+          </Link>
+        </section>
 
-      <section className="closing-section">
-        <span className="closing-section__star">✦</span>
-        <p>One life at a time</p>
-        <h2>The past becomes a mirror.</h2>
-        <p className="closing-section__copy">
-          Begin with a single saint. Stay long enough to notice what their life
-          asks of yours.
-        </p>
-        <a className="button button--light" href="#stories">
-          Choose a life
-          <Arrow />
-        </a>
-      </section>
-
-      <footer>
-        <a className="brand brand--footer" href="#top">
-          <CrossMark />
-          <span className="brand__text">
-            <span className="brand__name">The Paradise of the Fathers</span>
-            <span className="brand__syriac" lang="syr" dir="rtl">
-              ܦܪܕܝܣܐ ܕܐܒܗ̈ܬܐ
-            </span>
-          </span>
-        </a>
-        <p>
-          A living archive dedicated to the saints and spiritual heritage of
-          the Church of the East.
-        </p>
-        <div className="footer-links">
-          <a href="#stories">Saints</a>
-          <a href="#journey">Journey</a>
-          <a href="#about">The Book</a>
-        </div>
-        <span className="footer-note">
-          An independent educational archive · Made for remembrance · 2026
-        </span>
-      </footer>
-    </main>
+        <SiteFooter />
+      </main>
     </PageTransition>
   );
 }

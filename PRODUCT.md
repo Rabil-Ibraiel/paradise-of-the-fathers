@@ -13,10 +13,12 @@ an accessible entry into Syriac Christian history and spirituality.
 
 ## Product Purpose
 
-The Paradise of the Fathers is an independent educational archive that helps
-readers encounter saints associated with the Church of the East. Each profile
-must work both as a devotional introduction and as a historically responsible
-starting point for further study.
+The Paradise of the Fathers is a new, simple, illustrated collection that helps
+readers encounter principal saints associated with the Church of the East. It
+respectfully borrows the famous title of the classic Syriac book without
+presenting itself as an edition or translation of that historical work. Each
+profile must work both as a devotional introduction and as a historically
+responsible starting point for further study.
 
 ## Positioning
 
@@ -27,7 +29,9 @@ distinguishing received tradition and hagiography from modern historical claims.
 
 Readers browse a visual archive, choose one saint, read a concise spiritual
 introduction, continue into historical context, and follow external scholarly
-sources when they want to study further.
+sources when they want to study further. Saints, manuscripts, books, and the
+story of the project's name live on separate, directly linkable pages; the
+homepage shows featured selections only.
 
 ## Capabilities and Constraints
 
@@ -41,14 +45,18 @@ sources when they want to study further.
 ## Brand Commitments
 
 Preserve the name “The Paradise of the Fathers,” the English and Syriac identity,
-the existing manuscript-inspired visual language, and a reverent, clear voice.
+the manuscript-inspired visual language, the Assyria Alqosh East Syriac typeface,
+and a reverent, clear voice. Use documented historical or devotional images
+with visible provenance; where none is responsibly available, use a symbolic
+monogram rather than a synthetic portrait.
 
 ## Evidence on Hand
 
-The repository contains three original editorial saint illustrations and the
-existing six-saint archive. Scholarly records from Syriaca.org and the Gorgias
-Encyclopedic Dictionary of the Syriac Heritage provide starting references.
-Portraits are interpretive and are not historically verified likenesses.
+The repository contains a six-saint archive, a CC0 devotional icon of Saints
+Addai and Mari, and a public-domain medieval icon of Isaac the Syrian. Image
+provenance is recorded in `public/images/ATTRIBUTIONS.md`. Scholarly records from
+Syriaca.org, the Gorgias Encyclopedic Dictionary of the Syriac Heritage, and
+holding-library catalogues provide starting references.
 
 ## Product Principles
 
