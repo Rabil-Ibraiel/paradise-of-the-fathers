@@ -213,6 +213,38 @@ svg {
   animation: loader-thread 760ms 250ms var(--ease-page) forwards;
 }
 
+.route-progress {
+  position: fixed;
+  z-index: 900;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(176, 138, 67, 0.16);
+  transition: opacity 100ms ease;
+}
+
+.route-progress.is-active {
+  opacity: 1;
+}
+
+.route-progress__thread {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #e7c779);
+  box-shadow: 0 2px 10px rgba(176, 138, 67, 0.32);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.route-progress.is-active .route-progress__thread {
+  animation: route-thread 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .persistent-header {
   view-transition-name: persistent-nav;
 }
@@ -2121,6 +2153,20 @@ footer > p {
 @keyframes via-blur {
   30% {
     filter: blur(3px);
+  }
+}
+
+@keyframes route-thread {
+  0% {
+    transform: scaleX(0.04);
+  }
+
+  48% {
+    transform: scaleX(0.58);
+  }
+
+  100% {
+    transform: scaleX(0.88);
   }
 }
 

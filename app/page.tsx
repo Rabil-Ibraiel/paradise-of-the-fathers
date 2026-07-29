@@ -190,6 +190,7 @@ export default function Home() {
               href={`/saints/${saint.slug}`}
               key={saint.name}
               aria-label={`Read the profile of ${saint.name}`}
+              prefetch
               transitionTypes={["nav-forward"]}
             >
               <article className={`saint-card tone-${saint.tone}`}>
