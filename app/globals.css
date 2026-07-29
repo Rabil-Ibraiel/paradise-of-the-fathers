@@ -4662,6 +4662,7 @@ a.profile-portrait__caption:focus-visible {
   font-size: clamp(1.8rem, 3.5vw, 3.15rem);
   font-weight: 500;
   line-height: 1.03;
+  overflow-wrap: anywhere;
 }
 
 .manuscript-record__repository a {
