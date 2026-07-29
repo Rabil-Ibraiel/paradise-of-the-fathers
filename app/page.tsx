@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { saints } from "./data/saints";
 
 const Arrow = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
@@ -16,83 +18,6 @@ const CrossMark = () => (
     <span className="cross-mark__arms" />
   </span>
 );
-
-type Saint = {
-  name: string;
-  title: string;
-  era: string;
-  place: string;
-  category: "Missionaries" | "Teachers" | "Monastics" | "Martyrs";
-  summary: string;
-  image?: string;
-  tone: "green" | "red" | "blue" | "gold";
-};
-
-const saints: Saint[] = [
-  {
-    name: "Mar Addai",
-    title: "The apostle of Edessa",
-    era: "1st century",
-    place: "Edessa",
-    category: "Missionaries",
-    summary:
-      "An apostolic missionary at the heart of the early Syriac Christian memory and the tradition of Edessa.",
-    image: "/images/mar-addai.webp",
-    tone: "red",
-  },
-  {
-    name: "Mar Mari",
-    title: "The road into Mesopotamia",
-    era: "1st century",
-    place: "Mesopotamia",
-    category: "Missionaries",
-    summary:
-      "Remembered with Addai in the apostolic and liturgical life of the Church, carrying the Gospel farther east.",
-    tone: "gold",
-  },
-  {
-    name: "Mar Narsai",
-    title: "Poet and teacher",
-    era: "c. 399–502",
-    place: "Edessa · Nisibis",
-    category: "Teachers",
-    summary:
-      "A formative poet-theologian and teacher associated with the celebrated schools of Edessa and Nisibis.",
-    image: "/images/mar-narsai-hero.webp",
-    tone: "blue",
-  },
-  {
-    name: "Mar Babai the Great",
-    title: "Abbot and theologian",
-    era: "c. 551–628",
-    place: "Mount Izla",
-    category: "Teachers",
-    summary:
-      "A monastic reformer and theologian whose work helped shape the Church’s language of faith.",
-    tone: "green",
-  },
-  {
-    name: "Mar Isaac of Nineveh",
-    title: "Writer of the inner life",
-    era: "7th century",
-    place: "Beth Qatraye · Nineveh",
-    category: "Monastics",
-    summary:
-      "A bishop and spiritual writer whose teaching on mercy, prayer, and stillness crossed every ecclesial border.",
-    image: "/images/mar-isaac.webp",
-    tone: "green",
-  },
-  {
-    name: "Mar Qardagh",
-    title: "The witness of Adiabene",
-    era: "Late Antiquity",
-    place: "Adiabene",
-    category: "Martyrs",
-    summary:
-      "A martyr remembered through a powerful East Syriac narrative of conversion, courage, and costly witness.",
-    tone: "red",
-  },
-];
 
 const filters = ["All", "Missionaries", "Teachers", "Monastics", "Martyrs"] as const;
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -258,45 +183,52 @@ export default function Home() {
 
         <div className="saint-grid" aria-live="polite">
           {visibleSaints.map((saint, index) => (
-            <article className={`saint-card tone-${saint.tone}`} key={saint.name}>
-              {saint.image ? (
-                <div className="saint-card__image">
-                  <Image
-                    src={assetPath(saint.image)}
-                    alt=""
-                    fill
-                    sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 46vw, 430px"
-                  />
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+            <Link
+              className="saint-card-link"
+              href={`/saints/${saint.slug}`}
+              key={saint.name}
+              aria-label={`Read the profile of ${saint.name}`}
+            >
+              <article className={`saint-card tone-${saint.tone}`}>
+                {saint.image ? (
+                  <div className="saint-card__image">
+                    <Image
+                      src={assetPath(saint.image)}
+                      alt=""
+                      fill
+                      sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1050px) 46vw, 430px"
+                    />
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                  </div>
+                ) : (
+                  <div className="saint-card__field" aria-hidden="true">
+                    <span className="saint-card__monogram">
+                      {saint.name
+                        .replace("Mar ", "")
+                        .split(" ")
+                        .map((part) => part[0])
+                        .join("")
+                        .slice(0, 2)}
+                    </span>
+                    <span className="saint-card__star">✦</span>
+                    <span className="saint-card__orbit" />
+                  </div>
+                )}
+                <div className="saint-card__body">
+                  <div className="saint-card__meta">
+                    <span>{saint.category}</span>
+                    <span>{saint.era}</span>
+                  </div>
+                  <h3>{saint.name}</h3>
+                  <p className="saint-card__title">{saint.title}</p>
+                  <p className="saint-card__summary">{saint.summary}</p>
+                  <div className="saint-card__footer">
+                    <span>{saint.place}</span>
+                    <span>Read profile ↗</span>
+                  </div>
                 </div>
-              ) : (
-                <div className="saint-card__field" aria-hidden="true">
-                  <span className="saint-card__monogram">
-                    {saint.name
-                      .replace("Mar ", "")
-                      .split(" ")
-                      .map((part) => part[0])
-                      .join("")
-                      .slice(0, 2)}
-                  </span>
-                  <span className="saint-card__star">✦</span>
-                  <span className="saint-card__orbit" />
-                </div>
-              )}
-              <div className="saint-card__body">
-                <div className="saint-card__meta">
-                  <span>{saint.category}</span>
-                  <span>{saint.era}</span>
-                </div>
-                <h3>{saint.name}</h3>
-                <p className="saint-card__title">{saint.title}</p>
-                <p className="saint-card__summary">{saint.summary}</p>
-                <div className="saint-card__footer">
-                  <span>{saint.place}</span>
-                  <span>{saint.category}</span>
-                </div>
-              </div>
-            </article>
+              </article>
+            </Link>
           ))}
         </div>
       </section>
