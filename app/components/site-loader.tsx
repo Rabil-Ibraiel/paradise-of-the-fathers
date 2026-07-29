@@ -1,15 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const OPENING_DURATION_MS = 1700;
 
 export function SiteLoader() {
   const pathname = usePathname();
   const [isOpening, setIsOpening] = useState(true);
-  const [navigationFrom, setNavigationFrom] = useState<string | null>(null);
-  const isNavigating = navigationFrom === pathname;
+  const progressRef = useRef<HTMLDivElement>(null);
+  const progressStatusRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(
@@ -21,6 +21,14 @@ export function SiteLoader() {
   }, []);
 
   useEffect(() => {
+    const clearProgress = () => {
+      progressRef.current?.classList.remove("is-active");
+
+      if (progressStatusRef.current) {
+        progressStatusRef.current.textContent = "";
+      }
+    };
+
     const handleInternalNavigation = (event: MouseEvent) => {
       if (
         event.defaultPrevented ||
@@ -46,19 +54,29 @@ export function SiteLoader() {
         destination.origin === window.location.origin &&
         destination.pathname !== window.location.pathname
       ) {
-        queueMicrotask(() => setNavigationFrom(pathname));
+        progressRef.current?.classList.add("is-active");
+
+        if (progressStatusRef.current) {
+          progressStatusRef.current.textContent = "Opening the selected life";
+        }
       }
     };
 
-    const handleHistoryNavigation = () => setNavigationFrom(null);
-
     document.addEventListener("click", handleInternalNavigation, true);
-    window.addEventListener("popstate", handleHistoryNavigation);
+    window.addEventListener("popstate", clearProgress);
 
     return () => {
       document.removeEventListener("click", handleInternalNavigation, true);
-      window.removeEventListener("popstate", handleHistoryNavigation);
+      window.removeEventListener("popstate", clearProgress);
     };
+  }, [pathname]);
+
+  useEffect(() => {
+    progressRef.current?.classList.remove("is-active");
+
+    if (progressStatusRef.current) {
+      progressStatusRef.current.textContent = "";
+    }
   }, [pathname]);
 
   return (
@@ -89,14 +107,13 @@ export function SiteLoader() {
       ) : null}
 
       <div
-        className={`route-progress${isNavigating ? " is-active" : ""}`}
+        ref={progressRef}
+        className="route-progress"
         role="status"
         aria-live="polite"
       >
         <span className="route-progress__thread" aria-hidden="true" />
-        <span className="sr-only">
-          {isNavigating ? "Opening the selected life" : ""}
-        </span>
+        <span ref={progressStatusRef} className="sr-only" />
       </div>
     </>
   );
