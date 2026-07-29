@@ -271,6 +271,7 @@ export default async function SaintProfile({
         <nav className="profile-pagination" aria-label="Browse saint profiles">
           <Link
             href={`/saints/${previousSaint.slug}`}
+            prefetch
             transitionTypes={["nav-back"]}
           >
             <span>
@@ -281,6 +282,7 @@ export default async function SaintProfile({
           </Link>
           <Link
             href={`/saints/${nextSaint.slug}`}
+            prefetch
             transitionTypes={["nav-forward"]}
           >
             <span>
