@@ -5,6 +5,10 @@ const sourcePath = process.argv[2];
 const outputPath = resolve(
   process.argv[3] ?? "public/data/hmml-syriac-index.json",
 );
+const detailsDirectory = resolve(
+  process.argv[4] ?? "public/data/hmml-syriac-details",
+);
+const detailShardCount = 128;
 
 if (!sourcePath) {
   throw new Error(
@@ -25,6 +29,69 @@ const categoryOrder = [
 
 function unique(values) {
   return [...new Set(values.filter(Boolean))];
+}
+
+function plainText(value) {
+  if (typeof value !== "string") return "";
+
+  const namedEntities = {
+    amp: "&",
+    apos: "'",
+    quot: '"',
+    lt: "<",
+    gt: ">",
+    nbsp: " ",
+    ndash: "–",
+    mdash: "—",
+    hellip: "…",
+    lsquo: "‘",
+    rsquo: "’",
+    ldquo: "“",
+    rdquo: "”",
+    Auml: "Ä",
+    Ouml: "Ö",
+    Uuml: "Ü",
+    auml: "ä",
+    ouml: "ö",
+    uuml: "ü",
+    eacute: "é",
+    Eacute: "É",
+  };
+
+  return value
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) =>
+      String.fromCodePoint(Number.parseInt(code, 16)),
+    )
+    .replace(
+      /&([a-z]+);/gi,
+      (entity, name) => namedEntities[name] ?? entity,
+    )
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function contributorName(item) {
+  return (
+    item?.contributor?.displayName ||
+    item?.contributor?.name ||
+    item?.nameNs ||
+    ""
+  );
+}
+
+function contributors(items = []) {
+  return items
+    .map((item) => ({
+      role: item.type || "Contributor",
+      name: contributorName(item),
+    }))
+    .filter((item) => item.name);
 }
 
 function hasSyriac(record) {
@@ -195,7 +262,199 @@ function compactRecord(record) {
   };
 }
 
+function partDate(part) {
+  if (part.datePreciseYear) {
+    return [
+      part.datePreciseYear,
+      part.datePreciseMonth,
+      part.datePreciseDay,
+    ]
+      .filter(Boolean)
+      .join("-");
+  }
+
+  if (part.beginDate || part.endDate) {
+    const start = part.beginDate || part.endDate;
+    const end = part.endDate || part.beginDate;
+    return start === end ? String(start) : `${start}–${end}`;
+  }
+
+  return (
+    plainText(part.ymdDateImported) ||
+    plainText(part.centuryImported) ||
+    unique((part.centuries ?? []).map((century) => `${century}th century`)).join(
+      ", ",
+    )
+  );
+}
+
+function compactContent(content, partNumber) {
+  return {
+    id: content.id,
+    partNumber,
+    itemNumber: content.itemNumber ?? null,
+    location: plainText(content.itemLocation),
+    title:
+      plainText(content.provisionalTitle) ||
+      plainText(content.uniformTitle?.name) ||
+      "Untitled item",
+    titleSyriac: plainText(content.titleNs),
+    uniformTitle: plainText(content.uniformTitle?.name),
+    alternateTitles: unique(
+      (content.alternateTitles ?? []).map((title) => plainText(title)),
+    ),
+    languages: unique(
+      (content.languages ?? []).map((language) => language.name),
+    ),
+    contributors: contributors(content.contentContributors),
+    rubric: plainText(content.rubric),
+    incipit: plainText(content.incipit),
+    explicit: plainText(content.explicit),
+    contents: plainText(content.contentsDetail),
+    notes: plainText(content.itemNotes),
+    pagination: plainText(content.paginationStatement),
+  };
+}
+
+function compactPart(part, partIndex) {
+  return {
+    id: part.id,
+    number: part.partNumber ?? partIndex + 1,
+    type: plainText(part.type),
+    location: plainText(part.partLocation),
+    date: partDate(part),
+    origin: {
+      country: plainText(part.countryOfOrigin),
+      region: plainText(part.regionOfOrigin),
+      city: plainText(part.cityOfOrigin),
+    },
+    supports: unique(
+      [part.support, part.supportImported].map((value) => plainText(value)),
+    ),
+    dimensions: {
+      width: part.supportDimensionsWidth ?? null,
+      height: part.supportDimensionsHeight ?? null,
+      imported: plainText(part.supportDimensionsImported),
+    },
+    writingSpace: {
+      width: part.writingSpaceWidth ?? null,
+      height: part.writingSpaceHeight ?? null,
+      imported: plainText(part.writingSpaceImported),
+    },
+    writingSystems: unique(
+      [part.writingSystem, part.writingSystemImported].map((value) =>
+        plainText(value),
+      ),
+    ),
+    scripts: unique(
+      [part.script, part.scriptImported].map((value) => plainText(value)),
+    ),
+    contributors: contributors(part.partContributors),
+    scribe: plainText(part.scribe),
+    artist: plainText(part.artist),
+    layout: plainText(part.layout),
+    decoration: plainText(part.decoration),
+    colophon: plainText(part.colophonPart),
+    notes: plainText(part.partNotes),
+    contents: (part.contents ?? []).map((content) =>
+      compactContent(content, part.partNumber ?? partIndex + 1),
+    ),
+  };
+}
+
+function detailedRecord(record) {
+  const parts = (record.parts ?? []).map(compactPart);
+  const standaloneContents = (record.contents ?? []).map((content) =>
+    compactContent(content, null),
+  );
+  const contents = getContents(record);
+  const titles = unique(
+    contents.flatMap((content) => [
+      plainText(content.provisionalTitle),
+      plainText(content.uniformTitle?.name),
+      ...(content.alternateTitles ?? []).map((title) => plainText(title)),
+    ]),
+  );
+  const genres = unique((record.genres ?? []).map((genre) => genre.name));
+
+  return {
+    id: record.id,
+    purl: record.PURL,
+    rights: record.rights || "https://www.vhmml.org/terms",
+    shelfmark:
+      record.shelfMark || record.hmmlProjectNumber || `HMML ${record.id}`,
+    projectNumber: record.hmmlProjectNumber || "",
+    commonName: plainText(record.commonName),
+    summary: plainText(record.summary),
+    objectType: plainText(record.objectType),
+    processedBy: plainText(record.processedBy),
+    repository: record.repository?.name || "Repository not recorded",
+    holdingInstitution: record.holdingInstitution?.name || "",
+    city: record.city?.name || "",
+    country: record.country?.name || "Location not recorded",
+    collection: plainText(record.collection),
+    date: getDate(record),
+    category: getCategory(genres, titles),
+    titles,
+    captureDate: plainText(record.captureDateDisplay),
+    lastUpdated: plainText(record.lastUpdateDisplay),
+    currentStatus: plainText(record.currentStatus),
+    access: record.accessRestriction || "See holding repository",
+    viewableOnline: Boolean(record.viewableOnline),
+    downloadOption: plainText(record.downloadOption) || "No",
+    surrogateFormat: plainText(record.surrogateFormat?.name),
+    acknowledgments: plainText(record.acknowledgments),
+    description: {
+      notes: plainText(record.notes),
+      condition: plainText(record.conditionNotes),
+      collation: plainText(record.collation),
+      binding: plainText(record.binding),
+      provenance: plainText(record.provenance),
+      bibliography: plainText(record.bibliography),
+      colophon: plainText(record.colophon),
+      reproduction: plainText(record.reproductionNotes),
+    },
+    physical: {
+      support: plainText(record.support),
+      medium: plainText(record.medium),
+      foliation: plainText(record.foliation),
+      bindingDimensions: {
+        width: record.bindingWidth ?? null,
+        height: record.bindingHeight ?? null,
+        depth: record.bindingDepth ?? null,
+        imported: plainText(record.bindingDimensionsImported),
+      },
+      extents: (record.extents ?? []).map((extent) => ({
+        count: extent.count ?? null,
+        unit: plainText(extent.displayName),
+        imported: plainText(extent.folioImported),
+      })),
+      features: unique(
+        (record.features ?? []).flatMap((feature) => [
+          plainText(feature.name),
+          plainText(feature.featuresImported),
+        ]),
+      ),
+    },
+    genres,
+    subjects: unique((record.subjects ?? []).map((subject) => subject.name)),
+    formerOwners: contributors(record.objectContributors),
+    bibliographyLinks: (record.externalBibliographyUrls ?? [])
+      .map((item) => ({
+        url: item.url,
+        label: plainText(item.linkText) || "External bibliography",
+      }))
+      .filter((item) => item.url),
+    facsimiles: (record.externalFacsimileUrls ?? [])
+      .map((item) => item.url)
+      .filter(Boolean),
+    parts,
+    standaloneContents,
+  };
+}
+
 const records = [];
+const detailShards = Array.from({ length: detailShardCount }, () => ({}));
 let objectDepth = 0;
 let inString = false;
 let escaped = false;
@@ -242,6 +501,8 @@ for await (const chunk of createReadStream(sourcePath, {
         const parsed = JSON.parse(currentObject);
         if (hasSyriac(parsed)) {
           records.push(compactRecord(parsed));
+          const shard = Number(parsed.id) % detailShardCount;
+          detailShards[shard][parsed.id] = detailedRecord(parsed);
         }
         currentObject = "";
         segmentStart = -1;
@@ -287,7 +548,21 @@ const payload = {
 
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(payload)}\n`, "utf8");
+mkdirSync(detailsDirectory, { recursive: true });
+detailShards.forEach((recordsById, shard) => {
+  writeFileSync(
+    resolve(detailsDirectory, `${String(shard).padStart(3, "0")}.json`),
+    `${JSON.stringify({
+      generatedAt: payload.generatedAt,
+      sourceUrl: payload.sourceUrl,
+      license: payload.license,
+      licenseUrl: payload.licenseUrl,
+      records: recordsById,
+    })}\n`,
+    "utf8",
+  );
+});
 
 console.log(
-  `Wrote ${records.length.toLocaleString("en-US")} Syriac records to ${outputPath}`,
+  `Wrote ${records.length.toLocaleString("en-US")} Syriac records to ${outputPath} and ${detailShardCount} detail shards to ${detailsDirectory}`,
 );

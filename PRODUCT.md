@@ -36,6 +36,8 @@ homepage shows featured selections only.
 ## Capabilities and Constraints
 
 - Every saint in the archive has a dedicated, directly linkable page.
+- Every Syriac HMML search result opens an internal catalogue-detail view before
+  the reader chooses whether to continue to the external holding record.
 - The site is statically generated and deployed through GitHub Pages.
 - Historical and hagiographical claims must be distinguished in the copy.
 - The project is independent and is not an official publication of a Church
@@ -62,8 +64,11 @@ bibliography, manuscript catalogues, and digitised Syriac witnesses. The site
 links into those records and writes its own concise descriptions rather than
 reproducing the Syri.ac database. HMML Reading Room supplies a weekly CC BY 4.0
 metadata dataset; the site extracts all 11,590 records currently identified as
-Syriac and links each one back to its permanent HMML record. Internet Archive
-supplies open digital editions and book-cover previews.
+Syriac, preserves fuller object, part, and contents metadata in small downloadable
+shards, and links each one back to its permanent HMML record. Syriaca.org person
+and work records support longer, attributed life chapters while the profile copy
+continues to distinguish historical evidence from hagiographical memory. Internet
+Archive supplies open digital editions and book-cover previews.
 
 ## Product Principles
 

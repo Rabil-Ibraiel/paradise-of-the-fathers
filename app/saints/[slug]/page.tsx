@@ -7,6 +7,7 @@ import {
   SiteFooter,
   SiteHeader,
 } from "../../components/site-chrome";
+import { findSaintBiography } from "../../data/saint-biographies";
 import { findSaint, saints } from "../../data/saints";
 
 export const dynamicParams = false;
@@ -57,6 +58,7 @@ export default async function SaintProfile({
   const currentIndex = saints.findIndex((item) => item.slug === saint.slug);
   const previousSaint = saints[(currentIndex - 1 + saints.length) % saints.length];
   const nextSaint = saints[(currentIndex + 1) % saints.length];
+  const lifeChapters = findSaintBiography(slug);
   const initials = saint.name
     .replace("Mar ", "")
     .split(" ")
@@ -187,6 +189,53 @@ export default async function SaintProfile({
             </div>
           </aside>
         </div>
+
+        {lifeChapters.length > 0 ? (
+          <section
+            className="profile-full-life"
+            aria-labelledby="full-life-heading"
+          >
+            <header>
+              <div>
+                <p className="profile-section-label">A fuller life</p>
+                <h2 id="full-life-heading">The person, the memory, the legacy.</h2>
+              </div>
+              <p>
+                These chapters bring the historical record and the received
+                tradition into a longer narrative. Where the surviving evidence
+                is hagiographical or uncertain, the language says so directly.
+              </p>
+            </header>
+            <div className="profile-life-chapters">
+              {lifeChapters.map((chapter, chapterIndex) => (
+                <article key={chapter.title}>
+                  <span aria-hidden="true">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3>{chapter.title}</h3>
+                    {chapter.paragraphs.map((paragraph) => (
+                      <p key={paragraph.text}>
+                        {paragraph.text}
+                        <sup className="profile-citations">
+                          {paragraph.sourceIndexes.map((sourceIndex) => (
+                            <a
+                              href={`#source-${sourceIndex + 1}`}
+                              key={sourceIndex}
+                              aria-label={`Source ${sourceIndex + 1}: ${saint.sources[sourceIndex].label}`}
+                            >
+                              {sourceIndex + 1}
+                            </a>
+                          ))}
+                        </sup>
+                      </p>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="profile-sources" aria-labelledby="sources-heading">
           <div>

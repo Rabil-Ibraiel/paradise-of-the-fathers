@@ -227,7 +227,7 @@ export function ManuscriptCatalog() {
         <ol className="catalog-results">
           {visibleRecords.map((record) => (
             <li key={record.id}>
-              <a href={record.purl} target="_blank" rel="noreferrer">
+              <article className="catalog-result">
                 <div className="catalog-result__date">
                   <strong>{record.date.label}</strong>
                   <span>{record.category}</span>
@@ -250,11 +250,25 @@ export function ManuscriptCatalog() {
                     <li>{record.access}</li>
                   </ul>
                 </div>
-                <span className="catalog-result__action">
-                  Open record
-                  <Arrow />
-                </span>
-              </a>
+                <div className="catalog-result__actions">
+                  <a
+                    className="catalog-result__action catalog-result__action--primary"
+                    href={`${basePath}/manuscripts/details/?id=${record.id}`}
+                  >
+                    View full details
+                    <Arrow />
+                  </a>
+                  <a
+                    className="catalog-result__action"
+                    href={record.purl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    HMML record
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </article>
             </li>
           ))}
         </ol>
