@@ -43,6 +43,11 @@ records in measured groups. Book covers function as documentary objects beside
 editorial descriptions; manuscript images appear only when a holding repository
 explicitly permits their reuse.
 
+Individual manuscript records read as catalogue leaves rather than cards:
+identity and repository first, then access, physical description, object notes,
+parts, contents, and source credits. Long saint profiles use ruled narrative
+chapters so added biography remains readable and clearly sourced.
+
 ## Motion
 
 The opening manuscript loader appears only once per application session.
