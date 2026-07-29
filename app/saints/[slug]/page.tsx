@@ -4,35 +4,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { PageTransition } from "../../components/page-transition";
+import {
+  Arrow,
+  SiteFooter,
+  SiteHeader,
+} from "../../components/site-chrome";
 import { findSaint, saints } from "../../data/saints";
 
 export const dynamicParams = false;
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetPath = (path: string) => `${basePath}${path}`;
-
-const Arrow = ({ direction = "right" }: { direction?: "left" | "right" }) => (
-  <svg
-    aria-hidden="true"
-    className={direction === "left" ? "is-reversed" : undefined}
-    viewBox="0 0 24 24"
-    fill="none"
-  >
-    <path
-      d="M5 12h13M13 6l6 6-6 6"
-      stroke="currentColor"
-      strokeWidth="1.6"
-    />
-  </svg>
-);
-
-const CrossMark = () => (
-  <span className="cross-mark" aria-hidden="true">
-    <span className="cross-mark__ring" />
-    <span className="cross-mark__stem" />
-    <span className="cross-mark__arms" />
-  </span>
-);
 
 export function generateStaticParams() {
   return saints.map((saint) => ({ slug: saint.slug }));
@@ -89,83 +71,14 @@ export default async function SaintProfile({
       <a className="skip-link" href="#profile-content">
         Skip to profile
       </a>
-      <header className="site-header profile-header persistent-header">
-        <Link
-          className="brand"
-          href="/"
-          aria-label="The Paradise of the Fathers, home"
-          transitionTypes={["nav-back"]}
-        >
-          <CrossMark />
-          <span className="brand__text">
-            <span className="brand__name">The Paradise of the Fathers</span>
-            <span className="brand__syriac" lang="syr" dir="rtl">
-              ܦܪܕܝܣܐ ܕܐܒܗ̈ܬܐ
-            </span>
-          </span>
-        </Link>
-
-        <nav className="primary-nav" aria-label="Primary navigation">
-          <Link href="/" transitionTypes={["nav-back"]}>Home</Link>
-          <Link
-            className="is-active"
-            href={{ pathname: "/", hash: "stories" }}
-            transitionTypes={["nav-back"]}
-          >
-            Saints
-          </Link>
-          <Link
-            href={{ pathname: "/", hash: "journey" }}
-            transitionTypes={["nav-back"]}
-          >
-            Journey
-          </Link>
-          <Link
-            href={{ pathname: "/", hash: "about" }}
-            transitionTypes={["nav-back"]}
-          >
-            The Book
-          </Link>
-        </nav>
-
-        <Link
-          className="header-link"
-          href={{ pathname: "/", hash: "stories" }}
-          transitionTypes={["nav-back"]}
-        >
-          All saints
-          <Arrow />
-        </Link>
-      </header>
-
-      <nav className="mobile-nav" aria-label="Mobile navigation">
-        <Link href="/" transitionTypes={["nav-back"]}>Home</Link>
-        <Link
-          href={{ pathname: "/", hash: "stories" }}
-          transitionTypes={["nav-back"]}
-        >
-          Saints
-        </Link>
-        <Link
-          href={{ pathname: "/", hash: "journey" }}
-          transitionTypes={["nav-back"]}
-        >
-          Journey
-        </Link>
-        <Link
-          href={{ pathname: "/", hash: "about" }}
-          transitionTypes={["nav-back"]}
-        >
-          The Book
-        </Link>
-      </nav>
+      <SiteHeader active="saints" />
 
       <article id="profile-content">
         <header className="profile-hero">
           <div className="profile-hero__copy">
             <Link
               className="profile-back-link"
-              href={{ pathname: "/", hash: "stories" }}
+              href="/saints"
               transitionTypes={["nav-back"]}
             >
               <Arrow direction="left" />
@@ -206,10 +119,11 @@ export default async function SaintProfile({
             {saint.image ? (
               <Image
                 src={assetPath(saint.image)}
-                alt={`Editorial interpretation of ${saint.name}`}
+                alt={saint.imageAlt ?? ""}
                 fill
                 priority
                 sizes="(max-width: 820px) calc(100vw - 44px), 42vw"
+                style={{ objectPosition: saint.imagePosition }}
               />
             ) : (
               <div className="profile-portrait__monogram" aria-hidden="true">
@@ -219,9 +133,26 @@ export default async function SaintProfile({
                 </small>
               </div>
             )}
-            <span className="profile-portrait__caption">
-              Editorial interpretation · not a verified likeness
-            </span>
+            {saint.imageCaption ? (
+              saint.imageSourceUrl ? (
+                <a
+                  className="profile-portrait__caption"
+                  href={saint.imageSourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {saint.imageCaption} ↗
+                </a>
+              ) : (
+                <span className="profile-portrait__caption">
+                  {saint.imageCaption}
+                </span>
+              )
+            ) : (
+              <span className="profile-portrait__caption">
+                Symbolic monogram · no verified historical likeness used
+              </span>
+            )}
           </div>
           </ViewTransition>
         </header>
@@ -319,33 +250,7 @@ export default async function SaintProfile({
         </nav>
       </article>
 
-      <footer className="profile-footer">
-        <Link
-          className="brand brand--footer"
-          href="/"
-          transitionTypes={["nav-back"]}
-        >
-          <CrossMark />
-          <span className="brand__text">
-            <span className="brand__name">The Paradise of the Fathers</span>
-            <span className="brand__syriac" lang="syr" dir="rtl">
-              ܦܪܕܝܣܐ ܕܐܒܗ̈ܬܐ
-            </span>
-          </span>
-        </Link>
-        <p>
-          An independent educational archive of the saints and spiritual
-          heritage of the Church of the East.
-        </p>
-        <Link
-          className="footer-return"
-          href={{ pathname: "/", hash: "stories" }}
-          transitionTypes={["nav-back"]}
-        >
-          Return to all saints
-          <Arrow />
-        </Link>
-      </footer>
+      <SiteFooter />
     </main>
     </PageTransition>
   );

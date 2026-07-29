@@ -27,6 +27,10 @@ export type Saint = {
   category: SaintCategory;
   summary: string;
   image?: string;
+  imageAlt?: string;
+  imageCaption?: string;
+  imageSourceUrl?: string;
+  imagePosition?: string;
   tone: SaintTone;
   devotionalIntroduction: string;
   reflection: string;
@@ -46,7 +50,14 @@ export const saints: Saint[] = [
     category: "Missionaries",
     summary:
       "An apostolic missionary at the heart of early Syriac Christian memory and the tradition of Edessa.",
-    image: "/images/mar-addai.webp",
+    image: "/images/addai-mari-icon.jpg",
+    imageAlt:
+      "Devotional icon of Saints Addai and Mari beneath Christ, from an East Syriac missal",
+    imageCaption:
+      "Devotional icon of Saints Addai and Mari · source and date unknown · CC0",
+    imageSourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Icon_of_Mar_Addai_and_Mari_Apostles_of_the_East.jpg",
+    imagePosition: "33% center",
     tone: "red",
     devotionalIntroduction:
       "Mar Addai stands at the doorway of Syriac Christian memory: a messenger received by a city, a healer welcomed into a household, and a witness whose presence marks a beginning. His story invites the reader to notice how faith often travels through hospitality, conversation, and patient teaching.",
@@ -90,6 +101,14 @@ export const saints: Saint[] = [
     category: "Missionaries",
     summary:
       "Remembered with Addai in the apostolic and liturgical life of the Church, carrying the Gospel farther east.",
+    image: "/images/addai-mari-icon.jpg",
+    imageAlt:
+      "Devotional icon of Saints Addai and Mari beneath Christ, from an East Syriac missal",
+    imageCaption:
+      "Devotional icon of Saints Addai and Mari · source and date unknown · CC0",
+    imageSourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Icon_of_Mar_Addai_and_Mari_Apostles_of_the_East.jpg",
+    imagePosition: "72% center",
     tone: "gold",
     devotionalIntroduction:
       "Mar Mari is remembered as a disciple who kept walking. His life represents the movement from one received word to many new communities, from Edessa toward the cities and villages of Mesopotamia. His memory asks what it means to carry a gift faithfully beyond the place where it was first received.",
@@ -128,7 +147,6 @@ export const saints: Saint[] = [
     category: "Teachers",
     summary:
       "A formative poet-theologian and teacher associated with the celebrated schools of Edessa and Nisibis.",
-    image: "/images/mar-narsai-hero.webp",
     tone: "blue",
     devotionalIntroduction:
       "For Mar Narsai, teaching could become poetry and poetry could become prayer. His verse homilies trained the mind while awakening wonder, joining careful interpretation to a language meant to be heard. He invites readers to approach learning as an act of attention before God.",
@@ -210,7 +228,13 @@ export const saints: Saint[] = [
     category: "Monastics",
     summary:
       "A bishop and spiritual writer whose teaching on mercy, prayer, and stillness crossed ecclesial borders.",
-    image: "/images/mar-isaac.webp",
+    image: "/images/isaac-syrian-icon.jpg",
+    imageAlt:
+      "Anonymous medieval icon of Saint Isaac the Syrian with a long beard and monastic hood",
+    imageCaption:
+      "Anonymous icon of Isaac the Syrian · 14th–15th century · public domain",
+    imageSourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Isak_Sirin.jpg",
     tone: "green",
     devotionalIntroduction:
       "Mar Isaac of Nineveh writes toward the hidden places of the heart. His teaching returns again and again to mercy, humility, prayer, and the patient healing of the person. Readers across many Christian traditions have recognized in his words an invitation to become compassionate toward all creation.",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SiteLoader } from "./components/site-loader";
 import "./globals.css";
 
@@ -16,6 +17,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const assyriaAlqosh = localFont({
+  src: "./fonts/ASSYRIA_ALQOSH.TTF",
+  variable: "--font-syriac",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -59,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${assyriaAlqosh.variable} antialiased`}
       >
         <SiteLoader />
         {children}
