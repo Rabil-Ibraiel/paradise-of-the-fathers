@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { findSaint, saints } from "../../data/saints";
 
 export const dynamicParams = false;
@@ -82,15 +83,29 @@ export default async function SaintProfile({
     .slice(0, 2);
 
   return (
+    <ViewTransition
+      key={slug}
+      enter={{
+        "nav-back": "page-enter-back",
+        "nav-forward": "page-enter-forward",
+        default: "none",
+      }}
+      exit={{
+        "nav-back": "page-exit-back",
+        "nav-forward": "page-exit-forward",
+        default: "none",
+      }}
+    >
     <main className={`profile-page tone-${saint.tone}`}>
       <a className="skip-link" href="#profile-content">
         Skip to profile
       </a>
-      <header className="site-header profile-header">
+      <header className="site-header profile-header persistent-header">
         <Link
           className="brand"
           href="/"
           aria-label="The Paradise of the Fathers, home"
+          transitionTypes={["nav-back"]}
         >
           <CrossMark />
           <span className="brand__text">
@@ -102,31 +117,43 @@ export default async function SaintProfile({
         </Link>
 
         <nav className="primary-nav" aria-label="Primary navigation">
-          <Link href="/">Home</Link>
-          <Link className="is-active" href="/#stories">
+          <Link href="/" transitionTypes={["nav-back"]}>Home</Link>
+          <Link
+            className="is-active"
+            href="/#stories"
+            transitionTypes={["nav-back"]}
+          >
             Saints
           </Link>
-          <Link href="/#journey">Journey</Link>
-          <Link href="/#about">The Book</Link>
+          <Link href="/#journey" transitionTypes={["nav-back"]}>Journey</Link>
+          <Link href="/#about" transitionTypes={["nav-back"]}>The Book</Link>
         </nav>
 
-        <Link className="header-link" href="/#stories">
+        <Link
+          className="header-link"
+          href="/#stories"
+          transitionTypes={["nav-back"]}
+        >
           All saints
           <Arrow />
         </Link>
       </header>
 
       <nav className="mobile-nav" aria-label="Mobile navigation">
-        <Link href="/">Home</Link>
-        <Link href="/#stories">Saints</Link>
-        <Link href="/#journey">Journey</Link>
-        <Link href="/#about">The Book</Link>
+        <Link href="/" transitionTypes={["nav-back"]}>Home</Link>
+        <Link href="/#stories" transitionTypes={["nav-back"]}>Saints</Link>
+        <Link href="/#journey" transitionTypes={["nav-back"]}>Journey</Link>
+        <Link href="/#about" transitionTypes={["nav-back"]}>The Book</Link>
       </nav>
 
       <article id="profile-content">
         <header className="profile-hero">
           <div className="profile-hero__copy">
-            <Link className="profile-back-link" href="/#stories">
+            <Link
+              className="profile-back-link"
+              href="/#stories"
+              transitionTypes={["nav-back"]}
+            >
               <Arrow direction="left" />
               Back to the archive
             </Link>
@@ -156,6 +183,11 @@ export default async function SaintProfile({
             </dl>
           </div>
 
+          <ViewTransition
+            name={`saint-${saint.slug}-portrait`}
+            share="saint-portrait"
+            default="none"
+          >
           <div className="profile-portrait">
             {saint.image ? (
               <Image
@@ -177,6 +209,7 @@ export default async function SaintProfile({
               Editorial interpretation · not a verified likeness
             </span>
           </div>
+          </ViewTransition>
         </header>
 
         <div className="profile-reading">
@@ -247,14 +280,20 @@ export default async function SaintProfile({
         </section>
 
         <nav className="profile-pagination" aria-label="Browse saint profiles">
-          <Link href={`/saints/${previousSaint.slug}`}>
+          <Link
+            href={`/saints/${previousSaint.slug}`}
+            transitionTypes={["nav-back"]}
+          >
             <span>
               <Arrow direction="left" />
               Previous life
             </span>
             <strong>{previousSaint.name}</strong>
           </Link>
-          <Link href={`/saints/${nextSaint.slug}`}>
+          <Link
+            href={`/saints/${nextSaint.slug}`}
+            transitionTypes={["nav-forward"]}
+          >
             <span>
               Next life
               <Arrow />
@@ -265,7 +304,11 @@ export default async function SaintProfile({
       </article>
 
       <footer className="profile-footer">
-        <Link className="brand brand--footer" href="/">
+        <Link
+          className="brand brand--footer"
+          href="/"
+          transitionTypes={["nav-back"]}
+        >
           <CrossMark />
           <span className="brand__text">
             <span className="brand__name">The Paradise of the Fathers</span>
@@ -278,11 +321,16 @@ export default async function SaintProfile({
           An independent educational archive of the saints and spiritual
           heritage of the Church of the East.
         </p>
-        <Link className="footer-return" href="/#stories">
+        <Link
+          className="footer-return"
+          href="/#stories"
+          transitionTypes={["nav-back"]}
+        >
           Return to all saints
           <Arrow />
         </Link>
       </footer>
     </main>
+    </ViewTransition>
   );
 }
