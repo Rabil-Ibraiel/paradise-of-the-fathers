@@ -109,18 +109,28 @@ export default async function SaintProfile({
           <Link href="/" transitionTypes={["nav-back"]}>Home</Link>
           <Link
             className="is-active"
-            href="/#stories"
+            href={{ pathname: "/", hash: "stories" }}
             transitionTypes={["nav-back"]}
           >
             Saints
           </Link>
-          <Link href="/#journey" transitionTypes={["nav-back"]}>Journey</Link>
-          <Link href="/#about" transitionTypes={["nav-back"]}>The Book</Link>
+          <Link
+            href={{ pathname: "/", hash: "journey" }}
+            transitionTypes={["nav-back"]}
+          >
+            Journey
+          </Link>
+          <Link
+            href={{ pathname: "/", hash: "about" }}
+            transitionTypes={["nav-back"]}
+          >
+            The Book
+          </Link>
         </nav>
 
         <Link
           className="header-link"
-          href="/#stories"
+          href={{ pathname: "/", hash: "stories" }}
           transitionTypes={["nav-back"]}
         >
           All saints
@@ -130,9 +140,24 @@ export default async function SaintProfile({
 
       <nav className="mobile-nav" aria-label="Mobile navigation">
         <Link href="/" transitionTypes={["nav-back"]}>Home</Link>
-        <Link href="/#stories" transitionTypes={["nav-back"]}>Saints</Link>
-        <Link href="/#journey" transitionTypes={["nav-back"]}>Journey</Link>
-        <Link href="/#about" transitionTypes={["nav-back"]}>The Book</Link>
+        <Link
+          href={{ pathname: "/", hash: "stories" }}
+          transitionTypes={["nav-back"]}
+        >
+          Saints
+        </Link>
+        <Link
+          href={{ pathname: "/", hash: "journey" }}
+          transitionTypes={["nav-back"]}
+        >
+          Journey
+        </Link>
+        <Link
+          href={{ pathname: "/", hash: "about" }}
+          transitionTypes={["nav-back"]}
+        >
+          The Book
+        </Link>
       </nav>
 
       <article id="profile-content">
@@ -140,7 +165,7 @@ export default async function SaintProfile({
           <div className="profile-hero__copy">
             <Link
               className="profile-back-link"
-              href="/#stories"
+              href={{ pathname: "/", hash: "stories" }}
               transitionTypes={["nav-back"]}
             >
               <Arrow direction="left" />
@@ -314,7 +339,7 @@ export default async function SaintProfile({
         </p>
         <Link
           className="footer-return"
-          href="/#stories"
+          href={{ pathname: "/", hash: "stories" }}
           transitionTypes={["nav-back"]}
         >
           Return to all saints
