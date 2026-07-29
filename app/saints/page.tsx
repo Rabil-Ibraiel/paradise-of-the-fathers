@@ -6,7 +6,7 @@ import { SiteFooter, SiteHeader } from "../components/site-chrome";
 export const metadata: Metadata = {
   title: "Saints | The Paradise of the Fathers",
   description:
-    "Concise, sourced profiles of principal saints in the tradition of the Church of the East.",
+    "Fifteen concise, sourced profiles of saints and spiritual figures associated with the Church of the East.",
 };
 
 export default function SaintsPage() {
@@ -23,6 +23,9 @@ export default function SaintsPage() {
           <p>
             Apostles, poets, monks, theologians, and martyrs—each profile
             distinguishes devotional memory from the history we can document.
+            This sourced directory begins with fifteen lives and will continue
+            to grow without pretending that one list can exhaust the Church’s
+            calendar or memory.
           </p>
         </header>
         <section className="archive-section archive-section--page">
