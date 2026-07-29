@@ -401,7 +401,6 @@ export function ManuscriptCatalog() {
                     {record.supports.slice(0, 1).map((support) => (
                       <li key={support} data-no-translate>{support}</li>
                     ))}
-                    <li>{record.access}</li>
                   </ul>
                 </div>
                 <span className="catalog-result__action">

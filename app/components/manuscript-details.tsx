@@ -391,17 +391,6 @@ function ManuscriptDetailsInner() {
         </section>
       ) : null}
 
-      <section className="manuscript-record__access" aria-labelledby="access-heading">
-        <div>
-          <p id="access-heading">Reading access</p>
-          <h2>{record.access}</h2>
-        </div>
-        <p>
-          Consult the permanent HMML record for current access, catalogue
-          updates, and repository services.
-        </p>
-      </section>
-
       {objectDescription ? (
         <section className="manuscript-description">
           <header>
