@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LanguageToggle } from "./language-controller";
 
 export type SiteSection =
   | "home"
@@ -93,13 +94,13 @@ export function SiteHeader({ active = "home" }: { active?: SiteSection }) {
           label="Primary navigation"
         />
 
-        <Link
-          className="header-link"
-          href="/saints"
-        >
-          Begin with a saint
-          <Arrow />
-        </Link>
+        <div className="header-actions">
+          <LanguageToggle />
+          <Link className="header-link" href="/saints">
+            Begin with a saint
+            <Arrow />
+          </Link>
+        </div>
       </header>
 
       <Navigation
@@ -128,7 +129,7 @@ export function SiteFooter() {
       </Link>
       <p>
         A new illustrated archive of the saints and spiritual heritage of the
-        Church of the East.
+        <span className="footer-heritage"> Church of the East.</span>
       </p>
       <div className="footer-links">
         {navigation.map((item) => (
@@ -137,9 +138,21 @@ export function SiteFooter() {
           </Link>
         ))}
       </div>
-      <span className="footer-note">
-        Independent educational project · Made for remembrance · 2026
-      </span>
+      <div className="footer-note">
+        <span>Independent educational project · Made for remembrance · 2026</span>
+        <span className="footer-credit">
+          Created through{" "}
+          <a
+            href="https://www.facebook.com/sonsofthechurch"
+            target="_blank"
+            rel="noreferrer"
+            data-no-translate
+          >
+            Sons of the Church of the East
+            <b lang="ar">أبناء كنيسة المشرق</b>
+          </a>
+        </span>
+      </div>
     </footer>
   );
 }

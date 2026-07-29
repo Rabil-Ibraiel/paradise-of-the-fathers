@@ -397,10 +397,8 @@ function ManuscriptDetailsInner() {
           <h2>{record.access}</h2>
         </div>
         <p>
-          This archive reproduces HMML’s reusable metadata, not the manuscript
-          images. The dataset reports the image-download option as{" "}
-          <strong>{record.downloadOption || "No"}</strong>; consult the holding
-          repository and HMML record for current viewing and reproduction terms.
+          Consult the permanent HMML record for current access, catalogue
+          updates, and repository services.
         </p>
       </section>
 

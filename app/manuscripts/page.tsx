@@ -25,7 +25,7 @@ const manuscripts = [
     title: "Church of the East Psalter",
     place: "East Syriac tradition",
     description:
-      "A Psalter with Eastern Syriac vocalization and line illustrations. The catalogue preserves its identity even where digital folios are not currently available.",
+      "A Psalter with Eastern Syriac vocalization and line illustrations, preserving the visual discipline of an East Syriac sacred book.",
     url: "https://searcharchives.bl.uk/catalog/032-003474562",
   },
   {
@@ -312,21 +312,6 @@ export default function ManuscriptsPage() {
           </a>
         </section>
 
-        <aside className="source-note">
-          <span aria-hidden="true">✦</span>
-          <div>
-            <p className="eyebrow">A note on access</p>
-            <h2>Why the first page is not copied here.</h2>
-            <p>
-              HMML licenses its catalogue metadata for reuse, but its current
-              Syriac records do not grant image downloads through the dataset.
-              We therefore open the authorised Reading Room viewer instead of
-              copying a first-page photograph. When a holding library supplies
-              a reusable public image or IIIF manifest, it can be added here
-              with that repository’s credit and rights statement.
-            </p>
-          </div>
-        </aside>
         <SiteFooter />
       </main>
     </PageTransition>

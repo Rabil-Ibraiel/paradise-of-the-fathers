@@ -153,9 +153,8 @@ export default function Home() {
             <p className="eyebrow">Featured manuscripts</p>
             <h2>Faith preserved in ink, parchment, and memory.</h2>
             <p>
-              Three catalogued witnesses introduce the East Syriac scribal
-              world without pretending that every manuscript is available
-              online.
+              Three catalogued witnesses introduce the craft, prayer, and
+              memory of the East Syriac scribal world.
             </p>
             <Link href="/manuscripts" className="text-link">
               Enter the manuscript room <Arrow />
