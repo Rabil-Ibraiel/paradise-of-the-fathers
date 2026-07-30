@@ -1505,7 +1505,7 @@ footer > p {
   position: absolute;
   z-index: 0;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
   width: 29%;
   content: "";
@@ -1763,7 +1763,7 @@ footer > p {
 .profile-citations {
   display: inline-flex;
   gap: 4px;
-  margin-left: 5px;
+  margin-inline-start: 5px;
   vertical-align: super;
 }
 
@@ -1774,12 +1774,13 @@ footer > p {
   height: 18px;
   padding: 0 4px;
   border-radius: 999px;
-  color: var(--paper);
+  color: #fff;
   background: var(--profile-accent);
   font-family: var(--font-body);
   font-size: 0.58rem;
   font-weight: 750;
   line-height: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.24);
 }
 
 .profile-reflection {
@@ -2947,7 +2948,7 @@ footer > p {
   text-transform: uppercase;
 }
 
-.archive-book__copy h2 {
+.archive-book__titles h2 {
   max-width: 900px;
   margin: 0;
   color: var(--green);
@@ -2958,11 +2959,15 @@ footer > p {
   line-height: 0.98;
 }
 
-.archive-book__copy > span {
+.archive-book__titles--english > span {
   display: block;
   margin: 15px 0 18px;
   color: var(--gold);
   font-size: clamp(1.25rem, 2vw, 1.7rem);
+}
+
+.archive-book__titles--arabic {
+  display: none;
 }
 
 .archive-book__copy > small {
@@ -5676,7 +5681,7 @@ a.profile-portrait__caption:focus-visible {
 }
 
 .profile-life-chapters .profile-citations a {
-  color: var(--oxblood);
+  color: #fff;
 }
 
 @media (max-width: 760px) {
@@ -5694,4 +5699,170 @@ a.profile-portrait__caption:focus-visible {
     grid-template-columns: 42px minmax(0, 1fr);
     gap: 18px;
   }
+}
+
+/* Arabic type and layout hardening */
+
+html[dir="rtl"] main :where(
+    section,
+    article,
+    header,
+    div,
+    p,
+    h1,
+    h2,
+    h3,
+    dl,
+    dd,
+    li
+  ) {
+  min-width: 0;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3 {
+  max-width: 100%;
+  font-weight: 400;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2 {
+  line-height: 1.16;
+}
+
+html[dir="rtl"] h3 {
+  line-height: 1.22;
+}
+
+html[dir="rtl"] h1 :where(strong, em),
+html[dir="rtl"] h2 :where(strong, em),
+html[dir="rtl"] h3 :where(strong, em),
+html[dir="rtl"] .book-copy h2 strong {
+  font-style: normal;
+  font-weight: 700;
+}
+
+html[dir="rtl"] strong,
+html[dir="rtl"] b {
+  font-weight: 700;
+}
+
+html[dir="rtl"] main :where(p, dd, li) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+html[dir="rtl"] .button {
+  height: auto;
+  min-height: 58px;
+  padding-block: 14px;
+  line-height: 1.42;
+  white-space: normal;
+}
+
+html[dir="rtl"] .saint-card__body {
+  min-width: 0;
+}
+
+html[dir="rtl"] .saint-card__meta,
+html[dir="rtl"] .saint-card__footer {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+html[dir="rtl"] .saint-card h3 {
+  line-height: 1.2;
+}
+
+html[dir="rtl"] .saint-card__title {
+  font-style: normal;
+  line-height: 1.55;
+}
+
+html[dir="rtl"] .saint-card__summary {
+  line-height: 1.9;
+}
+
+html[dir="rtl"] .profile-hero h1 {
+  line-height: 1.16;
+}
+
+html[dir="rtl"] .profile-syriac {
+  width: auto;
+  max-width: 100%;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+html[dir="rtl"] .profile-title {
+  font-style: normal;
+  line-height: 1.5;
+}
+
+html[dir="rtl"] .profile-facts > div {
+  min-width: 0;
+}
+
+html[dir="rtl"] .profile-facts dd {
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+html[dir="rtl"] .profile-life-chapters h3,
+html[dir="rtl"] .profile-full-life > header h2,
+html[dir="rtl"] .collection-hero h1,
+html[dir="rtl"] .paradise-hero h1,
+html[dir="rtl"] .book-copy h2,
+html[dir="rtl"] .catalog-browser__header h2 {
+  line-height: 1.16;
+}
+
+.archive-book__titles--arabic {
+  display: none;
+}
+
+html[dir="rtl"] .archive-book__titles--english {
+  display: none;
+}
+
+html[dir="rtl"] .archive-book__titles--arabic {
+  display: block;
+  min-width: 0;
+}
+
+html[dir="rtl"] .archive-book__titles--arabic h2 {
+  max-width: 100%;
+  margin: 0;
+  color: var(--green);
+  font-family: var(--font-syriac), "Noto Sans Syriac", serif;
+  font-size: clamp(2.6rem, 5vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.32;
+  overflow-wrap: anywhere;
+}
+
+html[dir="rtl"] .archive-book__titles--arabic > p {
+  display: block;
+  margin: 13px 0 19px;
+  color: var(--gold);
+  font-family: var(--font-thmanyah-serif-text), Georgia, serif;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.8;
+}
+
+html[dir="rtl"] .archive-book__titles--arabic [lang="en"] {
+  display: inline;
+  direction: ltr;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-weight: 500;
+  unicode-bidi: isolate;
+}
+
+.profile-citations a,
+.profile-life-chapters .profile-citations a {
+  color: #fff;
 }
