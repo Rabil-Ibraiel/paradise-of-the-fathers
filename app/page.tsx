@@ -192,9 +192,9 @@ export default function Home() {
           <div className="book-copy">
             <p className="eyebrow">The name behind the project</p>
             <h2>
-              An old name.
+              <span>An old name.</span>
               <br />
-              A new collection.
+              <strong>A new collection.</strong>
             </h2>
             <p className="book-copy__lead">
               <em>The Paradise of the Fathers</em> is the familiar English

@@ -73,10 +73,24 @@ export function BooksArchive() {
               <p>
                 {book.category} · {book.kind}
               </p>
-              <h2>{book.title}</h2>
-              <span lang="syr" dir="rtl">
-                {book.syriac}
-              </span>
+              <div className="archive-book__titles archive-book__titles--english">
+                <h2>{book.title}</h2>
+                <span lang="syr" dir="rtl">
+                  {book.syriac}
+                </span>
+              </div>
+              <div className="archive-book__titles archive-book__titles--arabic">
+                <h2 lang="syr" dir="rtl">
+                  {book.syriac}
+                </h2>
+                <p>
+                  <span>{book.title}</span>
+                  <span aria-hidden="true"> — </span>
+                  <span lang="en" dir="ltr" data-no-translate>
+                    {book.title}
+                  </span>
+                </p>
+              </div>
               <small>
                 {book.year} · {book.creator}
               </small>
