@@ -146,10 +146,8 @@ export function SiteFooter() {
             href="https://www.facebook.com/sonsofthechurch"
             target="_blank"
             rel="noreferrer"
-            data-no-translate
           >
             Sons of the Church of the East
-            <b lang="ar">أبناء كنيسة المشرق</b>
           </a>
         </span>
       </div>

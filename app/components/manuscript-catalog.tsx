@@ -376,30 +376,32 @@ export function ManuscriptCatalog() {
                   <span className="catalog-cover__category">
                     {record.category}
                   </span>
-                  <strong data-no-translate>{recordTitle(record)}</strong>
+                  <strong>{recordTitle(record)}</strong>
                   <div className="catalog-cover__facts">
                     <span>{record.date.label}</span>
-                    <span data-no-translate>
-                      {record.authors[0] || record.shelfmark}
-                    </span>
+                    {record.authors[0] ? (
+                      <span>{record.authors[0]}</span>
+                    ) : (
+                      <span data-no-translate>{record.shelfmark}</span>
+                    )}
                   </div>
                 </div>
                 <div className="catalog-result__identity">
-                  <small data-no-translate>
+                  <small>
                     {record.repository}
                     {record.city ? ` · ${record.city}` : ""}
                     {record.country ? ` · ${record.country}` : ""}
                   </small>
-                  <h3 data-no-translate>{recordTitle(record)}</h3>
+                  <h3>{recordTitle(record)}</h3>
                   {record.titles[0] ? (
                     <p data-no-translate>{record.shelfmark}</p>
                   ) : null}
                   <ul aria-label="Record details">
                     {record.genres.slice(0, 2).map((genre) => (
-                      <li key={genre} data-no-translate>{genre}</li>
+                      <li key={genre}>{genre}</li>
                     ))}
                     {record.supports.slice(0, 1).map((support) => (
-                      <li key={support} data-no-translate>{support}</li>
+                      <li key={support}>{support}</li>
                     ))}
                   </ul>
                 </div>

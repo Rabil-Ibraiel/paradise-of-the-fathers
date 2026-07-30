@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  arabicDisplayText,
+  arabicEditorialText,
+} from "../data/arabic-translations";
 
 export type SiteLanguage = "en" | "ar";
 
@@ -298,9 +302,232 @@ const arabicText: Record<string, string> = {
   "Read online": "اقرأ على الإنترنت",
   "Discover the collection": "اكتشف المجموعة",
   "Loading": "جارٍ التحميل",
+  ...arabicEditorialText,
 };
 
 const originalText = new WeakMap<Text, string>();
+const originalAttributes = new WeakMap<Element, Map<string, string>>();
+const translatedAttributes = ["aria-label", "title", "placeholder", "alt"] as const;
+const displayTextSelector =
+  ".brand__name, h1, h2, .book-object__edition, .catalog-cover > strong";
+
+const commonCatalogueWords: Record<string, string> = {
+  a: "",
+  an: "",
+  the: "الـ",
+  of: "من",
+  and: "و",
+  or: "أو",
+  in: "في",
+  on: "على",
+  from: "من",
+  for: "لـ",
+  with: "مع",
+  by: "بقلم",
+  manuscript: "مخطوطة",
+  manuscripts: "مخطوطات",
+  fragment: "قصاصة",
+  fragments: "قصاصات",
+  book: "كتاب",
+  books: "كتب",
+  text: "نص",
+  texts: "نصوص",
+  work: "عمل",
+  works: "أعمال",
+  collection: "مجموعة",
+  collections: "مجموعات",
+  liturgical: "طقسي",
+  liturgy: "الطقس",
+  prayer: "صلاة",
+  prayers: "صلوات",
+  gospel: "الإنجيل",
+  gospels: "الأناجيل",
+  biblical: "كتابي",
+  bible: "الكتاب المقدس",
+  psalter: "سفر المزامير",
+  psalms: "المزامير",
+  lectionary: "كتاب قراءات",
+  lectionaries: "كتب قراءات",
+  homily: "ميمر",
+  homilies: "ميامر",
+  sermon: "عظة",
+  sermons: "عظات",
+  hymn: "ترتيلة",
+  hymns: "تراتيل",
+  saint: "قديس",
+  saints: "قديسين",
+  martyr: "شهيد",
+  martyrs: "شهداء",
+  life: "سيرة",
+  lives: "سِيَر",
+  history: "تاريخ",
+  chronicle: "حولية",
+  theology: "لاهوت",
+  theological: "لاهوتي",
+  commentary: "تفسير",
+  commentaries: "تفاسير",
+  canon: "قانون",
+  canons: "قوانين",
+  rite: "طقس",
+  rites: "طقوس",
+  funeral: "جناز",
+  anaphora: "قداس",
+  anaphoras: "أنافير",
+  syriac: "سرياني",
+  eastern: "شرقي",
+  east: "المشرق",
+  arabic: "عربي",
+  garshuni: "كرشوني",
+  parchment: "رَقّ",
+  paper: "ورق",
+  unknown: "غير معروف",
+  anonymous: "مجهول",
+  author: "مؤلف",
+  authors: "مؤلفون",
+  scribe: "ناسخ",
+  century: "القرن",
+  date: "تاريخ",
+  dated: "مؤرخة",
+  undated: "غير مؤرخة",
+  church: "كنيسة",
+  monastery: "دير",
+  cathedral: "كاتدرائية",
+  library: "مكتبة",
+  university: "جامعة",
+  archive: "أرشيف",
+  institute: "معهد",
+  college: "كلية",
+  school: "مدرسة",
+  bishop: "أسقف",
+  patriarch: "بطريرك",
+  priest: "كاهن",
+  monk: "راهب",
+  complete: "كامل",
+  incomplete: "غير كامل",
+  damaged: "متضرر",
+  folio: "ورقة",
+  folios: "أوراق",
+  fol: "ورقة",
+  leaf: "ورقة",
+  leaves: "أوراق",
+  volume: "مجلد",
+  volumes: "مجلدات",
+  part: "جزء",
+  parts: "أجزاء",
+  notes: "ملاحظات",
+  miscellaneous: "متفرقات",
+};
+
+const latinTransliteration: Record<string, string> = {
+  a: "ا",
+  b: "ب",
+  c: "ك",
+  d: "د",
+  e: "ِ",
+  f: "ف",
+  g: "گ",
+  h: "ه",
+  i: "ي",
+  j: "ج",
+  k: "ك",
+  l: "ل",
+  m: "م",
+  n: "ن",
+  o: "و",
+  p: "پ",
+  q: "ق",
+  r: "ر",
+  s: "س",
+  t: "ت",
+  u: "و",
+  v: "ڤ",
+  w: "و",
+  x: "كس",
+  y: "ي",
+  z: "ز",
+  ā: "ا",
+  ē: "ي",
+  ī: "ي",
+  ō: "و",
+  ū: "و",
+  ḥ: "ح",
+  ṣ: "ص",
+  ṭ: "ط",
+  ḍ: "ض",
+  š: "ش",
+  ž: "ژ",
+  ʿ: "ع",
+  ʾ: "ء",
+};
+
+const transliterationPairs: Array<[string, string]> = [
+  ["tch", "تش"],
+  ["sch", "ش"],
+  ["sh", "ش"],
+  ["ch", "تش"],
+  ["kh", "خ"],
+  ["gh", "غ"],
+  ["th", "ث"],
+  ["dh", "ذ"],
+  ["ph", "ف"],
+  ["qu", "كو"],
+  ["ck", "ك"],
+  ["ee", "ي"],
+  ["oo", "و"],
+  ["ou", "و"],
+];
+
+function toArabicDigits(value: string) {
+  return value.replace(/\d/g, (digit) => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
+}
+
+function transliterateLatinWord(value: string) {
+  let remaining = value.toLocaleLowerCase();
+  let result = "";
+
+  while (remaining) {
+    const pair = transliterationPairs.find(([latin]) =>
+      remaining.startsWith(latin),
+    );
+    if (pair) {
+      result += pair[1];
+      remaining = remaining.slice(pair[0].length);
+      continue;
+    }
+
+    const [character] = Array.from(remaining);
+    result += latinTransliteration[character] ?? character;
+    remaining = remaining.slice(character.length);
+  }
+
+  return result;
+}
+
+function translateUnknownCatalogueText(value: string) {
+  return toArabicDigits(
+    value.replace(/\p{Script=Latin}+/gu, (word) => {
+      const known = commonCatalogueWords[word.toLocaleLowerCase()];
+      if (known !== undefined) return known;
+      return transliterateLatinWord(word);
+    }),
+  )
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:!?])/g, "$1")
+    .trim();
+}
+
+function isDisplayText(parent?: Element | null) {
+  return Boolean(parent?.closest(displayTextSelector));
+}
+
+function isReferenceIdentifier(value: string) {
+  const clean = value.trim();
+  if (!clean) return false;
+  if (/^(?:https?:\/\/|www\.|[\w.-]+@)/i.test(clean)) return true;
+  if (/^(?:ISBN|ISSN|DOI|HMML)\b/i.test(clean)) return true;
+  if (/^[A-Z]{2,8}(?:\s|-)?\d[\dA-Z ./-]*$/.test(clean)) return true;
+  return /^(?:Add MS|Harvard MS|CCM|ACK)\s/i.test(clean);
+}
 
 function getStoredLanguage(): SiteLanguage {
   try {
@@ -310,12 +537,19 @@ function getStoredLanguage(): SiteLanguage {
   }
 }
 
-function translateValue(value: string) {
+function translateValue(value: string, parent?: Element | null) {
   const leading = value.match(/^\s*/)?.[0] ?? "";
   const trailing = value.match(/\s*$/)?.[0] ?? "";
   const clean = value.trim();
 
-  let translated = arabicText[clean];
+  if (!clean || isReferenceIdentifier(clean)) return value;
+  if (/^[\d٠-٩][\d٠-٩,.\s–—-]*$/.test(clean)) {
+    return `${leading}${toArabicDigits(clean)}${trailing}`;
+  }
+
+  let translated =
+    (isDisplayText(parent) ? arabicDisplayText[clean] : undefined) ??
+    arabicText[clean];
 
   if (!translated) {
     const witnesses = clean.match(/^([\d,]+) Syriac witnesses\.$/);
@@ -324,13 +558,47 @@ function translateValue(value: string) {
     const position = clean.match(/^([\d,]+) of ([\d,]+)$/);
     const part = clean.match(/^Part ([\d,]+)$/);
     const items = clean.match(/^([\d,]+) items?$/);
+    const source = clean.match(/^Source ([\d,]+):\s*(.+)$/);
+    const manuscriptLink = clean.match(/^View the manuscript:\s*(.+)$/);
+    const profileLink = clean.match(/^Read the profile of\s+(.+)$/);
+    const digitizedCover = clean.match(/^Digitized cover of\s+(.+)$/);
+    const recordUpdated = clean.match(/^record updated\s+(.+)$/);
+    const dividedTitle = clean.match(/^(.+?)\s+([|—])\s+(.+)$/);
+    const fromPlace = clean.match(/^(.+?)\s+from\s+(.+)$/);
 
-    if (witnesses) translated = `${witnesses[1]} شاهدًا سريانيًا.`;
-    if (records) translated = `${records[1]} سجل`;
-    if (next) translated = `عرض ${next[1]} سجلًا آخر`;
-    if (position) translated = `${position[1]} من ${position[2]}`;
-    if (part) translated = `الجزء ${part[1]}`;
-    if (items) translated = `${items[1]} مادة`;
+    if (witnesses) translated = `${toArabicDigits(witnesses[1])} شاهدًا سريانيًا.`;
+    if (records) translated = `${toArabicDigits(records[1])} سجل`;
+    if (next) translated = `عرض ${toArabicDigits(next[1])} سجلًا آخر`;
+    if (position) {
+      translated = `${toArabicDigits(position[1])} من ${toArabicDigits(position[2])}`;
+    }
+    if (part) translated = `الجزء ${toArabicDigits(part[1])}`;
+    if (items) translated = `${toArabicDigits(items[1])} مادة`;
+    if (source) {
+      translated = `المصدر ${source[1]}: ${translateValue(source[2])}`;
+    }
+    if (manuscriptLink) {
+      translated = `عرض المخطوطة: ${translateValue(manuscriptLink[1])}`;
+    }
+    if (profileLink) {
+      translated = `اقرأ سيرة ${translateValue(profileLink[1])}`;
+    }
+    if (digitizedCover) {
+      translated = `غلاف رقمي لكتاب «${translateValue(digitizedCover[1])}»`;
+    }
+    if (recordUpdated) {
+      translated = `تحديث السجل ${toArabicDigits(recordUpdated[1])}`;
+    }
+    if (dividedTitle) {
+      translated = `${translateValue(dividedTitle[1])} ${dividedTitle[2]} ${translateValue(dividedTitle[3])}`;
+    }
+    if (fromPlace) {
+      translated = `${translateValue(fromPlace[1])} من ${translateValue(fromPlace[2])}`;
+    }
+  }
+
+  if (!translated && /\p{Script=Latin}/u.test(clean)) {
+    translated = translateUnknownCatalogueText(clean);
   }
 
   return translated ? `${leading}${translated}${trailing}` : value;
@@ -344,6 +612,46 @@ function shouldTranslate(node: Text) {
   );
 }
 
+function shouldTranslateElement(element: Element) {
+  return !element.closest(
+    "[data-no-translate], script, style, code, pre, textarea, [lang='syr']",
+  );
+}
+
+function applyTranslatedAttributes(root: Node, language: SiteLanguage) {
+  const elements: Element[] = [];
+  if (root instanceof Element) elements.push(root);
+  if (root instanceof Document) elements.push(root.documentElement);
+  if (
+    root instanceof Element ||
+    root instanceof Document ||
+    root instanceof DocumentFragment
+  ) {
+    elements.push(...Array.from(root.querySelectorAll("*")));
+  }
+
+  elements.forEach((element) => {
+    if (!shouldTranslateElement(element)) return;
+    translatedAttributes.forEach((attribute) => {
+      const current = element.getAttribute(attribute);
+      if (current === null) return;
+
+      let originals = originalAttributes.get(element);
+      if (!originals) {
+        originals = new Map<string, string>();
+        originalAttributes.set(element, originals);
+      }
+      if (!originals.has(attribute)) originals.set(attribute, current);
+
+      const original = originals.get(attribute) ?? current;
+      element.setAttribute(
+        attribute,
+        language === "ar" ? translateValue(original, element) : original,
+      );
+    });
+  });
+}
+
 function applyLanguage(root: Node, language: SiteLanguage) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let current = walker.nextNode();
@@ -353,10 +661,15 @@ function applyLanguage(root: Node, language: SiteLanguage) {
     if (shouldTranslate(text)) {
       if (!originalText.has(text)) originalText.set(text, text.data);
       const original = originalText.get(text) ?? text.data;
-      text.data = language === "ar" ? translateValue(original) : original;
+      text.data =
+        language === "ar"
+          ? translateValue(original, text.parentElement)
+          : original;
     }
     current = walker.nextNode();
   }
+
+  applyTranslatedAttributes(root, language);
 }
 
 export function setSiteLanguage(language: SiteLanguage) {
@@ -375,14 +688,14 @@ export function setSiteLanguage(language: SiteLanguage) {
 
 export function LanguageController() {
   useEffect(() => {
-    const body = document.body;
+    const documentRoot = document.documentElement;
     let language = getStoredLanguage();
 
     const translateDocument = () => {
       observer.disconnect();
-      applyLanguage(body, language);
+      applyLanguage(documentRoot, language);
       document.documentElement.dataset.languageReady = "true";
-      observer.observe(body, {
+      observer.observe(documentRoot, {
         childList: true,
         characterData: true,
         subtree: true,
@@ -441,10 +754,10 @@ export function LanguageToggle() {
       className="language-toggle"
       role="group"
       aria-label="Language"
-      data-no-translate
     >
       <button
         type="button"
+        data-no-translate
         aria-pressed={language === "en"}
         onClick={() => setSiteLanguage("en")}
       >
@@ -453,6 +766,7 @@ export function LanguageToggle() {
       <button
         type="button"
         lang="ar"
+        data-no-translate
         aria-pressed={language === "ar"}
         onClick={() => setSiteLanguage("ar")}
       >
