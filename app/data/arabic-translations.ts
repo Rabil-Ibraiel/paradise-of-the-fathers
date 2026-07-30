@@ -528,6 +528,8 @@ export const arabicEditorialText: Record<string, string> = {
   "Open the permanent HMML record": "فتح سجل إتش إم إم إل الدائم",
   "HMML project": "مشروع إتش إم إم إل",
   "HMML schema": "بنية إتش إم إم إل",
+  HMML: "إتش إم إم إل",
+  "CC BY 4.0": "المشاع الإبداعي: نَسب المُصنَّف ٤٫٠",
   "How Syri.ac helps this archive": "كيف يساعد سِري.أك هذا الأرشيف",
   "The saint profiles remain short and welcoming. Syri.ac supplies the next step: manuscript witnesses, historic editions, translations, bibliographies, and the scholarly paths between them.":
     "تبقى سِيَر القديسين موجزة ومرحّبة، ويقدّم سِري.أك الخطوة التالية: شواهد مخطوطة وطبعات تاريخية وترجمات وببليوغرافيات ومسارات البحث التي تصل بينها.",

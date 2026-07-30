@@ -410,6 +410,9 @@ const commonCatalogueWords: Record<string, string> = {
   fol: "ورقة",
   leaf: "ورقة",
   leaves: "أوراق",
+  item: "مادة",
+  items: "مواد",
+  cm: "سم",
   volume: "مجلد",
   volumes: "مجلدات",
   part: "جزء",
@@ -524,7 +527,8 @@ function isReferenceIdentifier(value: string) {
   const clean = value.trim();
   if (!clean) return false;
   if (/^(?:https?:\/\/|www\.|[\w.-]+@)/i.test(clean)) return true;
-  if (/^(?:ISBN|ISSN|DOI|HMML)\b/i.test(clean)) return true;
+  if (/^(?:ISBN|ISSN|DOI)\b/i.test(clean)) return true;
+  if (/^HMML\s+\d/i.test(clean)) return true;
   if (/^[A-Z]{2,8}(?:\s|-)?\d[\dA-Z ./-]*$/.test(clean)) return true;
   return /^(?:Add MS|Harvard MS|CCM|ACK)\s/i.test(clean);
 }
@@ -542,7 +546,7 @@ function translateValue(value: string, parent?: Element | null) {
   const trailing = value.match(/\s*$/)?.[0] ?? "";
   const clean = value.trim();
 
-  if (!clean || isReferenceIdentifier(clean)) return value;
+  if (!clean) return value;
   if (/^[\d٠-٩][\d٠-٩,.\s–—-]*$/.test(clean)) {
     return `${leading}${toArabicDigits(clean)}${trailing}`;
   }
@@ -550,6 +554,8 @@ function translateValue(value: string, parent?: Element | null) {
   let translated =
     (isDisplayText(parent) ? arabicDisplayText[clean] : undefined) ??
     arabicText[clean];
+
+  if (!translated && isReferenceIdentifier(clean)) return value;
 
   if (!translated) {
     const witnesses = clean.match(/^([\d,]+) Syriac witnesses\.$/);
@@ -562,7 +568,8 @@ function translateValue(value: string, parent?: Element | null) {
     const manuscriptLink = clean.match(/^View the manuscript:\s*(.+)$/);
     const profileLink = clean.match(/^Read the profile of\s+(.+)$/);
     const digitizedCover = clean.match(/^Digitized cover of\s+(.+)$/);
-    const recordUpdated = clean.match(/^record updated\s+(.+)$/);
+    const recordUpdated = clean.match(/^(?:·\s*)?record updated\s+(.+)$/);
+    const leaves = clean.match(/^([\d,]+)\s+leaf(?:\(ves\)|ves)?$/i);
     const dividedTitle = clean.match(/^(.+?)\s+([|—])\s+(.+)$/);
     const fromPlace = clean.match(/^(.+?)\s+from\s+(.+)$/);
 
@@ -589,12 +596,28 @@ function translateValue(value: string, parent?: Element | null) {
     if (recordUpdated) {
       translated = `تحديث السجل ${toArabicDigits(recordUpdated[1])}`;
     }
+    if (leaves) {
+      translated = `${toArabicDigits(leaves[1])} ورقة`;
+    }
     if (dividedTitle) {
       translated = `${translateValue(dividedTitle[1])} ${dividedTitle[2]} ${translateValue(dividedTitle[3])}`;
     }
     if (fromPlace) {
       translated = `${translateValue(fromPlace[1])} من ${translateValue(fromPlace[2])}`;
     }
+  }
+
+  if (
+    !translated &&
+    clean.length < 180 &&
+    /(?:\s·\s|;\s|,\s)/.test(clean)
+  ) {
+    translated = clean
+      .split(/(\s·\s|;\s|,\s)/)
+      .map((part) =>
+        /^(?:\s·\s|;\s|,\s)$/.test(part) ? part : translateValue(part),
+      )
+      .join("");
   }
 
   if (!translated && /\p{Script=Latin}/u.test(clean)) {
