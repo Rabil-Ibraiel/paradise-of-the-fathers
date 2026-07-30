@@ -27,6 +27,57 @@ const assyriaAlqosh = localFont({
   display: "swap",
 });
 
+const thmanyahSans = localFont({
+  src: [
+    {
+      path: "./fonts/thmanyah-sans-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/thmanyah-sans-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-thmanyah-sans",
+  display: "swap",
+});
+
+const thmanyahSerifText = localFont({
+  src: [
+    {
+      path: "./fonts/thmanyah-serif-text-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/thmanyah-serif-text-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-thmanyah-serif-text",
+  display: "swap",
+});
+
+const thmanyahSerifDisplay = localFont({
+  src: [
+    {
+      path: "./fonts/thmanyah-serif-display-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/thmanyah-serif-display-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-thmanyah-serif-display",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "The Paradise of the Fathers",
@@ -76,7 +127,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${assyriaAlqosh.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${assyriaAlqosh.variable} ${thmanyahSans.variable} ${thmanyahSerifText.variable} ${thmanyahSerifDisplay.variable} antialiased`}
       >
         <LanguageController />
         <NavigationProgress />

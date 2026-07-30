@@ -3997,7 +3997,13 @@ footer > p {
 }
 
 html[dir="rtl"] body {
-  font-family: Tahoma, Arial, sans-serif;
+  font-family: var(--font-thmanyah-sans), Tahoma, Arial, sans-serif;
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1,
+    "kern" 1;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
 }
 
 html[dir="rtl"] .brand__name,
@@ -4005,7 +4011,47 @@ html[dir="rtl"] h1,
 html[dir="rtl"] h2,
 html[dir="rtl"] h3,
 html[dir="rtl"] .catalog-cover > strong {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-thmanyah-serif-display), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] p,
+html[dir="rtl"] .profile-title,
+html[dir="rtl"] .saint-card__summary,
+html[dir="rtl"] .archive-book__copy > p {
+  font-family: var(--font-thmanyah-serif-text), Georgia, serif;
+}
+
+html[dir="rtl"] .profile-narrative > p,
+html[dir="rtl"] .profile-life-chapters p,
+html[dir="rtl"] .profile-sources > div > p:last-child,
+html[dir="rtl"] .paradise-hero__copy > p,
+html[dir="rtl"] .book-copy > p,
+html[dir="rtl"] .manuscript-prose-field > p {
+  line-height: 1.95;
+  text-align: justify;
+  text-align-last: start;
+  text-justify: inter-word;
+}
+
+html[dir="rtl"] .eyebrow,
+html[dir="rtl"] .profile-section-label,
+html[dir="rtl"] .profile-kicker,
+html[dir="rtl"] .catalog-kicker,
+html[dir="rtl"] .catalog-cover__category,
+html[dir="rtl"] .footer-note,
+html[dir="rtl"] .image-index {
+  font-family: var(--font-thmanyah-sans), Tahoma, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html[dir="rtl"] .catalog-result__identity > p,
+html[dir="rtl"] .catalog-controls > p,
+html[dir="rtl"] .catalog-browser__footer p,
+html[dir="rtl"] footer > p {
+  font-family: var(--font-thmanyah-sans), Tahoma, sans-serif;
 }
 
 html[dir="rtl"] .primary-nav a + a,
@@ -4040,10 +4086,6 @@ html[dir="rtl"] .catalog-result__identity {
 html[dir="rtl"] .catalog-result__identity ul li + li::before {
   margin-right: 0;
   margin-left: 18px;
-}
-
-html[dir="rtl"] .footer-credit b {
-  margin-inline-start: 8px;
 }
 
 @media (max-width: 760px) {
