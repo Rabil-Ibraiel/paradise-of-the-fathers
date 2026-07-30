@@ -200,9 +200,11 @@ function ContentEntry({
         <span>{String(sequence).padStart(2, "0")}</span>
         <div>
           <p>
-            {[content.location, content.languages.join(", ")]
-              .filter(Boolean)
-              .join(" · ")}
+            {content.location ? (
+              <span data-no-translate>{content.location}</span>
+            ) : null}
+            {content.location && content.languages.length > 0 ? " · " : ""}
+            {content.languages.join(", ")}
           </p>
           <h3>{content.title}</h3>
           {content.titleSyriac ? (
@@ -362,7 +364,9 @@ function ManuscriptDetailsInner() {
           {record.commonName && record.titles[0] ? (
             <p className="manuscript-record__subtitle">{record.titles[0]}</p>
           ) : null}
-          <p className="manuscript-record__shelfmark">{record.shelfmark}</p>
+          <p className="manuscript-record__shelfmark" data-no-translate>
+            {record.shelfmark}
+          </p>
         </div>
         <div className="manuscript-record__repository">
           <p>Held by</p>
@@ -464,7 +468,11 @@ function ManuscriptDetailsInner() {
               <span>Part {part.number}</span>
               <div>
                 <p>
-                  {[part.location, part.date].filter(Boolean).join(" · ")}
+                  {part.location ? (
+                    <span data-no-translate>{part.location}</span>
+                  ) : null}
+                  {part.location && part.date ? " · " : ""}
+                  {part.date}
                 </p>
                 <h2>
                   {part.type || "Manuscript unit"}
