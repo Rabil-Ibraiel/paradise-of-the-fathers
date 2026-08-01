@@ -91,7 +91,7 @@ export const arabicBiographyText: Record<string, string> = {
 
   "A disciple becomes a father": "تلميذ يصير أبًا",
   "Rabban Bar ʿIdta belonged to the generation formed by Abraham of Kashkar. Syriaca.org identifies him as Abraham’s disciple and a monastic leader. His remembered life shows how the reform of Mount Izla moved outward through people who received a rule of life and then adapted it to new places.":
-    "انتمى الربّان بر عِدتا إلى الجيل الذي كوّنه إبراهيم الكشكري. ويعرّفه موقع سرياكا بأنه تلميذ إبراهيم وقائد رهباني. وتبيّن سيرته المحفوظة في الذاكرة كيف خرج إصلاح جبل إيزلا إلى أماكن أخرى على أيدي أناس تسلّموا قانون حياة ثم كيّفوه مع مواضع جديدة.",
+    "انتمى الربّان بر عِدتا إلى الجيل الذي كوّنه إبراهيم الكشكري. ويعرّفه Syriaca.org بأنه تلميذ إبراهيم وقائد رهباني. وتبيّن سيرته المحفوظة في الذاكرة كيف خرج إصلاح جبل إيزلا إلى أماكن أخرى على أيدي أناس تسلّموا قانون حياة ثم كيّفوه مع مواضع جديدة.",
   "A monastery in Marga": "دير في مرغا",
   "Hagiographical tradition credits Bar ʿIdta with founding an important monastery in the region of Marga. It also remembers his sister Hana Isho as the founder of a monastery dedicated to St Febronia, a detail that opens a window onto women’s participation in the same wider landscape of patronage and religious foundation.":
     "ينسب التقليد السيري إلى بر عِدتا تأسيس دير مهم في إقليم مرغا. ويذكر كذلك أخته حنانيشوع مؤسسةً لدير كُرّس للقديسة فبرونيا، وهي تفصيلة تفتح نافذة على مشاركة النساء في المشهد الأوسع نفسه من الرعاية والتأسيس الديني.",
