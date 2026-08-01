@@ -83,14 +83,22 @@ export default function ParadisePage() {
               target="_blank"
               rel="noreferrer"
             >
-              Encyclopedic introduction <span>↗</span>
+              <span>
+                <small>01</small>
+                <strong>Encyclopedic introduction</strong>
+              </span>
+              <Arrow />
             </a>
             <a
               href="https://syriaca.org/work/403"
               target="_blank"
               rel="noreferrer"
             >
-              Syriaca.org work record <span>↗</span>
+              <span>
+                <small>02</small>
+                <strong>Syriaca.org work record</strong>
+              </span>
+              <Arrow />
             </a>
           </div>
         </section>

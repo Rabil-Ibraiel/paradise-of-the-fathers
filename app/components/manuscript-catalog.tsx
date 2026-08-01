@@ -376,7 +376,9 @@ export function ManuscriptCatalog() {
                   <span className="catalog-cover__category">
                     {record.category}
                   </span>
-                  <strong>{recordTitle(record)}</strong>
+                  <strong lang="en" dir="ltr" data-no-translate>
+                    {recordTitle(record)}
+                  </strong>
                   <div className="catalog-cover__facts">
                     <span>{record.date.label}</span>
                     {record.authors[0] ? (
@@ -392,7 +394,9 @@ export function ManuscriptCatalog() {
                     {record.city ? ` · ${record.city}` : ""}
                     {record.country ? ` · ${record.country}` : ""}
                   </small>
-                  <h3>{recordTitle(record)}</h3>
+                  <h3 lang="en" dir="ltr" data-no-translate>
+                    {recordTitle(record)}
+                  </h3>
                   {record.titles[0] ? (
                     <p data-no-translate>{record.shelfmark}</p>
                   ) : null}

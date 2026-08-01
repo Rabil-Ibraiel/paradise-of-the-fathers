@@ -1948,7 +1948,7 @@ footer > p {
 .profile-pagination > a:last-child {
   align-items: flex-end;
   border-right: 0;
-  text-align: right;
+  text-align: end;
 }
 
 .profile-pagination > a:hover,
@@ -2234,7 +2234,7 @@ footer > p {
   border-bottom: 1px solid rgba(250, 245, 234, 0.26);
   border-radius: 0;
   color: rgba(250, 245, 234, 0.78);
-  text-align: left;
+  text-align: start;
   background: transparent;
   cursor: pointer;
   transition:
@@ -2706,7 +2706,7 @@ footer > p {
   color: var(--green);
   font-family: var(--font-display);
   font-size: 1.18rem;
-  text-align: left;
+  text-align: start;
   background: var(--paper);
   cursor: pointer;
 }
@@ -2839,7 +2839,7 @@ footer > p {
   border-bottom: 1px solid rgba(37, 31, 26, 0.2);
   border-radius: 0;
   color: var(--green);
-  text-align: left;
+  text-align: start;
   background: transparent;
   cursor: pointer;
   transition:
@@ -3017,7 +3017,7 @@ footer > p {
   color: rgba(37, 31, 26, 0.55);
   font-size: 0.67rem;
   line-height: 1.6;
-  text-align: right;
+  text-align: end;
 }
 
 .library-partners {
@@ -3160,7 +3160,7 @@ footer > p {
   }
 
   .book-cover-credit {
-    text-align: left;
+    text-align: start;
   }
 }
 
@@ -4085,7 +4085,7 @@ html[dir="rtl"] .catalog-controls input,
 html[dir="rtl"] .catalog-menu__options button,
 html[dir="rtl"] .catalog-browser__header,
 html[dir="rtl"] .catalog-result__identity {
-  text-align: right;
+  text-align: start;
 }
 
 html[dir="rtl"] .catalog-result__identity ul li + li::before {
@@ -4941,7 +4941,7 @@ a.profile-portrait__caption:focus-visible {
   border-bottom: 1px solid rgba(37, 31, 26, 0.2);
   border-radius: 0;
   color: var(--green);
-  text-align: left;
+  text-align: start;
   background: transparent;
 }
 
@@ -5865,4 +5865,199 @@ html[dir="rtl"] .archive-book__titles--arabic [lang="en"] {
 .profile-citations a,
 .profile-life-chapters .profile-citations a {
   color: #fff;
+}
+
+/* Script, direction, and source-action consistency */
+
+.featured-section .saint-grid--featured {
+  margin-top: clamp(54px, 7vw, 88px);
+}
+
+html [lang="syr"],
+html[dir="rtl"] [lang="syr"] {
+  font-family: var(--font-syriac), "Noto Sans Syriac", serif !important;
+  font-weight: 400 !important;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3 {
+  font-family: var(--font-thmanyah-serif-display), Georgia, serif;
+}
+
+html[dir="rtl"] .profile-full-life > header > p,
+html[dir="rtl"] .collection-hero > p:last-child,
+html[dir="rtl"] .manuscript-record__summary h2,
+html[dir="rtl"] .manuscript-record__subtitle {
+  font-family: var(--font-thmanyah-serif-text), Georgia, serif;
+}
+
+html[dir="rtl"] .profile-pagination strong {
+  font-family: var(--font-thmanyah-serif-display), Georgia, serif;
+  line-height: 1.35;
+}
+
+html[dir="rtl"] :where(
+    .section-heading__row,
+    .collection-hero,
+    .collection-subheading,
+    .genre-section,
+    .digitized-section,
+    .research-gateways,
+    .profile-full-life,
+    .profile-pagination,
+    .paradise-sources,
+    .manuscript-record
+  ) {
+  text-align: start;
+}
+
+html[dir="rtl"] :where(
+    .catalog-categories button,
+    .catalog-load-more,
+    .book-categories button,
+    .archive-section--page .filters button
+  ) {
+  text-align: start;
+}
+
+html[dir="rtl"] [data-no-translate][lang="en"] {
+  direction: ltr;
+  font-family: var(--font-body), Arial, sans-serif;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+html[dir="rtl"] :where(h1, h2, h3, strong)[data-no-translate][lang="en"] {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.manuscript-record__repository a {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 58px;
+  margin-top: 34px;
+  padding: 15px 18px;
+  border: 1px solid rgba(250, 245, 234, 0.34);
+  color: var(--green);
+  background: var(--paper);
+  font-size: 0.82rem;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.manuscript-record__repository a:hover,
+.manuscript-record__repository a:focus-visible {
+  border-color: #efd18f;
+  color: var(--green);
+  background: #efd18f;
+}
+
+.manuscript-record__repository a svg {
+  flex: 0 0 auto;
+  width: 20px;
+}
+
+html[dir="rtl"] .manuscript-record__repository a svg {
+  transform: scaleX(-1);
+}
+
+.paradise-sources .source-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 92px;
+  padding: 21px 18px;
+  border-top: 1px solid rgba(250, 245, 234, 0.24);
+  border-bottom: 0;
+  color: var(--paper);
+  background: transparent;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    padding 180ms ease;
+}
+
+.paradise-sources .source-links a:last-child {
+  border-bottom: 1px solid rgba(250, 245, 234, 0.24);
+}
+
+.paradise-sources .source-links a > span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.paradise-sources .source-links a small {
+  color: #e3c78e;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.paradise-sources .source-links a strong {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.24rem);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.paradise-sources .source-links a svg {
+  flex: 0 0 auto;
+  width: 23px;
+  height: 23px;
+  color: #e3c78e;
+  transition: transform 180ms ease;
+}
+
+.paradise-sources .source-links a:hover,
+.paradise-sources .source-links a:focus-visible {
+  color: var(--green);
+  background: var(--paper);
+  padding-inline: 24px;
+}
+
+.paradise-sources .source-links a:hover small,
+.paradise-sources .source-links a:focus-visible small,
+.paradise-sources .source-links a:hover svg,
+.paradise-sources .source-links a:focus-visible svg {
+  color: var(--oxblood);
+}
+
+.paradise-sources .source-links a:hover svg,
+.paradise-sources .source-links a:focus-visible svg {
+  transform: translateX(4px);
+}
+
+html[dir="rtl"] .paradise-sources .source-links a strong {
+  font-family: var(--font-thmanyah-serif-display), Georgia, serif;
+}
+
+html[dir="rtl"] .paradise-sources .source-links a svg {
+  transform: scaleX(-1);
+}
+
+html[dir="rtl"] .paradise-sources .source-links a:hover svg,
+html[dir="rtl"] .paradise-sources .source-links a:focus-visible svg {
+  transform: translateX(-4px) scaleX(-1);
+}
+
+@media (max-width: 760px) {
+  .featured-section .saint-grid--featured {
+    margin-top: 48px;
+  }
+
+  .paradise-sources .source-links a {
+    min-height: 82px;
+    padding-inline: 14px;
+  }
+
+  .paradise-sources .source-links a:hover,
+  .paradise-sources .source-links a:focus-visible {
+    padding-inline: 18px;
+  }
 }

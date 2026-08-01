@@ -206,7 +206,9 @@ function ContentEntry({
             {content.location && content.languages.length > 0 ? " · " : ""}
             {content.languages.join(", ")}
           </p>
-          <h3>{content.title}</h3>
+          <h3 lang="en" dir="ltr" data-no-translate>
+            {content.title}
+          </h3>
           {content.titleSyriac ? (
             <p className="manuscript-content-entry__syriac" lang="syr" dir="rtl">
               {content.titleSyriac}
@@ -360,9 +362,18 @@ function ManuscriptDetailsInner() {
           <p className="catalog-kicker">
             {record.category} · HMML {record.id}
           </p>
-          <h1>{title}</h1>
+          <h1 lang="en" dir="ltr" data-no-translate>
+            {title}
+          </h1>
           {record.commonName && record.titles[0] ? (
-            <p className="manuscript-record__subtitle">{record.titles[0]}</p>
+            <p
+              className="manuscript-record__subtitle"
+              lang="en"
+              dir="ltr"
+              data-no-translate
+            >
+              {record.titles[0]}
+            </p>
           ) : null}
           <p className="manuscript-record__shelfmark" data-no-translate>
             {record.shelfmark}
@@ -370,10 +381,12 @@ function ManuscriptDetailsInner() {
         </div>
         <div className="manuscript-record__repository">
           <p>Held by</p>
-          <h2>{record.repository}</h2>
+          <h2 lang="en" dir="ltr" data-no-translate>
+            {record.repository}
+          </h2>
           <span>{place(record)}</span>
           <a href={record.purl} target="_blank" rel="noreferrer">
-            Open the permanent HMML record
+            View the manuscript
             <Arrow />
           </a>
         </div>
