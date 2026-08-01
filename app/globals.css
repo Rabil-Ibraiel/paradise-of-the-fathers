@@ -4370,7 +4370,8 @@ html[dir="rtl"] .home-records article > a:focus-visible .home-records__action sv
   scroll-margin-top: 110px;
 }
 
-.record-row:target {
+.record-row:target,
+.record-row[data-anchor-active="true"] {
   background: rgba(176, 138, 67, 0.09);
 }
 

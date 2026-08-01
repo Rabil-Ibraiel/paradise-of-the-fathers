@@ -209,6 +209,45 @@ export function ManuscriptCatalog() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    if (!catalog) return;
+
+    let firstFrame = 0;
+    let secondFrame = 0;
+
+    const revealLinkedRecord = () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+
+      const targetId = decodeURIComponent(window.location.hash.slice(1));
+      if (!targetId.startsWith("manuscript-")) return;
+
+      firstFrame = requestAnimationFrame(() => {
+        secondFrame = requestAnimationFrame(() => {
+          const target = document.getElementById(targetId);
+          if (!target) return;
+
+          document
+            .querySelectorAll<HTMLElement>(
+              '.record-row[data-anchor-active="true"]',
+            )
+            .forEach((record) => delete record.dataset.anchorActive);
+          target.dataset.anchorActive = "true";
+          target.scrollIntoView({ block: "start" });
+        });
+      });
+    };
+
+    revealLinkedRecord();
+    window.addEventListener("hashchange", revealLinkedRecord);
+
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+      window.removeEventListener("hashchange", revealLinkedRecord);
+    };
+  }, [catalog]);
+
   const countries = useMemo(() => {
     if (!catalog) return [];
 
