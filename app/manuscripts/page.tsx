@@ -210,7 +210,9 @@ export default function ManuscriptsPage() {
               </div>
               <div className="record-row__copy">
                 <p>{manuscript.place}</p>
-                <h2>{manuscript.title}</h2>
+                <h2 lang="en" dir="ltr" data-no-translate>
+                  {manuscript.title}
+                </h2>
                 <p>{manuscript.description}</p>
               </div>
               <a href={manuscript.url} target="_blank" rel="noreferrer">
@@ -245,7 +247,9 @@ export default function ManuscriptsPage() {
                 <span>{manuscript.date}</span>
                 <div>
                   <small>{manuscript.shelfmark} · {manuscript.collection}</small>
-                  <h3>{manuscript.title}</h3>
+                  <h3 lang="en" dir="ltr" data-no-translate>
+                    {manuscript.title}
+                  </h3>
                   <p>{manuscript.description}</p>
                 </div>
                 <span className="digitized-row__action">

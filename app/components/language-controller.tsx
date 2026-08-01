@@ -480,8 +480,23 @@ const transliterationPairs: Array<[string, string]> = [
   ["ou", "و"],
 ];
 
+const arabicTashkeel =
+  /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g;
+const arabicIndicDigits = "٠١٢٣٤٥٦٧٨٩";
+const easternArabicDigits = "۰۱۲۳۴۵۶۷۸۹";
+
+function normalizeArabicPresentation(value: string) {
+  return value
+    .replace(arabicTashkeel, "")
+    .replace(/[٠-٩]/g, (digit) => String(arabicIndicDigits.indexOf(digit)))
+    .replace(/[۰-۹]/g, (digit) => String(easternArabicDigits.indexOf(digit)))
+    .replace(/\u066B/g, ".")
+    .replace(/\u066C/g, ",")
+    .replace(/\u066A/g, "%");
+}
+
 function toArabicDigits(value: string) {
-  return value.replace(/\d/g, (digit) => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
+  return normalizeArabicPresentation(value);
 }
 
 function transliterateLatinWord(value: string) {
@@ -507,6 +522,13 @@ function transliterateLatinWord(value: string) {
 }
 
 function translateUnknownCatalogueText(value: string) {
+  const latinWords = value.match(/\p{Script=Latin}+/gu) ?? [];
+  const containsUnverifiedName = latinWords.some(
+    (word) => commonCatalogueWords[word.toLocaleLowerCase()] === undefined,
+  );
+
+  if (containsUnverifiedName) return value;
+
   return toArabicDigits(
     value.replace(/\p{Script=Latin}+/gu, (word) => {
       const known = commonCatalogueWords[word.toLocaleLowerCase()];
@@ -585,13 +607,13 @@ function translateValue(value: string, parent?: Element | null) {
       translated = `المصدر ${source[1]}: ${translateValue(source[2])}`;
     }
     if (manuscriptLink) {
-      translated = `عرض المخطوطة: ${translateValue(manuscriptLink[1])}`;
+      translated = `عرض المخطوطة: ${manuscriptLink[1]}`;
     }
     if (profileLink) {
       translated = `اقرأ سيرة ${translateValue(profileLink[1])}`;
     }
     if (digitizedCover) {
-      translated = `غلاف رقمي لكتاب «${translateValue(digitizedCover[1])}»`;
+      translated = `غلاف رقمي لكتاب «${digitizedCover[1]}»`;
     }
     if (recordUpdated) {
       translated = `تحديث السجل ${toArabicDigits(recordUpdated[1])}`;
@@ -624,7 +646,15 @@ function translateValue(value: string, parent?: Element | null) {
     translated = translateUnknownCatalogueText(clean);
   }
 
-  return translated ? `${leading}${translated}${trailing}` : value;
+  if (translated) {
+    return `${leading}${normalizeArabicPresentation(translated)}${trailing}`;
+  }
+
+  if (/\p{Script=Arabic}/u.test(clean)) {
+    return `${leading}${normalizeArabicPresentation(clean)}${trailing}`;
+  }
+
+  return value;
 }
 
 function shouldTranslate(node: Text) {
