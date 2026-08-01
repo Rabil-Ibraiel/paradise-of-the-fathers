@@ -16,6 +16,24 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetPath = (path: string) => `${basePath}${path}`;
 const pagePath = (path: string) => `${basePath}${path}/`;
 
+function SaintSourceLabel({ label }: { label: string }) {
+  const [mainLabel, syriacLabel] = label.split(" — ");
+
+  if (!syriacLabel || !/[\u0700-\u074f]/u.test(syriacLabel)) {
+    return label;
+  }
+
+  return (
+    <>
+      <span>{mainLabel}</span>
+      <span aria-hidden="true"> — </span>
+      <span lang="syr" dir="rtl" translate="no">
+        {syriacLabel}
+      </span>
+    </>
+  );
+}
+
 export function generateStaticParams() {
   return saints.map((saint) => ({ slug: saint.slug }));
 }
@@ -255,7 +273,9 @@ export default async function SaintProfile({
                     {sourceIndex + 1}
                   </span>
                   <span>
-                    <strong>{source.label}</strong>
+                    <strong>
+                      <SaintSourceLabel label={source.label} />
+                    </strong>
                     <small>{source.publisher}</small>
                   </span>
                   <span aria-hidden="true">↗</span>
