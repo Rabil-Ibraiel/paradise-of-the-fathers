@@ -173,16 +173,20 @@ function ProseField({
   label,
   value,
   dir,
+  translationContext,
 }: {
   label: string;
   value: string;
   dir?: "auto";
+  translationContext?: "manuscript-condition";
 }) {
   if (!value) return null;
   return (
     <div className="manuscript-prose-field">
       <h3>{label}</h3>
-      <p dir={dir}>{value}</p>
+      <p dir={dir} data-translation-context={translationContext}>
+        {value}
+      </p>
     </div>
   );
 }
@@ -416,7 +420,11 @@ function ManuscriptDetailsInner() {
           </header>
           <div>
             <ProseField label="General notes" value={record.description.notes} />
-            <ProseField label="Condition" value={record.description.condition} />
+            <ProseField
+              label="Condition"
+              value={record.description.condition}
+              translationContext="manuscript-condition"
+            />
             <ProseField label="Collation" value={record.description.collation} />
             <ProseField label="Binding" value={record.description.binding} />
             <ProseField label="Provenance" value={record.description.provenance} />
