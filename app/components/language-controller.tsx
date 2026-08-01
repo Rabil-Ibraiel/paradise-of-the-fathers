@@ -32,7 +32,7 @@ const arabicText: Record<string, string> = {
   "Manuscripts.": "المخطوطات.",
   "This room begins with catalogued witnesses. It names shelfmarks, dates, and limits openly, so that beauty never comes at the cost of historical clarity.":
     "تبدأ هذه القاعة بالشواهد المفهرسة، وتعرض أرقام الحفظ والتواريخ بوضوح، ليبقى الجمال مقرونًا بالدقة التاريخية.",
-  "HMML Reading Room · CC BY 4.0": "قاعة مطالعة HMML · CC BY 4.0",
+  "HMML Reading Room · CC BY 4.0": "HMML Reading Room · CC BY 4.0",
   "Search real manuscript metadata by title, shelfmark, repository, country, author, or subject. Every result returns to its permanent holding-library record.":
     "ابحث في بيانات المخطوطات الموثقة بحسب العنوان أو رقم الحفظ أو المكتبة أو البلد أو المؤلف أو الموضوع. يقود كل سجل إلى صفحته التفصيلية.",
   "Manuscript categories": "تصنيفات المخطوطات",
@@ -65,9 +65,9 @@ const arabicText: Record<string, string> = {
   "Opening the Syriac manuscript index…": "جارٍ فتح فهرس المخطوطات السريانية…",
   "The catalogue file could not be opened.": "تعذّر فتح ملف الفهرس.",
   "The catalogue could not be opened.": "تعذّر فتح الفهرس.",
-  "Search directly in HMML Data Portal": "البحث مباشرة في بوابة بيانات HMML",
+  "Search directly in HMML Data Portal": "البحث مباشرة في HMML Data Portal",
   "Metadata: HMML Reading Room weekly dataset, updated":
-    "البيانات الوصفية: مجموعة بيانات قاعة مطالعة HMML الأسبوعية، حُدّثت",
+    "البيانات الوصفية: مجموعة بيانات HMML Reading Room الأسبوعية، حُدّثت",
   "Dataset & schema": "مجموعة البيانات وبنيتها",
   "Syri.ac discovery gateway": "بوابة الاستكشاف Syri.ac",
   "Ways into a manuscript collection": "مداخل إلى مجموعة مخطوطات",
@@ -284,7 +284,7 @@ const arabicText: Record<string, string> = {
   "Open-library pathways": "مسارات إلى المكتبات المفتوحة",
   "The shelf continues elsewhere.": "يمتد الرف إلى أماكن أخرى.",
   "Internet Archive supplies the complete digitized editions and cover previews used here. Open Library provides searchable bibliographic records and cover services for readers who want to compare editions.":
-    "يوفّر أرشيف الإنترنت الطبعات الرقمية الكاملة ومعاينات الأغلفة المستعملة هنا، وتقدّم المكتبة المفتوحة سجلات ببليوغرافية قابلة للبحث لمن يريد مقارنة الطبعات.",
+    "يوفّر Internet Archive الطبعات الرقمية الكاملة ومعاينات الأغلفة المستعملة هنا، وتقدّم Open Library سجلات ببليوغرافية قابلة للبحث لمن يريد مقارنة الطبعات.",
   "Syri.ac bibliography": "ببليوغرافيا Syri.ac",
   "How Syri.ac helps this archive": "كيف يساعد Syri.ac هذا الأرشيف",
   "From a remembered life to the texts that preserve it.":
@@ -292,9 +292,9 @@ const arabicText: Record<string, string> = {
   "The saint profiles remain short and welcoming. Syri.ac supplies the next step: manuscript witnesses, historic editions, translations, bibliographies, and the scholarly paths between them.":
     "تبقى سِيَر القديسين موجزة ومرحّبة، ويقدّم Syri.ac الخطوة التالية: شواهد مخطوطة وطبعات تاريخية وترجمات وببليوغرافيات ومسارات البحث التي تصل بينها.",
   "About the Syri.ac project": "عن مشروع Syri.ac",
-  "Read at Internet Archive": "اقرأ في أرشيف الإنترنت",
+  "Read at Internet Archive": "اقرأ في Internet Archive",
   "Digitized-book covers are displayed from Internet Archive. Bibliographic pathways are checked against Syri.ac and Syriaca.org.":
-    "تُعرض أغلفة الكتب الرقمية من أرشيف الإنترنت، وتُراجع المسارات الببليوغرافية بالاستناد إلى Syri.ac وSyriaca.org.",
+    "تُعرض أغلفة الكتب الرقمية من Internet Archive، وتُراجع المسارات الببليوغرافية بالاستناد إلى Syri.ac وSyriaca.org.",
   "DOCUMENTED DEVOTIONAL IMAGE · CC0": "صورة تعبدية موثقة · CC0",
   "A NEW ILLUSTRATED ARCHIVE · I": "أرشيف مصوّر جديد · ١",
   "Opening The Paradise of the Fathers": "جارٍ فتح فردوس الآباء",
@@ -484,15 +484,63 @@ const arabicTashkeel =
   /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g;
 const arabicIndicDigits = "٠١٢٣٤٥٦٧٨٩";
 const easternArabicDigits = "۰۱۲۳۴۵۶۷۸۹";
+const leftToRightIsolate = "\u2066";
+const popDirectionalIsolate = "\u2069";
+
+const websiteNameAliases: Array<[string, string]> = [
+  ["إتش إم إم إل", "HMML"],
+  ["سري.أك", "Syri.ac"],
+  ["سرياكا.أورغ", "Syriaca.org"],
+  ["موقع سرياكا", "Syriaca.org"],
+  ["أرشيف الإنترنت", "Internet Archive"],
+  ["المكتبة المفتوحة", "Open Library"],
+];
+
+const protectedWebsiteNames = [
+  "Gorgias Encyclopedic Dictionary of the Syriac Heritage",
+  "HMML Reading Room",
+  "HMML Data Portal",
+  "Internet Archive",
+  "Wikimedia Commons",
+  "Open Library",
+  "Syriaca.org",
+  "Beth Mardutho",
+  "Syri.ac",
+  "GEDSH",
+  "HMML",
+  "CC BY 4.0",
+] as const;
+
+const protectedWebsiteNamePattern = new RegExp(
+  protectedWebsiteNames
+    .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|"),
+  "g",
+);
+
+function preserveWebsiteNames(value: string) {
+  let result = value.replace(/[\u2066\u2069]/g, "");
+
+  websiteNameAliases.forEach(([translatedName, officialName]) => {
+    result = result.replaceAll(translatedName, officialName);
+  });
+
+  return result.replace(
+    protectedWebsiteNamePattern,
+    (name) => `${leftToRightIsolate}${name}${popDirectionalIsolate}`,
+  );
+}
 
 function normalizeArabicPresentation(value: string) {
-  return value
-    .replace(arabicTashkeel, "")
-    .replace(/[٠-٩]/g, (digit) => String(arabicIndicDigits.indexOf(digit)))
-    .replace(/[۰-۹]/g, (digit) => String(easternArabicDigits.indexOf(digit)))
-    .replace(/\u066B/g, ".")
-    .replace(/\u066C/g, ",")
-    .replace(/\u066A/g, "%");
+  return preserveWebsiteNames(
+    value
+      .replace(arabicTashkeel, "")
+      .replace(/[٠-٩]/g, (digit) => String(arabicIndicDigits.indexOf(digit)))
+      .replace(/[۰-۹]/g, (digit) => String(easternArabicDigits.indexOf(digit)))
+      .replace(/\u066B/g, ".")
+      .replace(/\u066C/g, ",")
+      .replace(/\u066A/g, "%"),
+  );
 }
 
 function toArabicDigits(value: string) {

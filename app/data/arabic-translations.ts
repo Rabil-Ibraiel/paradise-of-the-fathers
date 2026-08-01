@@ -152,7 +152,7 @@ export const arabicEditorialText: Record<string, string> = {
   "What changes when mercy becomes the measure of spiritual maturity?":
     "ما الذي يتغيّر حين تصير الرحمة مقياس النضج الروحي؟",
   "The hagiographical tradition recorded by Syriaca.org remembers Isaac as a late seventh-century monastic author from Beth Qatraye who briefly served as bishop of Nineveh before returning to the solitary and monastic life. These details belong to the received life of the saint rather than to a contemporary biography.":
-    "يذكر التقليد السيري الذي حفظه موقع سرياكا إسحاق كاتبًا رهبانيًا من بيت قطرايي في أواخر القرن السابع، خدم مدة قصيرة أسقفًا لنينوى قبل أن يعود إلى حياة العزلة والرهبنة. وتنتمي هذه التفاصيل إلى السيرة المتوارثة للقديس، لا إلى ترجمة معاصرة لحياته.",
+    "يذكر التقليد السيري الذي حفظه Syriaca.org إسحاق كاتبًا رهبانيًا من بيت قطرايي في أواخر القرن السابع، خدم مدة قصيرة أسقفًا لنينوى قبل أن يعود إلى حياة العزلة والرهبنة. وتنتمي هذه التفاصيل إلى السيرة المتوارثة للقديس، لا إلى ترجمة معاصرة لحياته.",
   "His ascetical writings were composed in Syriac and circulated far beyond the Church of the East through ancient translations. That wide reception made him one of the most influential Syriac spiritual writers in global Christianity.":
     "كُتبت مؤلفاته النسكية بالسريانية وانتشرت، بفضل الترجمات القديمة، إلى ما وراء كنيسة المشرق بكثير. وقد جعله هذا الانتشار واحدًا من أكثر الكتّاب الروحيين السريان تأثيرًا في المسيحية العالمية.",
   "Isaac’s works are not a systematic biography. The details of his life remain limited, while the spiritual teaching preserved under his name is extensive. A responsible profile therefore gives greater confidence to his literary legacy than to later attempts to fill every gap in his story.":
@@ -223,7 +223,7 @@ export const arabicEditorialText: Record<string, string> = {
   "Which structure in your life could protect what you value most?":
     "أيّ نظام في حياتك يمكنه أن يحمي أكثر ما تقدّره؟",
   "Abraham of Kashkar was a monk, founder, and abbot of the Great Monastery on Mount Izla. Syriaca.org records his death in the later sixth century and his East Syriac commemoration on 2 May.":
-    "كان إبراهيم الكشكري راهبًا ومؤسّسًا ورئيسًا للدير الكبير على جبل إيزلا. ويسجّل موقع سرياكا وفاته في أواخر القرن السادس وتذكاره السرياني الشرقي في الثاني من أيار.",
+    "كان إبراهيم الكشكري راهبًا ومؤسّسًا ورئيسًا للدير الكبير على جبل إيزلا. ويسجّل Syriaca.org وفاته في أواخر القرن السادس وتذكاره السرياني الشرقي في الثاني من أيار.",
   "He became a central figure in the renewal and organization of monasticism within the Church of the East. Later tradition called him the Father of the Monks of the Orient.":
     "صار شخصية محورية في تجديد الرهبنة وتنظيمها داخل كنيسة المشرق، وسمّاه التقليد اللاحق «أبا رهبان المشرق».",
   "A Syriac life preserves his hagiographical memory, while monastic rules connected with his reform offer evidence for the ideals later communities associated with his name.":
@@ -291,7 +291,7 @@ export const arabicEditorialText: Record<string, string> = {
   "Which places have taught your community how to remember?":
     "أيّ أماكن علّمت جماعتك كيف تحفظ الذاكرة؟",
   "Syriaca.org describes Rabban Hormizd as a monastic founder of the Church of the East who lived in the seventh century and spent many years at the monastery of Rabban Bar ʿIdta.":
-    "يصف موقع سرياكا الربّان هرمزد مؤسّسًا رهبانيًا من كنيسة المشرق عاش في القرن السابع وقضى سنوات كثيرة في دير الربّان بر عِدتا.",
+    "يصف Syriaca.org الربّان هرمزد مؤسّسًا رهبانيًا من كنيسة المشرق عاش في القرن السابع وقضى سنوات كثيرة في دير الربّان بر عِدتا.",
   "He later founded the monastery northeast of Alqosh that bears his name. The monastery became a major center in the transmission of East Syriac literature and ecclesiastical history.":
     "أسّس لاحقًا الدير الواقع شمال شرقي ألقوش الذي يحمل اسمه. وصار الدير مركزًا كبيرًا لنقل الأدب السرياني الشرقي والتاريخ الكنسي.",
   "The surviving life is hagiographical and should not be treated as a modern biography. It nevertheless preserves the community’s account of a saint, a foundation, and a sacred landscape.":
@@ -416,10 +416,10 @@ export const arabicEditorialText: Record<string, string> = {
   "A visual reference for dated Syriac scripts and manuscripts, allowing readers to compare forms of writing across centuries.":
     "مرجع بصري للخطوط والمخطوطات السريانية المؤرخة، يتيح للقارئ مقارنة أشكال الكتابة عبر القرون.",
   "Our introduction": "مقدمتنا",
-  "Syriaca.org work record": "سجل العمل في سرياكا.أورغ",
-  "Syri.ac research guide": "دليل البحث في سِري.أك",
-  "Syri.ac bibliography": "ببليوغرافيا سِري.أك",
-  "Read at Internet Archive": "اقرأ في أرشيف الإنترنت",
+  "Syriaca.org work record": "سجل العمل في Syriaca.org",
+  "Syri.ac research guide": "دليل البحث في Syri.ac",
+  "Syri.ac bibliography": "ببليوغرافيا Syri.ac",
+  "Read at Internet Archive": "اقرأ في Internet Archive",
   "Digitized cover of": "غلاف رقمي لكتاب",
 
   // Manuscript room and catalogue language
@@ -493,7 +493,7 @@ export const arabicEditorialText: Record<string, string> = {
   "Show the next": "عرض السجلات التالية",
   Part: "الجزء",
   All: "الكل",
-  "· HMML": "· إتش إم إم إل",
+  "· HMML": "· HMML",
   "c. 700": "نحو ٧٠٠م",
   "is the familiar English name of a classic Syriac collection. This website is a new, independent illustrated series about saints of the Church of the East.":
     "هو الاسم الإنكليزي المألوف لمجموعة سريانية كلاسيكية. وهذا الموقع سلسلة مصوّرة جديدة ومستقلة عن قديسي كنيسة المشرق.",
@@ -517,42 +517,42 @@ export const arabicEditorialText: Record<string, string> = {
   "Search 11,590 Syriac manuscript records and explore a carefully explained selection of East Syriac witnesses.":
     "ابحث في ١١٬٥٩٠ سجلًا لمخطوطات سريانية، واستكشف مجموعة مشروحة بعناية من الشواهد السريانية الشرقية.",
   "Read the complete reusable HMML catalogue description for a Syriac manuscript witness.":
-    "اقرأ الوصف الفهرسي الكامل لشاهد مخطوط سرياني من إتش إم إم إل.",
+    "اقرأ الوصف الفهرسي الكامل لشاهد مخطوط سرياني من HMML.",
   "The old Syriac book behind the name, and the purpose of this new illustrated Church of the East archive.":
     "الكتاب السرياني القديم وراء الاسم، وغاية هذا الأرشيف المصوّر الجديد لكنيسة المشرق.",
-  "Internet Archive": "أرشيف الإنترنت",
-  "Open Library": "المكتبة المفتوحة",
+  "Internet Archive": "Internet Archive",
+  "Open Library": "Open Library",
   "HMML Reading Room · CC BY 4.0":
-    "قاعة مطالعة إتش إم إم إل · المشاع الإبداعي: نَسب المُصنَّف ٤٫٠",
+    "HMML Reading Room · CC BY 4.0",
   "Search directly in HMML Data Portal":
-    "البحث مباشرة في بوابة بيانات إتش إم إم إل",
+    "البحث مباشرة في HMML Data Portal",
   "Metadata: HMML Reading Room weekly dataset, updated":
-    "البيانات الوصفية: مجموعة بيانات قاعة مطالعة إتش إم إم إل الأسبوعية، حُدّثت",
-  "Syri.ac discovery gateway": "بوابة الاستكشاف سِري.أك",
-  "Open Syri.ac’s faceted search": "افتح البحث المصنّف في سِري.أك",
+    "البيانات الوصفية: مجموعة بيانات HMML Reading Room الأسبوعية، حُدّثت",
+  "Syri.ac discovery gateway": "بوابة الاستكشاف Syri.ac",
+  "Open Syri.ac’s faceted search": "افتح البحث المصنّف في Syri.ac",
   "Syri.ac brings dispersed catalogue data into one searchable gateway. These four records are especially close to the saints and liturgical memory gathered in this archive.":
-    "يجمع سِري.أك بيانات الفهارس المتفرقة في بوابة واحدة قابلة للبحث. وترتبط هذه السجلات الأربعة خصوصًا بالقديسين والذاكرة الطقسية في هذا الأرشيف.",
-  "Three doors into Syri.ac.": "ثلاثة أبواب إلى سِري.أك.",
+    "يجمع Syri.ac بيانات الفهارس المتفرقة في بوابة واحدة قابلة للبحث. وترتبط هذه السجلات الأربعة خصوصًا بالقديسين والذاكرة الطقسية في هذا الأرشيف.",
+  "Three doors into Syri.ac.": "ثلاثة أبواب إلى Syri.ac.",
   "Syri.ac is an annotated bibliography of open-access resources hosted by the University of Oklahoma. We point into it rather than reproduce its database.":
-    "سِري.أك ببليوغرافيا مشروحة لمصادر مفتوحة تستضيفها جامعة أوكلاهوما. نوجّه القارئ إليها مع الحفاظ على مرجعية قاعدة بياناتها.",
-  "Terminology source: Syri.ac": "مصدر المصطلحات: سِري.أك",
-  "Open the permanent HMML record": "فتح سجل إتش إم إم إل الدائم",
-  "HMML project": "مشروع إتش إم إم إل",
-  "HMML schema": "بنية إتش إم إم إل",
-  HMML: "إتش إم إم إل",
-  "CC BY 4.0": "المشاع الإبداعي: نَسب المُصنَّف ٤٫٠",
-  "How Syri.ac helps this archive": "كيف يساعد سِري.أك هذا الأرشيف",
+    "Syri.ac ببليوغرافيا مشروحة لمصادر مفتوحة تستضيفها جامعة أوكلاهوما. نوجّه القارئ إليها مع الحفاظ على مرجعية قاعدة بياناتها.",
+  "Terminology source: Syri.ac": "مصدر المصطلحات: Syri.ac",
+  "Open the permanent HMML record": "فتح سجل HMML الدائم",
+  "HMML project": "مشروع HMML",
+  "HMML schema": "بنية HMML",
+  HMML: "HMML",
+  "CC BY 4.0": "CC BY 4.0",
+  "How Syri.ac helps this archive": "كيف يساعد Syri.ac هذا الأرشيف",
   "The saint profiles remain short and welcoming. Syri.ac supplies the next step: manuscript witnesses, historic editions, translations, bibliographies, and the scholarly paths between them.":
-    "تبقى سِيَر القديسين موجزة ومرحّبة، ويقدّم سِري.أك الخطوة التالية: شواهد مخطوطة وطبعات تاريخية وترجمات وببليوغرافيات ومسارات البحث التي تصل بينها.",
-  "About the Syri.ac project": "عن مشروع سِري.أك",
+    "تبقى سِيَر القديسين موجزة ومرحّبة، ويقدّم Syri.ac الخطوة التالية: شواهد مخطوطة وطبعات تاريخية وترجمات وببليوغرافيات ومسارات البحث التي تصل بينها.",
+  "About the Syri.ac project": "عن مشروع Syri.ac",
   "Digitized-book covers are displayed from Internet Archive. Bibliographic pathways are checked against Syri.ac and Syriaca.org.":
-    "تُعرض أغلفة الكتب الرقمية من أرشيف الإنترنت، وتُراجع المسارات الببليوغرافية بالاستناد إلى سِري.أك وسرياكا.أورغ.",
+    "تُعرض أغلفة الكتب الرقمية من Internet Archive، وتُراجع المسارات الببليوغرافية بالاستناد إلى Syri.ac وSyriaca.org.",
   "DOCUMENTED DEVOTIONAL IMAGE · CC0":
     "صورة تعبدية موثقة · المشاع الإبداعي صفر",
   "This address does not contain a valid HMML record number.":
-    "لا يحتوي هذا العنوان على رقم سجل صالح في إتش إم إم إل.",
+    "لا يحتوي هذا العنوان على رقم سجل صالح في HMML.",
   "Loading the complete reusable HMML description…":
-    "جارٍ تحميل وصف إتش إم إم إل الكامل للمخطوطة…",
+    "جارٍ تحميل وصف HMML الكامل للمخطوطة…",
   "Gospels (Peshitta version)": "الأناجيل (نسخة البشيطتا)",
   "Liturgical chants": "تراتيل طقسية",
   "Theodoret, Bishop of Cyrrhus, 393-496":
