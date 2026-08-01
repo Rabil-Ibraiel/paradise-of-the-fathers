@@ -162,16 +162,26 @@ export default function Home() {
           </div>
           <div className="home-records">
             <article>
-              <span>1203</span>
-              <h3>Church of the East Psalter</h3>
-              <p>Eastern Syriac vocalization and line illustrations.</p>
-              <small>British Library · Add MS 7154</small>
+              <Link href="/manuscripts/#manuscript-add-ms-7154">
+                <span>1203</span>
+                <h3>Church of the East Psalter</h3>
+                <p>Eastern Syriac vocalization and line illustrations.</p>
+                <small>British Library · Add MS 7154</small>
+                <span className="home-records__action">
+                  Open manuscript record <Arrow />
+                </span>
+              </Link>
             </article>
             <article>
-              <span>1499</span>
-              <h3>Gospel Lectionary</h3>
-              <p>Geometric illumination within an East Syriac book.</p>
-              <small>British Library · Add MS 7174</small>
+              <Link href="/manuscripts/#manuscript-add-ms-7174">
+                <span>1499</span>
+                <h3>Gospel Lectionary</h3>
+                <p>Geometric illumination within an East Syriac book.</p>
+                <small>British Library · Add MS 7174</small>
+                <span className="home-records__action">
+                  Open manuscript record <Arrow />
+                </span>
+              </Link>
             </article>
           </div>
         </section>

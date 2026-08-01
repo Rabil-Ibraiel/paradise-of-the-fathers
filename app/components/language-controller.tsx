@@ -204,6 +204,7 @@ const arabicText: Record<string, string> = {
   "Three catalogued witnesses introduce the craft, prayer, and memory of the East Syriac scribal world.":
     "تقدّم ثلاثة شواهد مفهرسة حرفة عالم النساخة السريانية الشرقية وصلاته وذاكرته.",
   "Enter the manuscript room": "ادخل قاعة المخطوطات",
+  "Open manuscript record": "عرض سجل المخطوطة",
   "Church of the East Psalter": "مزامير كنيسة المشرق",
   "Eastern Syriac vocalization and line illustrations.":
     "ضبط سرياني شرقي ورسوم خطية.",
