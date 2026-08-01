@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 const manuscripts = [
   {
+    slug: "add-ms-12138",
     date: "899",
     shelfmark: "Add MS 12138",
     title: "Peshitta readings",
@@ -20,6 +21,7 @@ const manuscripts = [
     url: "https://searcharchives.bl.uk/catalog/032-003470083",
   },
   {
+    slug: "add-ms-7154",
     date: "1203",
     shelfmark: "Add MS 7154",
     title: "Church of the East Psalter",
@@ -29,6 +31,7 @@ const manuscripts = [
     url: "https://searcharchives.bl.uk/catalog/032-003474562",
   },
   {
+    slug: "add-ms-7174",
     date: "1499",
     shelfmark: "Add MS 7174",
     title: "Gospel Lectionary",
@@ -200,7 +203,11 @@ export default function ManuscriptsPage() {
 
         <section className="record-list" id="manuscript-list">
           {manuscripts.map((manuscript, index) => (
-            <article className="record-row" key={manuscript.shelfmark}>
+            <article
+              className="record-row"
+              id={`manuscript-${manuscript.slug}`}
+              key={manuscript.shelfmark}
+            >
               <span className="record-row__number">
                 {String(index + 1).padStart(2, "0")}
               </span>
