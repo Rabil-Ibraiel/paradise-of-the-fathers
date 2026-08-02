@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const signInHref = "/signin-with-chatgpt?return_to=%2Fadmin%2F";
-const switchAccountHref = "/signout-with-chatgpt?return_to=%2Fadmin%2Flogin%2F";
+const signInHref = "/admin/login/start/";
 
 export default function AdminLoginPage() {
   return (
@@ -22,10 +21,9 @@ export default function AdminLoginPage() {
         </p>
         <a className={styles.googleButton} href={signInHref}>Continue with Google</a>
         <small>
-          Secure sign-in is handled by ChatGPT. Choose “Continue with Google”
-          on the next screen.
+          This first clears any previous session. Secure sign-in is handled by
+          ChatGPT; choose “Continue with Google” on the next screen.
         </small>
-        <a className={styles.switchAccount} href={switchAccountHref}>Sign out and use another account</a>
       </section>
     </main>
   );
