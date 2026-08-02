@@ -16,6 +16,7 @@ export type SaintSource = {
 export type HistoricalParagraph = {
   text: string;
   sourceIndexes: number[];
+  arabicText?: string;
 };
 
 export type Saint = {
@@ -38,6 +39,25 @@ export type Saint = {
   historicalContext: HistoricalParagraph[];
   themes: string[];
   sources: SaintSource[];
+  isEditorial?: boolean;
+  arabic?: {
+    name: string;
+    title: string;
+    era: string;
+    place: string;
+    summary: string;
+    imageAlt: string;
+    imageCaption: string;
+    devotionalIntroduction: string;
+    reflection: string;
+    themes: string[];
+  };
+  lifeChapters?: Array<{
+    title: string;
+    arabicTitle: string;
+    paragraphs: Array<HistoricalParagraph & { arabicText: string }>;
+  }>;
+  imageLicense?: string;
 };
 
 export const saints: Saint[] = [

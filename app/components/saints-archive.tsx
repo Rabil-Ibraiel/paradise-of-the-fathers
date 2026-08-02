@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { saints } from "../data/saints";
+import { useEffect, useMemo, useState } from "react";
+import { saints, type Saint } from "../data/saints";
+import { loadEditorialContent, mapEditorialSaint } from "../lib/editorial-client";
 import { SaintCard } from "./saint-card";
 
 const filters = [
@@ -38,12 +39,31 @@ const filters = [
 ] as const;
 
 export function SaintsArchive() {
+  const [editorialSaints, setEditorialSaints] = useState<Saint[]>([]);
   const [activeFilter, setActiveFilter] =
     useState<(typeof filters)[number]["name"]>("All");
+
+  useEffect(() => {
+    let active = true;
+    void loadEditorialContent().then((response) => {
+      if (!active) return;
+      setEditorialSaints(
+        response.records
+          .filter((record) => record.type === "saint")
+          .map((record) => mapEditorialSaint(record as Parameters<typeof mapEditorialSaint>[0])),
+      );
+    }).catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  const allSaints = useMemo(() => {
+    const editorialSlugs = new Set(editorialSaints.map((saint) => saint.slug));
+    return [...editorialSaints, ...saints.filter((saint) => !editorialSlugs.has(saint.slug))];
+  }, [editorialSaints]);
   const visibleSaints =
     activeFilter === "All"
-      ? saints
-      : saints.filter((saint) => saint.category === activeFilter);
+      ? allSaints
+      : allSaints.filter((saint) => saint.category === activeFilter);
 
   return (
     <>
@@ -62,8 +82,8 @@ export function SaintsArchive() {
             </span>
             <b>
               {filter.name === "All"
-                ? saints.length
-                : saints.filter((saint) => saint.category === filter.name).length}
+                ? allSaints.length
+                : allSaints.filter((saint) => saint.category === filter.name).length}
             </b>
           </button>
         ))}
@@ -72,7 +92,7 @@ export function SaintsArchive() {
         {visibleSaints.map((saint) => (
           <SaintCard
             saint={saint}
-            index={saints.indexOf(saint)}
+            index={allSaints.indexOf(saint)}
             key={saint.slug}
           />
         ))}

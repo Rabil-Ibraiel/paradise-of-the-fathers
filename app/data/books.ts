@@ -6,6 +6,7 @@ export type BookCategory =
   | "Manuscript Study";
 
 export type ArchiveBook = {
+  slug?: string;
   title: string;
   syriac: string;
   category: BookCategory;
@@ -18,6 +19,22 @@ export type ArchiveBook = {
   readingHref?: string;
   cover?: string;
   internal?: boolean;
+  isEditorial?: boolean;
+  arabic?: {
+    title: string;
+    kind: string;
+    description: string;
+    notes: string;
+    sourceLabel: string;
+  };
+  publisher?: string;
+  edition?: string;
+  publicationPlace?: string;
+  languages?: string[];
+  subjects?: string[];
+  notes?: string;
+  coverSourceUrl?: string;
+  coverLicense?: string;
 };
 
 export const bookCategories: {
@@ -45,6 +62,13 @@ export const bookCategories: {
     description: "Tools for seeing scripts, dates, pages, and the hands behind them.",
   },
 ];
+
+export function bookSlug(book: Pick<ArchiveBook, "slug" | "title">) {
+  return book.slug ?? book.title
+    .toLocaleLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
 export const archiveBooks: ArchiveBook[] = [
   {
