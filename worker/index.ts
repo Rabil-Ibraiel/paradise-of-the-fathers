@@ -20,7 +20,7 @@ interface Env {
       };
     };
   };
-  ADMIN_USER_ID?: string;
+  ADMIN_EMAIL?: string;
 }
 
 interface ExecutionContext {
@@ -103,10 +103,19 @@ async function getAdminAccess(request: Request, env: Env) {
   const authenticatedUserId = request.headers
     .get("oai-authenticated-user-id")
     ?.trim();
+  const authenticatedEmail = request.headers
+    .get("oai-authenticated-user-email")
+    ?.trim()
+    .toLocaleLowerCase();
   if (!authenticatedUserId) {
     return { allowed: false as const, status: 401, reason: "Sign in is required." };
   }
-  if (!env.ADMIN_USER_ID || authenticatedUserId !== env.ADMIN_USER_ID) {
+  const authorizedByEmail = Boolean(
+    env.ADMIN_EMAIL
+      && authenticatedEmail
+      && authenticatedEmail === env.ADMIN_EMAIL.trim().toLocaleLowerCase(),
+  );
+  if (!authorizedByEmail) {
     return {
       allowed: false as const,
       status: 403,
