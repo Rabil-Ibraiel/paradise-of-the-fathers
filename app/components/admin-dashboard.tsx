@@ -18,9 +18,7 @@ import styles from "../admin/admin.module.css";
 
 type AdminSession = {
   authenticated: true;
-  networkLocked: boolean;
-  currentIp: string;
-  lockedIp: string;
+  email: string;
 };
 
 function newRecord(type: EditorialType): EditorialRecord {
@@ -122,7 +120,6 @@ export function AdminDashboard() {
     () => draft ? editorialChecks(draft.type, draft.payload) : [],
     [draft],
   );
-  const readyToPublish = completion.length > 0 && completion.every((check) => check.complete);
 
   const selectRecord = (record: EditorialRecord) => {
     if (dirty && !window.confirm("Discard the unsaved changes to this record?")) return;
@@ -189,13 +186,20 @@ export function AdminDashboard() {
   };
 
   const changePublication = async (action: "publish" | "unpublish") => {
-    if (!draft?.id || dirty) return;
+    if (!draft) return;
+    let target = draft;
+    if (action === "publish" && (dirty || draft.isLegacy || !draft.id)) {
+      const saved = await saveDraft();
+      if (!saved) return;
+      target = saved;
+    }
+    if (!target.id) return;
     setBusy(action);
     setError("");
     setNotice("");
     try {
       const result = await api<{ record: EditorialRecord }>(
-        `/api/admin/records/${draft.id}/${action}`,
+        `/api/admin/records/${target.id}/${action}`,
         { method: "POST", body: "{}" },
       );
       setDraft(result.record);
@@ -235,31 +239,6 @@ export function AdminDashboard() {
     }
   };
 
-  const updateNetworkLock = async (action: "lock" | "unlock") => {
-    setBusy("network");
-    setError("");
-    try {
-      const result = await api<{ networkLocked: boolean; lockedIp: string }>(
-        "/api/admin/network",
-        { method: "POST", body: JSON.stringify({ action }) },
-      );
-      setSession((current) =>
-        current
-          ? { ...current, networkLocked: result.networkLocked, lockedIp: result.lockedIp }
-          : current,
-      );
-      setNotice(
-        action === "lock"
-          ? "This editorial desk is now restricted to the current network."
-          : "The network restriction was removed; account protection remains active.",
-      );
-    } catch (networkError) {
-      setError(networkError instanceof Error ? networkError.message : "Security settings could not be changed.");
-    } finally {
-      setBusy("");
-    }
-  };
-
   const uploadImage = async (file: File) => {
     const form = new FormData();
     form.append("file", file);
@@ -290,8 +269,8 @@ export function AdminDashboard() {
           </div>
         </div>
         <div className={styles.topbarActions}>
-          <span className={styles.securityState} data-locked={session?.networkLocked}>
-            {session?.networkLocked ? "Account + network locked" : "Account protected"}
+          <span className={styles.securityState}>
+            {session?.email || "Authorized account"}
           </span>
           <a href="https://rabil-ibraiel.github.io/paradise-of-the-fathers/" target="_blank" rel="noreferrer">
             View public archive ↗
@@ -331,21 +310,6 @@ export function AdminDashboard() {
               <p className={styles.emptyList}>No {activeType}s have been added through the desk yet.</p>
             )}
           </nav>
-          <section className={styles.networkPanel} aria-labelledby="network-heading">
-            <p id="network-heading">Access</p>
-            <strong>{session?.networkLocked ? "Locked to this network" : "Owner account only"}</strong>
-            <small>{session?.currentIp || "Network address unavailable"}</small>
-            <button
-              type="button"
-              disabled={busy === "network"}
-              onClick={() => void updateNetworkLock(session?.networkLocked ? "unlock" : "lock")}
-            >
-              {session?.networkLocked ? "Remove network lock" : "Lock to this network"}
-            </button>
-            {!session?.networkLocked ? (
-              <span>Enable this only from the PC and connection you normally use.</span>
-            ) : null}
-          </section>
         </aside>
 
         <section className={styles.editor}>
@@ -416,18 +380,18 @@ export function AdminDashboard() {
                   <button
                     className={styles.publishButton}
                     type="button"
-                    disabled={!draft.id || dirty || !readyToPublish || busy === "publish"}
+                    disabled={Boolean(busy)}
                     onClick={() => void changePublication("publish")}
                   >
-                    {busy === "publish" ? "Publishing…" : "Publish to archive"}
+                    {busy === "publish" ? "Publishing…" : dirty || draft.isLegacy || !draft.id ? "Save & publish" : "Publish to archive"}
                   </button>
                 ) : null}
-                <button className={styles.deleteButton} type="button" disabled={!draft.id || busy === "delete"} onClick={() => void removeRecord()}>
+                <button className={styles.deleteButton} type="button" disabled={!draft.id || draft.isLegacy || busy === "delete"} onClick={() => void removeRecord()}>
                   Delete record
                 </button>
               </div>
               {dirty ? <small>Save the current changes before publishing.</small> : null}
-              {!readyToPublish ? <small>Complete every evidence check before publishing.</small> : null}
+              {completion.some((check) => !check.complete) ? <small>The checklist is editorial guidance; it does not block publication.</small> : null}
             </>
           ) : (
             <p className={styles.railEmpty}>Publication checks appear when a record is open.</p>
