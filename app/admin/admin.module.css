@@ -4,6 +4,94 @@
   background: #f6f0e3;
 }
 
+.loginPage {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 28px;
+  color: #261f1a;
+  background:
+    linear-gradient(rgba(33, 75, 58, 0.08) 1px, transparent 1px),
+    #f6f0e3;
+  background-size: 100% 44px;
+}
+
+.loginPage section {
+  display: grid;
+  width: min(100%, 590px);
+  padding: clamp(38px, 7vw, 72px);
+  border: 1px solid rgba(43, 67, 55, 0.22);
+  background: #faf5ea;
+  box-shadow: 24px 30px 70px rgba(38, 31, 26, 0.14);
+}
+
+.loginPage section > span {
+  justify-self: start;
+  color: #a67b3d;
+  font-family: var(--font-syriac);
+  font-size: 1.7rem;
+}
+
+.loginPage section > p:first-of-type {
+  margin: 28px 0 12px;
+  color: #772f2e;
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.loginPage h1 {
+  margin: 0;
+  color: #214c39;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+}
+
+.loginPage section > p:last-of-type {
+  margin: 28px 0 0;
+  color: rgba(38, 31, 26, 0.7);
+  line-height: 1.7;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin-top: 34px;
+  color: #f7f0df;
+  background: #214c39;
+  font-weight: 760;
+  text-decoration: none;
+}
+
+.googleButton:hover,
+.googleButton:focus-visible {
+  color: #214c39;
+  background: #efd69d;
+}
+
+.loginPage small {
+  margin-top: 14px;
+  color: rgba(38, 31, 26, 0.62);
+  line-height: 1.55;
+  text-align: center;
+}
+
+.switchAccount {
+  justify-self: center;
+  margin-top: 24px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(38, 31, 26, 0.35);
+  color: #694f3e;
+  font-size: 0.74rem;
+  text-decoration: none;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;

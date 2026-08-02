@@ -4,7 +4,6 @@ import {
   handleImageOptimization,
 } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
-import { editorialChecks, type EditorialPayload } from "../shared/editorial";
 
 interface Env {
   ASSETS: Fetcher;
@@ -71,10 +70,6 @@ function withPublicCors(request: Request, response: Response) {
   return new Response(response.body, { status: response.status, headers });
 }
 
-function clientIp(request: Request) {
-  return request.headers.get("cf-connecting-ip")?.trim() ?? "";
-}
-
 function isSameOrigin(request: Request) {
   const origin = request.headers.get("origin");
   return !origin || origin === new URL(request.url).origin;
@@ -123,23 +118,10 @@ async function getAdminAccess(request: Request, env: Env) {
     };
   }
 
-  const lock = await env.DB.prepare(
-    "SELECT value FROM admin_settings WHERE key = 'allowed_ip'",
-  ).first<{ value: string }>();
-  const requestIp = clientIp(request);
-  if (lock?.value && lock.value !== requestIp) {
-    return {
-      allowed: false as const,
-      status: 403,
-      reason: "This network is not authorized to open the editorial desk.",
-    };
-  }
-
   return {
     allowed: true as const,
     actorId: authenticatedUserId,
-    ip: requestIp,
-    lockedIp: lock?.value ?? "",
+    email: authenticatedEmail,
   };
 }
 
@@ -201,35 +183,8 @@ async function handleAdminApi(request: Request, env: Env, url: URL) {
   if (url.pathname === "/api/admin/session" && request.method === "GET") {
     return json({
       authenticated: true,
-      networkLocked: Boolean(access.lockedIp),
-      currentIp: access.ip,
-      lockedIp: access.lockedIp,
+      email: access.email,
     });
-  }
-
-  if (url.pathname === "/api/admin/network" && request.method === "POST") {
-    const body = (await request.json()) as { action?: "lock" | "unlock" };
-    if (body.action === "lock") {
-      if (!access.ip) {
-        return json({ error: "The current network address is unavailable." }, { status: 400 });
-      }
-      await env.DB.prepare(
-        `INSERT INTO admin_settings (key, value, updated_at)
-         VALUES ('allowed_ip', ?, CURRENT_TIMESTAMP)
-         ON CONFLICT(key) DO UPDATE SET value = excluded.value,
-           updated_at = CURRENT_TIMESTAMP`,
-      )
-        .bind(access.ip)
-        .run();
-      await logEvent(env, access.actorId, "network_locked");
-      return json({ networkLocked: true, lockedIp: access.ip });
-    }
-    if (body.action === "unlock") {
-      await env.DB.prepare("DELETE FROM admin_settings WHERE key = 'allowed_ip'").run();
-      await logEvent(env, access.actorId, "network_unlocked");
-      return json({ networkLocked: false, lockedIp: "" });
-    }
-    return json({ error: "Choose lock or unlock." }, { status: 400 });
   }
 
   if (url.pathname === "/api/admin/records" && request.method === "GET") {
@@ -311,18 +266,6 @@ async function handleAdminApi(request: Request, env: Env, url: URL) {
       return new Response(null, { status: 204 });
     }
     if (request.method === "POST" && action === "publish") {
-      const current = await env.DB.prepare(
-        "SELECT type, payload FROM editorial_records WHERE id = ?",
-      ).bind(id).first<{ type: "saint" | "book"; payload: string }>();
-      if (!current) return json({ error: "Record not found." }, { status: 404 });
-      const checks = editorialChecks(current.type, JSON.parse(current.payload) as EditorialPayload);
-      const incomplete = checks.filter((check) => !check.complete).map((check) => check.label);
-      if (incomplete.length) {
-        return json(
-          { error: `Complete these publication checks first: ${incomplete.join(", ")}.` },
-          { status: 422 },
-        );
-      }
       await env.DB.prepare(
         `UPDATE editorial_records
          SET status = 'published', published_payload = payload,
@@ -442,14 +385,7 @@ const worker = {
     if (url.pathname === "/admin" || url.pathname === "/admin/") {
       const access = await getAdminAccess(request, env);
       if (!access.allowed) {
-        if (access.status === 401) {
-          const returnTo = encodeURIComponent("/admin/");
-          return Response.redirect(new URL(`/signin-with-chatgpt?return_to=${returnTo}`, url), 302);
-        }
-        return new Response(access.reason, {
-          status: 403,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" },
-        });
+        return Response.redirect(new URL("/admin/login/", url), 302);
       }
       const response = await handler.fetch(request, env, ctx);
       const headers = new Headers(response.headers);
