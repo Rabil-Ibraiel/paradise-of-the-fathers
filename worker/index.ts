@@ -102,7 +102,7 @@ async function getAdminAccess(request: Request, env: Env) {
     .get("oai-authenticated-user-email")
     ?.trim()
     .toLocaleLowerCase();
-  if (!authenticatedUserId) {
+  if (!authenticatedEmail) {
     return { allowed: false as const, status: 401, reason: "Sign in is required." };
   }
   const authorizedByEmail = Boolean(
@@ -120,7 +120,7 @@ async function getAdminAccess(request: Request, env: Env) {
 
   return {
     allowed: true as const,
-    actorId: authenticatedUserId,
+    actorId: authenticatedUserId || authenticatedEmail,
     email: authenticatedEmail,
   };
 }
@@ -349,6 +349,25 @@ async function handleMedia(request: Request, env: Env, url: URL) {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === "/admin/login/start" || url.pathname === "/admin/login/start/") {
+      return Response.redirect(
+        new URL(
+          "/signout-with-chatgpt?return_to=%2Fadmin%2Flogin%2Fcontinue%2F",
+          url,
+        ),
+        302,
+      );
+    }
+    if (
+      url.pathname === "/admin/login/continue"
+      || url.pathname === "/admin/login/continue/"
+    ) {
+      return Response.redirect(
+        new URL("/signin-with-chatgpt?return_to=%2Fadmin%2F", url),
+        302,
+      );
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

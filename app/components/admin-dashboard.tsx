@@ -44,11 +44,28 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
       ...(init?.headers ?? {}),
     },
   });
+  const contentType = response.headers.get("content-type") ?? "";
+  const isJson = contentType.includes("application/json");
   if (!response.ok) {
-    const body = (await response.json().catch(() => ({}))) as { error?: string };
-    throw new Error(body.error || "The editorial service could not complete that request.");
+    const body = isJson
+      ? ((await response.json().catch(() => ({}))) as { error?: string })
+      : {};
+    if (response.status === 401 || response.status === 403 || response.redirected) {
+      throw new Error(
+        body.error
+        || "Your sign-in session could not be verified. Sign in again with rabilabrail@gmail.com.",
+      );
+    }
+    throw new Error(
+      body.error || `The editorial service returned an error (${response.status}).`,
+    );
   }
   if (response.status === 204) return undefined as T;
+  if (!isJson) {
+    throw new Error(
+      "Your sign-in session expired. Sign in again with rabilabrail@gmail.com, then retry.",
+    );
+  }
   return response.json() as Promise<T>;
 }
 
