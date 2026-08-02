@@ -39,6 +39,12 @@ homepage shows featured selections only.
 - Every Syriac HMML search result opens an internal catalogue-detail view before
   the reader chooses whether to continue to the external holding record.
 - The site is statically generated and deployed through GitHub Pages.
+- A separate owner-only editorial desk stores structured saint and book drafts,
+  source provenance, Arabic text, and publication snapshots in D1, with uploaded
+  images kept in R2. Published snapshots are read by the public archive; drafts
+  never appear there.
+- The editorial desk requires the authorized ChatGPT/Sites owner identity and can
+  optionally be locked to the owner's current network from inside the desk.
 - Historical and hagiographical claims must be distinguished in the copy.
 - The project is independent and is not an official publication of a Church
   jurisdiction.

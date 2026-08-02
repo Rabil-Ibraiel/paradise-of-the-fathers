@@ -2,16 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { archiveBooks, bookCategories } from "../data/books";
+import { useEffect, useMemo, useState } from "react";
+import { archiveBooks, bookCategories, bookSlug, type ArchiveBook } from "../data/books";
+import { loadEditorialContent, mapEditorialBook } from "../lib/editorial-client";
 import { Arrow } from "./site-chrome";
 
 export function BooksArchive() {
+  const [editorialBooks, setEditorialBooks] = useState<ArchiveBook[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
+  useEffect(() => {
+    let active = true;
+    void loadEditorialContent()
+      .then((response) => {
+        if (!active) return;
+        setEditorialBooks(
+          response.records
+            .filter((record) => record.type === "book")
+            .map((record) => mapEditorialBook(record as Parameters<typeof mapEditorialBook>[0])),
+        );
+      })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  const allBooks = useMemo(() => {
+    const editorialSlugs = new Set(editorialBooks.map(bookSlug));
+    return [...editorialBooks, ...archiveBooks.filter((book) => !editorialSlugs.has(bookSlug(book)))];
+  }, [editorialBooks]);
   const visibleBooks =
     activeCategory === "All"
-      ? archiveBooks
-      : archiveBooks.filter((book) => book.category === activeCategory);
+      ? allBooks
+      : allBooks.filter((book) => book.category === activeCategory);
 
   return (
     <div className="books-archive">
@@ -25,10 +46,10 @@ export function BooksArchive() {
             <strong>The whole shelf</strong>
             <small>Move between texts, lives, worship, and history.</small>
           </span>
-          <b>{archiveBooks.length}</b>
+          <b>{allBooks.length}</b>
         </button>
         {bookCategories.map((category) => {
-          const count = archiveBooks.filter(
+          const count = allBooks.filter(
             (book) => book.category === category.name,
           ).length;
           return (
@@ -50,7 +71,7 @@ export function BooksArchive() {
 
       <div className="book-shelf" aria-live="polite">
         {visibleBooks.map((book) => (
-          <article className="archive-book" key={book.title}>
+          <article className="archive-book" key={bookSlug(book)}>
             <div className="archive-book__cover">
               {book.cover ? (
                 <Image
@@ -74,7 +95,7 @@ export function BooksArchive() {
                 {book.category} · {book.kind}
               </p>
               <div className="archive-book__titles archive-book__titles--english">
-                <h2>{book.title}</h2>
+                <h2 data-arabic-text={book.arabic?.title}>{book.title}</h2>
                 <span lang="syr" dir="rtl">
                   {book.syriac}
                 </span>
@@ -84,7 +105,7 @@ export function BooksArchive() {
                   {book.syriac}
                 </h2>
                 <p>
-                  <span>{book.title}</span>
+                  <span data-arabic-text={book.arabic?.title}>{book.title}</span>
                   <span aria-hidden="true"> — </span>
                   <span lang="en" dir="ltr" data-no-translate>
                     {book.title}
@@ -92,18 +113,24 @@ export function BooksArchive() {
                 </p>
               </div>
               <small>
-                {book.year} · {book.creator}
+                {book.year} · <span lang="en" dir="ltr" data-no-translate>{book.creator}</span>
               </small>
-              <p>{book.description}</p>
+              <p data-arabic-text={book.arabic?.description}>{book.description}</p>
               <div className="archive-book__actions">
+                {book.isEditorial && book.slug ? (
+                  <Link href={`/books/editorial/?slug=${encodeURIComponent(book.slug)}`}>
+                    View full record
+                    <Arrow />
+                  </Link>
+                ) : null}
                 {book.internal ? (
                   <Link href={book.sourceHref}>
-                    {book.sourceLabel}
+                    <span data-arabic-text={book.arabic?.sourceLabel}>{book.sourceLabel}</span>
                     <Arrow />
                   </Link>
                 ) : (
                   <a href={book.sourceHref} target="_blank" rel="noreferrer">
-                    {book.sourceLabel}
+                    <span data-arabic-text={book.arabic?.sourceLabel}>{book.sourceLabel}</span>
                     <Arrow />
                   </a>
                 )}

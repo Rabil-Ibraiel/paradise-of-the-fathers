@@ -2,8 +2,10 @@ import Image from "next/image";
 import type { Saint } from "../data/saints";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const assetPath = (path: string) => `${basePath}${path}`;
-const saintPath = (slug: string) => `${basePath}/saints/${slug}/`;
+const assetPath = (path: string) => path.startsWith("http") ? path : `${basePath}${path}`;
+const saintPath = (saint: Saint) => saint.isEditorial
+  ? `${basePath}/saints/editorial/?slug=${encodeURIComponent(saint.slug)}`
+  : `${basePath}/saints/${saint.slug}/`;
 
 export function SaintCard({
   saint,
@@ -22,7 +24,7 @@ export function SaintCard({
   return (
     <a
       className="saint-card-link"
-      href={saintPath(saint.slug)}
+      href={saintPath(saint)}
       aria-label={`Read the profile of ${saint.name}`}
     >
       <article className={`saint-card tone-${saint.tone}`}>
@@ -50,13 +52,13 @@ export function SaintCard({
         <div className="saint-card__body">
           <div className="saint-card__meta">
             <span>{saint.category}</span>
-            <span>{saint.era}</span>
+            <span data-arabic-text={saint.arabic?.era}>{saint.era}</span>
           </div>
-          <h3>{saint.name}</h3>
-          <p className="saint-card__title">{saint.title}</p>
-          <p className="saint-card__summary">{saint.summary}</p>
+          <h3 data-arabic-text={saint.arabic?.name}>{saint.name}</h3>
+          <p className="saint-card__title" data-arabic-text={saint.arabic?.title}>{saint.title}</p>
+          <p className="saint-card__summary" data-arabic-text={saint.arabic?.summary}>{saint.summary}</p>
           <div className="saint-card__footer">
-            <span>{saint.place}</span>
+            <span data-arabic-text={saint.arabic?.place}>{saint.place}</span>
             <span>Read profile ↗</span>
           </div>
         </div>

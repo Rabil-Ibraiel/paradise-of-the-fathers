@@ -936,6 +936,10 @@ function translateValue(value: string, parent?: Element | null) {
   const clean = value.trim();
 
   if (!clean) return value;
+  const editorialArabic = (parent as HTMLElement | null)?.dataset?.arabicText;
+  if (editorialArabic) {
+    return `${leading}${normalizeArabicPresentation(editorialArabic)}${trailing}`;
+  }
   if (
     parent?.closest(
       '[data-translation-context="manuscript-condition"]',
